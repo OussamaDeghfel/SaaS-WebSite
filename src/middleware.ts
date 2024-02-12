@@ -25,7 +25,7 @@ export default authMiddleware({
 
     if (costumSubDomain) {
       return NextResponse.rewrite(
-        new URL(`/${costumSubDomain}${pathWithSearchParams}`)
+        new URL(`/${costumSubDomain}${pathWithSearchParams}`, req.url)
       );
     }
 
@@ -38,6 +38,13 @@ export default authMiddleware({
       (url.pathname === "/site" && url.host === process.env.NEXT_PUBLIC_DOMAIN)
     ) {
       return NextResponse.rewrite(new URL("/site", req.url));
+    }
+
+    if (
+      url.pathname.startsWith("/agency") ||
+      url.pathname.startsWith("/subaccount")
+    ) {
+      return NextResponse.rewrite(new URL(`${pathWithSearchParams}`, req.url));
     }
   },
 });
