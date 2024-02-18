@@ -29,7 +29,7 @@ export default authMiddleware({
       );
     }
 
-    if (url.pathname === "sign-in" || url.pathname === "sing-up") {
+    if (url.pathname === "/sign-in" || url.pathname === "/sign-up") {
       return NextResponse.redirect(new URL(`/agency/sign-in`, req.url));
     }
 
@@ -52,3 +52,4 @@ export default authMiddleware({
 export const config = {
   matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 };
+

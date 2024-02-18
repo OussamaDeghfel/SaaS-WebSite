@@ -13,11 +13,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
 import { AlertDialog } from "../ui/alert-dialog";
 
 import * as z from "zod";
 import FileUpload from "../global/file-upload";
+import { Input } from "../ui/input";
+import { Switch } from "../ui/switch";
 
 type Props = {
   data?: Partial<Agency>;
@@ -97,7 +99,123 @@ const AgencyDetails = ({ data }: Props) => {
                     </FormControl>
                   </FormItem>
                 )}
-              ></FormField>
+              />
+              <div className="flex md:flex-row gap-4">
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="name"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>Agency Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your Agency Name" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="companyEmail"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>Agency Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="example@email.com" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+              </div>
+              <div className="flex md:flex-row gap-4">
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="companyPhone"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>Agency Phone Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your Agency Number" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                </div>
+                <div className="flex md:flex-row gap-4">
+                  <FormField 
+                    disabled={isLoading}
+                    control={form.control}
+                    name="whiteLabel"
+                    render={({field}) => 
+                    {return(
+                      <FormItem className="flex flex-row items-center justify-between rounded-lg border gap-4 p-4">
+                        <div>
+                          <FormLabel>WhiteLabel Agency</FormLabel>
+                          <FormDescription> Turninh on WhiteLabel mode wil show your agency logo to all sub accounts by default. you can overwrite this funcionality through sub account settings.</FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            />
+                        </FormControl>
+                      </FormItem>
+                    )}}
+                    />
+
+                  
+                </div>
+                <div className="flex md:flex-row gap-4">
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="address"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="ST123...." {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                </div>
+                <div className="flex md:flex-row gap-4">
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="city"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input placeholder="City" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="state"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>State</FormLabel>
+                    <FormControl>
+                      <Input placeholder="State" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                <FormField
+                  disabled={isLoading}
+                  control={form.control}
+                  name="zipCode"
+                  render={({field}) => 
+                  <FormItem className="flex-1">
+                    <FormLabel>ZipCode</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Zip Code" {...field} />
+                    </FormControl>
+                  </FormItem> } 
+                />
+                </div>
             </form>
           </Form>
         </CardContent>
