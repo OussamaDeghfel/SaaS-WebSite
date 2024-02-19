@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { NumberInput } from '@tremor/react'
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Card,
@@ -20,6 +21,7 @@ import * as z from "zod";
 import FileUpload from "../global/file-upload";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
+import { saveActivityLogsNotification, updateAgencyDetails } from "@/lib/queries";
 
 type Props = {
   data?: Partial<Agency>;
@@ -215,6 +217,23 @@ const AgencyDetails = ({ data }: Props) => {
                     </FormControl>
                   </FormItem> } 
                 />
+                </div>
+                <div className="flex flex-col gap-2">
+                  <FormLabel>Create A Goal</FormLabel>
+                  <FormDescription>Create a goal for your agency.
+                    As your busines grows your goals grow too so dont forget to set the bar higher!
+                  </FormDescription>
+                  <NumberInput 
+                    defaultValue={data?.goal}
+                    onValueChange={async (val) => {
+                      if(!data?.id) return
+                      await updateAgencyDetails(data.id , {goal: val})
+                      await saveActivityLogsNotification({
+                        agencyId: data.id,
+                        description: `Updated the agency goal to | ${val} sub Account`
+                      })
+                    }}
+                    ></NumberInput>
                 </div>
             </form>
           </Form>
