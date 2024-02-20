@@ -21,9 +21,10 @@ import * as z from "zod";
 import FileUpload from "../global/file-upload";
 import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
-import { deleteAgency, saveActivityLogsNotification, updateAgencyDetails } from "@/lib/queries";
+import { deleteAgency, initUser, saveActivityLogsNotification, updateAgencyDetails, upsertAgency } from "@/lib/queries";
 import { Button } from "../ui/button";
 import Loading from "../global/loading";
+import { v4 } from "uuid";
 
 type Props = {
   data?: Partial<Agency>;
@@ -72,7 +73,7 @@ const AgencyDetails = ({ data }: Props) => {
   const handleSubmit = async (values :z.infer<typeof FormSchema>) => {
     try {
       let newUserData;
-      let customerId;
+      //let customerId;
       if(!data?.id){
         const bodyData = {
           email: values.companyEmail,
@@ -96,8 +97,41 @@ const AgencyDetails = ({ data }: Props) => {
           },
         }
       }
+      newUserData = await initUser({role: "AGENCY_OWNER"})
+      if (!data?.id) return
+
+      const response = await upsertAgency({
+        id: data?.id ? data.id : v4(),
+        address: values.address,
+        agencyLogo: values.agencyLogo,
+        city: values.city,
+        companyPhone: values.companyPhone,
+        country: values.country,
+        name: values.name,
+        state: values.state,
+        whiteLabel: values.whiteLabel,
+        zipCode: values.zipCode,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        companyEmail: values.companyEmail,
+        connectAccountId: '',
+        goal: 5,
+      })
+      toast({
+        title: 'Created Agency',
+      })
+      if (data?.id) return router.refresh()
+      if (response) {
+        console.log("im here")
+        return router.refresh()
+      }
     } catch (error) {
-      
+      console.log(error)
+      toast({
+        variant: "destructive",
+        title:"!Opps Something Wrong",
+        description: "Could not Create your Agency "
+      })
     }
   };
 
@@ -149,7 +183,7 @@ const AgencyDetails = ({ data }: Props) => {
                     <FormLabel>Agency Logo</FormLabel>
                     <FormControl>
                       <FileUpload
-                        apiEndPoint="agencyLogo"
+                        apiEndpoint="agencyLogo"
                         onChange={field.onChange}
                         value={field.value}
                       ></FileUpload>
@@ -207,7 +241,7 @@ const AgencyDetails = ({ data }: Props) => {
                       <FormItem className="flex flex-row items-center justify-between rounded-lg border gap-4 p-4">
                         <div>
                           <FormLabel>WhiteLabel Agency</FormLabel>
-                          <FormDescription> Turninh on WhiteLabel mode wil show your agency logo to all sub accounts by default. you can overwrite this funcionality through sub account settings.</FormDescription>
+                          <FormDescription> Turning on WhiteLabel mode wil show your agency logo to all sub accounts by default. you can overwrite this funcionality through sub account settings.</FormDescription>
                         </div>
                         <FormControl>
                           <Switch
@@ -295,11 +329,11 @@ const AgencyDetails = ({ data }: Props) => {
                     />
                 </div>)}
                 <Button
-                  type="submit"
-                  disabled={isLoading}             
-                >
-                  {isLoading ? <Loading /> : "Save Agency information"}
-                </Button>
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? <Loading /> : 'Save Agency Information'}
+              </Button>
             </form>
           </Form>
           {data?.id && (<div className="flex flex-row items-center justify-between rounded-lg border border-destructive gap-4 p-4 mt-4">
