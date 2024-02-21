@@ -30,7 +30,7 @@ const Sidebar = async ({id, type}: Props) => {
         }
     }
 
-    const sideBarOpt = 
+    const sidebarOpt = 
         type === 'agency' 
         ? user.Agency.SidebarOption || [] 
         : user.Agency.SubAccount.find(subaccount => subaccount.id === id )
@@ -46,8 +46,23 @@ const Sidebar = async ({id, type}: Props) => {
 
   return (
     <>
-        <MenuOptions />
-        <MenuOptions />
+        <MenuOptions
+            defaultOpen={true}
+            details={details}
+            id={id}
+            sidebarLogo={sideBarLogo}
+            sidebarOpt={sidebarOpt}
+            subAccounts={subaccounts}
+            user={user}
+         />
+        <MenuOptions
+            details={details}
+            id={id}
+            sidebarLogo={sideBarLogo}
+            sidebarOpt={sidebarOpt}
+            subAccounts={subaccounts}
+            user={user}
+        />
     </>
   )
 }
