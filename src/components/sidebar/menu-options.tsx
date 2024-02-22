@@ -50,7 +50,7 @@ const MenuOptions = ({
   if (!isMounted) return;
 
   return (
-    <Sheet modal={false} open={true}>
+    <Sheet modal={false} {...openState}>
       <SheetTrigger
         asChild
         className="absolute left-4 top-4 z-[100] md:!hidden flex"
