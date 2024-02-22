@@ -3,10 +3,8 @@ import React from 'react'
 
 type Props = {}
 
-function Page({}: Props) {
-  return (
-    <Unauthorized />
-  )
+const Page = (props: Props) => {
+  return <Unauthorized />
 }
 
 export default Page
