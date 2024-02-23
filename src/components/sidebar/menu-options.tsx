@@ -16,6 +16,8 @@ import { Popover, PopoverTrigger } from "../ui/popover";
 import { PopoverContent } from "@radix-ui/react-popover";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
 import Link from "next/link";
+import { useModal } from "@/providers/modal-provider";
+import CustomModal from "../global/custom-modal";
 
 type Props = {
   defaultOpen?: boolean;
@@ -36,6 +38,7 @@ const MenuOptions = ({
   user,
   id,
 }: Props) => {
+  const { setOpen } = useModal()
   const [isMounted, setIsMounted] = useState(false);
 
   const openState = useMemo(
@@ -210,7 +213,14 @@ const MenuOptions = ({
                   </CommandList> 
                   {( user?.role === 'AGENCY_OWNER' ||
                      user?.role === 'AGENCY_ADMIN') && (
-                      <Button className="w-full flex gap-2">
+                      <Button className="w-full flex gap-2" onClick={() => {
+                          setOpen(
+                            <CustomModal
+                            title="Create Subaccount"
+                            subheading="You can switch between your agency account and the subaccount from the sidebar"
+                            ></CustomModal>
+                          )
+                      }}>
                         <PlusCircleIcon size={15} />
                           Create Sub Account
                       </Button>
