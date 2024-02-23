@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 type Props = {
     title: string
     subheading : string
-    children : React.ReactNode
+    children: React.ReactNode
     defaultOpen?: string 
 }
 
@@ -23,6 +23,7 @@ const CustomModal = ({children, defaultOpen, subheading, title}: Props) => {
             <DialogHeader className='pt-8 text-left'>
                 <DialogTitle className='text-2xl font-bold'>{ title }</DialogTitle>
                 <DialogDescription>{ subheading }</DialogDescription>
+                {children}
             </DialogHeader>
         </DialogContent>
     </Dialog>
