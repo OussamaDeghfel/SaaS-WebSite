@@ -4,19 +4,36 @@ import { NotificationWithUser } from '@/lib/types'
 import { UserButton } from '@clerk/nextjs'
 import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { Sheet, SheetTrigger } from '../ui/sheet'
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet'
 import { Bell } from 'lucide-react'
+import { Role } from '@prisma/client'
+import { Card } from '../ui/card'
+import { Switch } from '../ui/switch'
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 type Props = {
     notifications : NotificationWithUser | []
-    role?: string
+    role?: Role
     className?: string
     subAccountId?: string 
 }
 
 function InfoBar({notifications, role, className, subAccountId}: Props) {
-    const [allNotification, setAllNotification] = useState(notifications)
+    const [allNotifications, setAllNotifications] = useState(notifications)
     const [showAll, setShowAll] = useState(true)
+
+    const handleClick = () => {
+        if(!showAll){
+            setAllNotifications(notifications)
+        }else{
+            if(notifications?.length !== 0){
+                setAllNotifications(
+                    notifications?.filter((item) => item.subAccountId === subAccountId) ?? []
+                )
+            }
+        }
+        setShowAll((prev) => !prev)
+    }
 
   return (
    <>
@@ -33,7 +50,20 @@ function InfoBar({notifications, role, className, subAccountId}: Props) {
                             <Bell size={16} />
                         </div>
                     </SheetTrigger>
-                </Sheet>
+                    <SheetContent className='mt-4 mr-4 pr-4 flex flex-col'>
+                    <SheetHeader className="text-left">
+                        <SheetTitle>Notifications</SheetTitle>
+                        <SheetDescription>
+                            {(role === 'AGENCY_ADMIN' || role === 'AGENCY_OWNER') && (
+                            <Card className="flex items-center justify-between p-4">
+                                Current Subaccount
+                                <Switch onCheckedChange={handleClick} />
+                            </Card>
+                            )}
+                        </SheetDescription>
+                    </SheetHeader>
+             </SheetContent>
+            </Sheet>
             </div>
         </div>
    </>
