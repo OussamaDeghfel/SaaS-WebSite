@@ -258,7 +258,7 @@ const MenuOptions = ({
                       return (
                         <CommandItem 
                           key={sidebarOptions.id}
-                          className="w-full md:w-[250px]"  
+                          className="w-full md:w-[350px]"  
                             >
                           <Link 
                             href={sidebarOptions.link}
