@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import FileUpload from '../global/file-upload'
-import { Select } from '../ui/select'
+import { Select, SelectValue, SelectContent, SelectTrigger, SelectItem } from '../ui/select'  
 
 type Props = {
     id: string | null 
@@ -214,7 +214,31 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                                 field.onChange(value)
                             }
                         }
-                        ></Select>
+                        defaultValue={field.value}
+                        >
+                            <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select user role ..." /> 
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value='AGENCY_ADMIN'>
+                                    Agency Admin
+                                </SelectItem>
+                                {(data?.user?.role === "AGENCY_ADMIN" || 
+                                    userData?.role === "AGENCY_OWNER") && (
+                                        <SelectItem value='AGENCY_OWNER'>
+                                            Agency Owner
+                                        </SelectItem>
+                                    )}
+                                <SelectItem  value='SUBACCOUNT_USER'>
+                                    Subaccount User
+                                </SelectItem>
+                                <SelectItem value='SUBACCOUNT_GUEST'>
+                                    Subaccount Guest
+                                </SelectItem>
+                            </SelectContent>
+                        </Select>
 
                     </FormItem>
                 )}
