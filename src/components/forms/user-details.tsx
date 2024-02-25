@@ -72,6 +72,14 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
         getPermissions()
       }, [data, form])
     
+      useEffect(() => {
+        if (data.user) {
+          form.reset(data.user)
+        }
+        if (userData) {
+          form.reset(userData)
+        }
+      }, [userData, data])
 
   return (
     <div>UserDetails</div>
