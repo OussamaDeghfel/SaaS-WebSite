@@ -139,6 +139,8 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                     description: 'Could not update permissions',
                   })
             }
+            router.refresh()
+            setLoadingPermission(true)
        } 
 
       const onSubmit = async (values: z.infer<typeof userDataSchema>) => {
