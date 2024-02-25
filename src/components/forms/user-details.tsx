@@ -82,6 +82,7 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
       }, [userData, data])
 
       const onSubmit = async (values: z.infer<typeof userDataSchema>) => {
+        //save the user information
         if (!id) return
         if (userData || data?.user) {
           const updatedUser = await updateUser(values)
