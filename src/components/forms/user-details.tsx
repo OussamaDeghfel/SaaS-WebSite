@@ -132,6 +132,12 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                         return perm
                     })
                 }
+            }else{
+                toast({
+                    variant: 'destructive',
+                    title: 'Failed',
+                    description: 'Could not update permissions',
+                  })
             }
        } 
 
