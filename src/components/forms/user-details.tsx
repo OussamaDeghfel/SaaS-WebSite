@@ -119,6 +119,20 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                     )?.SubAccount.id,
                 })
             }
+            if (response) {
+                toast({
+                  title: 'Success',
+                  description: 'The request was successfull',
+                })
+                if(subAccountPermissions){
+                    subAccountPermissions.Permissions.find((perm) => {
+                        if(perm.subAccountId === subAccountId){
+                            return {...perm,access:!perm.access}
+                        }
+                        return perm
+                    })
+                }
+            }
        } 
 
       const onSubmit = async (values: z.infer<typeof userDataSchema>) => {
