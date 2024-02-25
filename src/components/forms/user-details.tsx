@@ -15,6 +15,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '../ui/input'
 import FileUpload from '../global/file-upload'
 import { Select, SelectValue, SelectContent, SelectTrigger, SelectItem } from '../ui/select'  
+import { Button } from '../ui/button'
+import Loading from '../global/loading'
 
 type Props = {
     id: string | null 
@@ -201,7 +203,7 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                     <FormItem className='flex-1'>
                         <FormLabel>User Role</FormLabel>
                         <Select
-                            disabled={form.formState.isSubmitting}
+                            disabled={field.value === "AGENCY_OWNER"}
                             onValueChange={(value) => {
                                 if (
                                     value === "SUBACCOUNT_USER" ||
@@ -232,20 +234,24 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
                                         </SelectItem>
                                     )}
                                 <SelectItem  value='SUBACCOUNT_USER'>
-                                    Subaccount User
+                                    Sub Account User
                                 </SelectItem>
                                 <SelectItem value='SUBACCOUNT_GUEST'>
-                                    Subaccount Guest
+                                    Sub Account Guest
                                 </SelectItem>
                             </SelectContent>
                         </Select>
-
+                        <p className='text-muted-foreground'>{ roleState }</p>
                     </FormItem>
                 )}
-            >
-
-            </FormField>
-                </form>
+              />
+              <Button
+                disabled={form.formState.isSubmitting}
+                type='submit'
+                >
+                    {form.formState.isSubmitting ? <Loading /> : "Save User Details"}
+              </Button>
+             </form>
             </Form>
         </CardContent>
     </Card>
