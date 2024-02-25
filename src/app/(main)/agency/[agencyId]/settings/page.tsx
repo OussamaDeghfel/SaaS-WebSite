@@ -1,4 +1,5 @@
 import AgencyDetails from '@/components/forms/agency-details'
+import UserDetails from '@/components/forms/user-details'
 import { db } from '@/lib/db'
 import { currentUser } from '@clerk/nextjs'
 import React from 'react'
@@ -38,6 +39,7 @@ const SettingsPage = async ({params}: Props) => {
         type="agency"
         id={params.agencyId}
         SubAccounts={subAccounts}
+        userData={userDetails}
       />
     </div>
   )
