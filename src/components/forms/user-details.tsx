@@ -4,7 +4,7 @@ import { SubAccount, User } from '@prisma/client'
 import React, { useEffect, useState } from 'react'
 import { useToast } from '../ui/use-toast'
 import { useRouter } from 'next/router'
-import { getAuthUserDetails } from '@/lib/queries'
+import { getAuthUserDetails, getUserPermissions } from '@/lib/queries'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -60,6 +60,17 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
           role: userData ? userData.role : data?.user?.role,
         },
       })
+
+
+      useEffect(()=>{
+        if(!data.user) return 
+        const getPermissions = async () =>{ 
+            if(!data.user) return
+            const permission = await getUserPermissions(data.user.id)
+            setSubAccountsPermissions(permission)
+        }
+        getPermissions()
+      }, [data, form])
     
 
   return (
