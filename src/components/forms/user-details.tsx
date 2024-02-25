@@ -10,6 +10,11 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Input } from '../ui/input'
+import FileUpload from '../global/file-upload'
+import { Select } from '../ui/select'
 
 type Props = {
     id: string | null 
@@ -119,7 +124,107 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
         }
       }
   return (
-    <div>UserDetails</div>
+    <Card>
+        <CardHeader>
+            <CardTitle>User Details</CardTitle>
+            <CardDescription>Add or update your information</CardDescription>
+        </CardHeader>
+        <CardContent>
+            <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className='space-y-4'
+                >
+                    <FormField
+              disabled={form.formState.isSubmitting}
+              control={form.control}
+              name="avatarUrl"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Profile picture</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      apiEndpoint="avatar"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              disabled={form.formState.isSubmitting}
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>User full name</FormLabel>
+                  <FormControl>
+                    <Input
+                      required
+                      placeholder="Full Name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              disabled={form.formState.isSubmitting}
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex-1">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      readOnly={
+                        userData?.role === 'AGENCY_OWNER' ||
+                        form.formState.isSubmitting
+                      }
+                      placeholder="Email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+                disabled={form.formState.isSubmitting}
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                    <FormItem className='flex-1'>
+                        <FormLabel>User Role</FormLabel>
+                        <Select
+                            disabled={form.formState.isSubmitting}
+                            onValueChange={(value) => {
+                                if (
+                                    value === "SUBACCOUNT_USER" ||
+                                    value === "SUBACCOUNT_GUEST"
+                                ) {
+                                    setRoleState("you need to have subaccount to assign subaccount access to team members")
+                                } else {
+                                    setRoleState("")
+                                }
+                                field.onChange(value)
+                            }
+                        }
+                        ></Select>
+
+                    </FormItem>
+                )}
+            >
+
+            </FormField>
+                </form>
+            </Form>
+        </CardContent>
+    </Card>
   )
 }
 
