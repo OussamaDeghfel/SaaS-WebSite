@@ -1,13 +1,15 @@
+'use client'
+
 import { AuthUserWithAgencySigebarOptionsSubAccounts, UserWithPermissionsAndSubAccounts } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { SubAccount, User } from '@prisma/client'
 import React, { useEffect, useState } from 'react'
 import { useToast } from '../ui/use-toast'
-import { useRouter } from 'next/router'
 import { getAuthUserDetails, getUserPermissions, saveActivityLogsNotification, updateUser } from '@/lib/queries'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     id: string | null 
