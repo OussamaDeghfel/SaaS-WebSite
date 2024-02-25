@@ -4,7 +4,7 @@ import { SubAccount, User } from '@prisma/client'
 import React, { useEffect, useState } from 'react'
 import { useToast } from '../ui/use-toast'
 import { useRouter } from 'next/router'
-import { getAuthUserDetails, getUserPermissions } from '@/lib/queries'
+import { getAuthUserDetails, getUserPermissions, saveActivityLogsNotification, updateUser } from '@/lib/queries'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -81,6 +81,40 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
         }
       }, [userData, data])
 
+      const onSubmit = async (values: z.infer<typeof userDataSchema>) => {
+        if (!id) return
+        if (userData || data?.user) {
+          const updatedUser = await updateUser(values)
+          authUserData?.Agency?.SubAccount.filter((subacc) =>
+            authUserData.Permissions.find(
+              (p) => p.subAccountId === subacc.id && p.access
+            )
+          ).forEach(async (subaccount) => {
+            await saveActivityLogsNotification({
+              agencyId: undefined,
+              description: `Updated ${userData?.name} information`,
+              subaccountId: subaccount.id,
+            })
+          })
+    
+          if (updatedUser) {
+            toast({
+              title: 'Success',
+              description: 'Update User Information',
+            })
+            setClose()
+            router.refresh()
+          } else {
+            toast({
+              variant: 'destructive',
+              title: 'Oppse!',
+              description: 'Could not update user information',
+            })
+          }
+        } else {
+          console.log('Error could not submit')
+        }
+      }
   return (
     <div>UserDetails</div>
   )
