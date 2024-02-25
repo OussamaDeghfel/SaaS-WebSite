@@ -104,8 +104,8 @@ function InfoBar({notifications, role, className, subAccountId}: Props) {
                      </div>
                     )}
              </SheetContent>
-            </Sheet>
-            <ModeToggle />
+                </Sheet>
+                <ModeToggle />
             </div>
         </div>
    </>
