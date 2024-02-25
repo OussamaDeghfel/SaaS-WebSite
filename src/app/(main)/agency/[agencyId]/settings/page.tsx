@@ -38,7 +38,7 @@ const SettingsPage = async ({params}: Props) => {
       <UserDetails
         type="agency"
         id={params.agencyId}
-        SubAccounts={subAccounts}
+        subAccounts={subAccounts}
         userData={userDetails}
       />
     </div>
