@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
+import { CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import React from 'react'
 
@@ -79,7 +80,7 @@ const LaunchPadPage = async ({params, searchParams}: Props) => {
                 />
                 <p>Fill in all your bussiness details</p>
               </div>
-              <Button>Start</Button>
+              {allDetailsExist ? <CheckCircle size={50} className='text-primary p-2 flex-shrink-0' /> : <Button>Start</Button>}
             </div>
           </CardContent>
         </Card>
