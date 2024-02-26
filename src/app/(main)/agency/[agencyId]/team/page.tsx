@@ -27,7 +27,7 @@ const Team = async ({params}: Props) => {
       SubAccount: true
     }
   })
-  
+  if(!agencyDetails) return 
   return (
     <div>Team</div>
   )
