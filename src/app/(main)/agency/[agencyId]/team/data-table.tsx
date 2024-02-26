@@ -9,6 +9,8 @@ import {
     useReactTable,
 } from '@tanstack/react-table'
 import { useModal } from '@/providers/modal-provider'
+import { Search } from 'lucide-react'
+import { Input } from '@/components/ui/input'
 
 type Props = {}
 
@@ -28,10 +30,23 @@ export default function DataTable<TData, TValue> ({
     modalChildren
 }: DataTableProps<TData, TValue>) {
     const { setOpen } = useModal()
-    const reactTable = useReactTable({
+    const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
     })
+    return (
+        <>
+            <div className='flex items-center justify-between'>
+                <div className='flex items-center py-4 gap-2'>
+                    <Search />
+                    <Input placeholder='Search Name...' 
+                        value={(table.getColumn(filterValue)?.getFilterValue() as string) ?? ""}
+                        onChange={(event) => table.getColumn(filterValue)?.setFilterValue(event.target.value)}
+                        />
+                </div>
+            </div>
+        </>
+    )
 }
