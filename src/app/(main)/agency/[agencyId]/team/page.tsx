@@ -19,7 +19,11 @@ const Team = async ({params}: Props) => {
   })
 
   if(!authUser) return
-
+  const agencyDetails = await db.agency.findUnique({
+    where: {
+      id: params.agencyId
+    }
+  })
   return (
     <div>Team</div>
   )
