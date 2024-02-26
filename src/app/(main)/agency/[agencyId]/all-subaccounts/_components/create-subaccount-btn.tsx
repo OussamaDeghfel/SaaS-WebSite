@@ -1,8 +1,23 @@
+import { Agency, AgencySidebarOption, SubAccount, User } from '@prisma/client'
 import React from 'react'
 
-type Props = {}
+type Props = {
+    user: User & {
+        Agency : 
+        | (
+            | Agency
+            | (null & {
+                SubAccount: SubAccount[]
+                SideBarOption: AgencySidebarOption[]
+                })
+          )
+        | null
+    }
+    id: string
+    className: string
+}
 
-const CreateSubaccountBtn = (props: Props) => {
+const CreateSubaccountBtn = ({className, id, user}: Props) => {
   return (
     <div>CreateSubaccountBtn</div>
   )
