@@ -2,10 +2,10 @@ import React from 'react'
 
 type Props = {}
 
-const SubAccountMainPage = (props: Props) => {
+const SubAccountPage= (props: Props) => {
   return (
-    <div>SubAccountMainPage</div>
+    <div>SubAccountPage</div>
   )
 }
 
-export default SubAccountMainPage
+export default SubAccountPage
