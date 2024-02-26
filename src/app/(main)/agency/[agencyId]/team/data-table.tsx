@@ -44,6 +44,7 @@ export default function DataTable<TData, TValue> ({
                     <Input placeholder='Search Name...' 
                         value={(table.getColumn(filterValue)?.getFilterValue() as string) ?? ""}
                         onChange={(event) => table.getColumn(filterValue)?.setFilterValue(event.target.value)}
+                        className='h-12'
                         />
                 </div>
             </div>
