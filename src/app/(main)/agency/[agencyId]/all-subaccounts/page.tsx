@@ -79,7 +79,11 @@ const AllSubacountsPage = async ({params}: Props) => {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </CommandItem>
-                )) : ("")
+                )) : (
+                  <div className="text-muted-foreground text-center p-4">
+                   No Sub accounts
+                  </div>
+                )
               }
             </CommandGroup>
           </CommandList>
