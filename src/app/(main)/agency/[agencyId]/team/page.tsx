@@ -1,12 +1,18 @@
 import { db } from '@/lib/db'
 import React from 'react'
+import DataTable from './data-table'
+import { currentUser } from '@clerk/nextjs'
+import { Columns, Plus } from 'lucide-react'
+import { columns } from './columns'
+import SendInvitation from '@/components/forms/send-invitation'
 
 type Props = {
   params: {agencyId: string}
 }
 
-const Team = async ({params}: Props) => {
-  const authUser = await db.user.findMany({
+const TeamPage = async ({params}: Props) => {
+  const authUser = await currentUser()
+  const teamMembers = await db.user.findMany({
     where: {
       Agency: {
         id: params.agencyId,
@@ -18,7 +24,7 @@ const Team = async ({params}: Props) => {
     }
   })
 
-  if(!authUser) return
+  if(!authUser) return null
   const agencyDetails = await db.agency.findUnique({
     where: {
       id: params.agencyId
@@ -27,10 +33,23 @@ const Team = async ({params}: Props) => {
       SubAccount: true
     }
   })
+
   if(!agencyDetails) return 
+
   return (
-    <div>Team</div>
-  )
+    <DataTable
+      actionButtonText={
+        <>
+          <Plus size={15} />
+          Add
+        </>
+      }
+      modalChildren={<SendInvitation agencyId={agencyDetails.id} />}
+      filterValue="name"
+      columns={columns}
+      data={teamMembers}
+    ></DataTable>
+  ) 
 }
 
-export default Team
+export default TeamPage
