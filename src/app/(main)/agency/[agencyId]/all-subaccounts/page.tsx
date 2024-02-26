@@ -1,4 +1,5 @@
-import { AlertDialog } from '@/components/ui/alert-dialog'
+import { AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import { getAuthUserDetails } from '@/lib/queries'
@@ -6,6 +7,7 @@ import { SubAccount } from '@prisma/client'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
+import DeleteButton from './_components/delete-button'
 
 type Props = {
   params: { agencyId: string }
@@ -51,6 +53,31 @@ const AllSubacountsPage = async ({params}: Props) => {
                         </div>
                       </div>
                     </Link>
+                    <AlertDialogTrigger asChild>
+                      <Button 
+                        size={"sm"}
+                        variant={"destructive"}
+                        className='text-red-600 w-20 hover:bg-red-600 hover:text-white'
+                      >Delete</Button>
+
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertTitle>are you absolutely sure</AlertTitle>
+                        <AlertDescription>
+                          This action cannot be undon. This will delete the
+                          subaccount and all data related to the subaccount.
+                        </AlertDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter className="flex items-center">
+                        <AlertDialogCancel className="mb-2">
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction className="bg-destructive hover:bg-destructive">
+                          <DeleteButton subaccountId={subaccount.id} />
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
                   </CommandItem>
                 )) : ("")
               }
