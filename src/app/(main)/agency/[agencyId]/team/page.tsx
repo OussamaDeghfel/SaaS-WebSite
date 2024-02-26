@@ -22,8 +22,12 @@ const Team = async ({params}: Props) => {
   const agencyDetails = await db.agency.findUnique({
     where: {
       id: params.agencyId
+    },
+    include: {
+      SubAccount: true
     }
   })
+  
   return (
     <div>Team</div>
   )
