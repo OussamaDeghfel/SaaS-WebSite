@@ -20,6 +20,18 @@ const LaunchPadPage = async ({params, searchParams}: Props) => {
 
   if(!agencyDetails) return 
 
+  const allDetailsExist =
+    agencyDetails.address &&
+    agencyDetails.address &&
+    agencyDetails.agencyLogo &&
+    agencyDetails.city &&
+    agencyDetails.companyEmail &&
+    agencyDetails.companyPhone &&
+    agencyDetails.country &&
+    agencyDetails.name &&
+    agencyDetails.state &&
+    agencyDetails.zipCode
+
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='w-full h-full max-w-[800px]'>
@@ -59,13 +71,13 @@ const LaunchPadPage = async ({params, searchParams}: Props) => {
             <div className='flex justify-between items-center w-full border p-4 rounded-lg gap-2'>
               <div className='flex gap-4 flex-col md:items-center md:!flex-row'>
                 <Image 
-                  src='/appstore.png'
+                  src={agencyDetails.agencyLogo}
                   alt='app logo'
                   height={80}
                   width={80}
                   className='rounded-md object-contain'
                 />
-                <p>save the website as a shortcut on your mobile device</p>
+                <p>Fill in all your bussiness details</p>
               </div>
               <Button>Start</Button>
             </div>
