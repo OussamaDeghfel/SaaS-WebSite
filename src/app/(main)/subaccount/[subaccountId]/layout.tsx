@@ -1,27 +1,31 @@
-import InfoBar from '@/components/global/Infobar';
-import Sidebar from '@/components/sidebar';
-import Unauthorized from '@/components/unauthorized';
-import { getAuthUserDetails, getNotificationAndUser, verifyAndAcceptInvitation } from '@/lib/queries';
-import { currentUser } from '@clerk/nextjs';
-import { Role } from '@prisma/client';
-import { redirect } from 'next/navigation';
-import React from  'react';
+
+import InfoBar from '@/components/global/Infobar'
+import Sidebar from '@/components/sidebar'
+import Unauthorized from '@/components/unauthorized'
+import {
+  getAuthUserDetails,
+  getNotificationAndUser,
+  verifyAndAcceptInvitation,
+} from '@/lib/queries'
+import { currentUser } from '@clerk/nextjs'
+import { Role } from '@prisma/client'
+import { redirect } from 'next/navigation'
+import React from 'react'
 
 type Props = {
-    children: React.ReactNode
-    params: { subaccountId : string }
+  children: React.ReactNode
+  params: { subaccountId: string }
 }
 
-const SubaccountLayout = async ({children, params}: Props) => {
-    const agencyId = await verifyAndAcceptInvitation()
-    if(!agencyId) return <Unauthorized />
+const SubaccountLayout = async ({ children, params }: Props) => {
+  const agencyId = await verifyAndAcceptInvitation()
+  if (!agencyId) return <Unauthorized />
+  const user = await currentUser()
+  if (!user) {
+    return redirect('/')
+  }
 
-    const user = await currentUser()
-    if(!user){
-        return redirect("/")
-    }
-
-    let notifications: any = []
+  let notifications: any = []
 
   if (!user.privateMetadata.role) {
     return <Unauthorized />
@@ -49,6 +53,7 @@ const SubaccountLayout = async ({children, params}: Props) => {
       if (filteredNoti) notifications = filteredNoti
     }
   }
+
   return (
     <div className="h-screen overflow-hidden">
       <Sidebar
@@ -66,7 +71,6 @@ const SubaccountLayout = async ({children, params}: Props) => {
       </div>
     </div>
   )
+} 
 
-}
-
-export default  SubaccountLayout;
+export default SubaccountLayout
