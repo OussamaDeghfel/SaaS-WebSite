@@ -3,6 +3,7 @@ import { User } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import { ModeToggle } from "@/components/global/mode-toggle";
+import { UserButton } from "@clerk/nextjs";
 
 type Props = {
   user?: null | User;
@@ -35,7 +36,7 @@ const Navigation = ({ user }: Props) => {
         >
           Login
         </Link>
-        {/* <UserButton /> */}
+        <UserButton />
         <ModeToggle />
       </aside>
     </div>
