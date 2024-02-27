@@ -51,7 +51,14 @@ export default function DataTable<TData, TValue> ({
                 </div>
                 <Button
                     className='flex gap-2'
-                    onClick={() => setOpen(<CustomModal></CustomModal>)}
+                    onClick={() =>
+                         setOpen(
+                         <CustomModal
+                            title='Add a team member'
+                            subheading='Send an invitation'
+                         >
+                            {modalChildren}
+                         </CustomModal>)}
                 ></Button>
             </div>
         </>
