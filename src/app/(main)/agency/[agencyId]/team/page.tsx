@@ -1,4 +1,4 @@
-"use client"
+
 
 import { db } from '@/lib/db'
 import React from 'react'
@@ -6,7 +6,7 @@ import DataTable from './data-table'
 import { currentUser } from '@clerk/nextjs'
 import { Columns, Plus } from 'lucide-react'
 import { columns } from './columns'
-import SendInvitation from '@/components/forms/send-invitation'
+//import SendInvitation from '@/components/forms/send-invitation'
 
 type Props = {
   params: {agencyId: string}

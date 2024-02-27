@@ -11,6 +11,8 @@ import {
 import { useModal } from '@/providers/modal-provider'
 import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import CustomModal from '@/components/global/custom-modal'
+import { Button } from '@/components/ui/button'
 
 type Props = {}
 
@@ -45,8 +47,12 @@ export default function DataTable<TData, TValue> ({
                         value={(table.getColumn(filterValue)?.getFilterValue() as string) ?? ""}
                         onChange={(event) => table.getColumn(filterValue)?.setFilterValue(event.target.value)}
                         className='h-12'
-                        />
+                    />
                 </div>
+                <Button
+                    className='flex gap-2'
+                    onClick={() => setOpen(<CustomModal></CustomModal>)}
+                ></Button>
             </div>
         </>
     )
