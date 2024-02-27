@@ -1,6 +1,6 @@
-"use Client"
+"use client"
 import React from 'react'
-import {Table, TableBody} from '@/components/ui/table'
+import {Table, TableBody, TableHead, TableHeader, TableRow} from '@/components/ui/table'
 import {
     ColumnDef,
     flexRender,
@@ -13,6 +13,7 @@ import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import CustomModal from '@/components/global/custom-modal'
 import { Button } from '@/components/ui/button'
+import { TableCell } from '@tremor/react'
 
 type Props = {}
 
@@ -62,6 +63,46 @@ export default function DataTable<TData, TValue> ({
                 >
                     {actionButtonText}
                 </Button>
+            </div>
+            <div className='border bg-background rounded-lg'>
+                <Table>
+                    <TableHeader>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <TableRow key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => {
+                                    return <TableHead key={header.id}>
+                                        {header.isPlaceholder
+                                            ? null 
+                                            : flexRender(
+                                                header.column.columnDef.header,
+                                                header.getContext()
+                                            )
+                                        }
+                                    </TableHead>
+                                })}
+                            </TableRow>
+                        ))}
+                    </TableHeader>
+                    <TableBody>
+                        {table.getRowModel().rows.length
+                            ? table.getRowModel().rows.map((row) => (
+                                <TableRow
+                                    key={row.id}
+                                    data-state={row.getIsSelected() && 'Selected'}
+                                >
+                                    {row.getVisibleCells().map((cell) => (
+                                        <TableCell key={cell.id}>
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            )) : ("") 
+                        }
+                    </TableBody>
+                </Table>
             </div>
         </>
     )
