@@ -59,7 +59,9 @@ export default function DataTable<TData, TValue> ({
                          >
                             {modalChildren}
                          </CustomModal>)}
-                ></Button>
+                >
+                    {actionButtonText}
+                </Button>
             </div>
         </>
     )
