@@ -99,7 +99,16 @@ export default function DataTable<TData, TValue> ({
                                         </TableCell>
                                     ))}
                                 </TableRow>
-                            )) : ("") 
+                            )) : (
+                                <TableRow>
+                                    <TableCell 
+                                        colSpan={columns.length}
+                                        className='h-24 text-center'
+                                    >
+                                        No Results
+                                    </TableCell>
+                                </TableRow>
+                            ) 
                         }
                     </TableBody>
                 </Table>
