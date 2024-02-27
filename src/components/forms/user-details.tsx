@@ -179,7 +179,7 @@ const UserDetails = ({id, type, userData, subAccounts }: Props) => {
         }
       }
   return (
-    <Card>
+    <Card className='w-full'>
         <CardHeader>
             <CardTitle>User Details</CardTitle>
             <CardDescription>Add or update your information</CardDescription>
