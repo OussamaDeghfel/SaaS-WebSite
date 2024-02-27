@@ -4,7 +4,7 @@ type Props = {}
 
 const SubAccountMainPage = (props: Props) => {
   return (
-    <div>SubAccountMainPage</div>
+    <div>SubAccountPage</div>
   )
 }
 
