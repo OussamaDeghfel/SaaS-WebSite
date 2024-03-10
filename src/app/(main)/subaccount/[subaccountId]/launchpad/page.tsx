@@ -1,8 +1,14 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  searchParams: {
+    state : string
+    code : string
+  }
+  params: {subAccountId : string}
+}
 
-const LaunchPadSubaccountPage = (props: Props) => {
+const LaunchPadSubaccountPage = ({searchParams, params}: Props) => {
   return (
     <div>LaunchPadSubaccountPage</div>
   )
