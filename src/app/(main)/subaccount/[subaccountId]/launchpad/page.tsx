@@ -1,3 +1,4 @@
+import { db } from '@/lib/db'
 import React from 'react'
 
 type Props = {
@@ -8,7 +9,13 @@ type Props = {
   params: {subAccountId : string}
 }
 
-const LaunchPadSubaccountPage = ({searchParams, params}: Props) => {
+const LaunchPadSubaccountPage = async ({searchParams, params}: Props) => {
+  const subaccountDetails = await db.subAccount.findUnique({
+    where : {
+      id : params.subAccountId
+    }
+  })
+
   return (
     <div>LaunchPadSubaccountPage</div>
   )
