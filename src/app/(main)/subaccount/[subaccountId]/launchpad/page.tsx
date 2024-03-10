@@ -6,15 +6,29 @@ type Props = {
     state : string
     code : string
   }
-  params: {subAccountId : string}
+  params: {subaccountId : string}
 }
 
 const LaunchPadSubaccountPage = async ({searchParams, params}: Props) => {
   const subaccountDetails = await db.subAccount.findUnique({
-    where : {
-      id : params.subAccountId
-    }
+    where: {
+      id: params.subaccountId,
+    },
   })
+
+  if(!subaccountDetails) return
+
+  const allDetailsExist =
+    subaccountDetails.address &&
+    subaccountDetails.subAccountLogo &&
+    subaccountDetails.city &&
+    subaccountDetails.companyEmail &&
+    subaccountDetails.companyPhone &&
+    subaccountDetails.country &&
+    subaccountDetails.name &&
+    subaccountDetails.state
+
+  
 
   return (
     <div>LaunchPadSubaccountPage</div>
