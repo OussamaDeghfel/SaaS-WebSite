@@ -8,7 +8,12 @@ type Props = {
 
 const MediaComponent = ({data, subaccountId}: Props) => {
   return (
-    <div>MediaComponent</div>
+    <div className='h-full w-full flex gap-4 flex-col'>
+        <div className='flex justify-center items-center'>
+            <h1 className='text-4xl'>Media Bucket</h1>
+            <MediaUploadButton subaccountId={subaccountId} />
+        </div>
+    </div>
   )
 }
 
