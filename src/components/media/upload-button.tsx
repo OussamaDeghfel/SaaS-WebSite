@@ -4,7 +4,7 @@ import { useModal } from '@/providers/modal-provider'
 import React from 'react'
 import { Button } from '../ui/button'
 import CustomModal from '../global/custom-modal'
-import UploadMediaForm from '../forms/upload-form'
+import UploadMediaForm from '../forms/upload-media'
 
 type Props = {
     subaccountId: string
