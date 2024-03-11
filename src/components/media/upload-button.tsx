@@ -11,17 +11,18 @@ type Props = {
 }
 
 const MediaUploadbutton = ({subaccountId}: Props) => {
-    const {setOpen, isOpen, setClose} = useModal()
+    const { isOpen, setOpen, setClose} = useModal()
 
   return (
-    <Button onClick={() => {
-        setOpen(
-            <CustomModal 
-            title='Upload Media'
-            subheading='Upload a file to your Media bucket'>
-                <UploadMediaForm subaccount={subaccountId}></UploadMediaForm>
-            </CustomModal>
-        )
+    <Button 
+        onClick={() => {
+            setOpen(
+                <CustomModal 
+                title='Upload Media'
+                subheading='Upload a file to your Media bucket'>
+                    <UploadMediaForm subaccountId={subaccountId}></UploadMediaForm>
+                </CustomModal>
+            )
     }}>Upload</Button>
   )
 }
