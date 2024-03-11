@@ -1,10 +1,22 @@
+import BlurPage from '@/components/global/blur-page'
+import MediaComponent from '@/components/media'
+import { getMedia } from '@/lib/queries'
 import React from 'react'
 
-type Props = {}
+type Props = {
+  params: {subaccountId: string}
+}
 
-const MediaPage = (props: Props) => {
+const MediaPage = async ({ params }: Props) => {
+  const data = await getMedia(params.subaccountId)
+
   return (
-    <div>MediaPage</div>
+    <BlurPage>
+      <MediaComponent
+       data={data}
+       subaccountId={params.subaccountId}
+      ></MediaComponent>
+    </BlurPage>
   )
 }
 
