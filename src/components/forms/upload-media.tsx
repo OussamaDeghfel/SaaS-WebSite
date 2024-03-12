@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { useRouter } from 'next/navigation'
 import { Form } from '../ui/form'
+import { createMedia, saveActivityLogsNotification } from '@/lib/queries'
 
 type Props = {
   subaccountId:string
@@ -28,6 +29,28 @@ const UploadMediaForm = ({subaccountId}: Props) => {
       name : ""
     }
   })
+
+  async function onSubmit(values: z.infer<typeof formSchema>){
+    try {
+      const response = await createMedia(subaccountId, values)
+      await saveActivityLogsNotification({
+        agencyId:undefined,
+        description: `Upload a media file | ${response.name}`,
+        subaccountId
+      })
+
+      toast({title: 'Success', description: "Uploaded Media "})
+      router.refresh()
+    } catch (error) {
+      console.log(error)
+      toast({
+        variant: "destructive",
+        title: 'Failed',
+        description: "Could not upload media"
+      })
+    }
+  }
+
   return (
     <Card className='w-full'>
       <CardHeader>
