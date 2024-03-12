@@ -10,6 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { createMedia, saveActivityLogsNotification } from '@/lib/queries'
 import { Input } from '../ui/input'
 import FileUpload from '../global/file-upload'
+import { Button } from '../ui/button'
 
 type Props = {
   subaccountId:string
@@ -95,6 +96,12 @@ const UploadMediaForm = ({subaccountId}: Props) => {
                 </FormItem>
               )}
             />
+            <Button
+              type='submit'
+              className='mt-4'    
+            >
+              Upload Media
+            </Button>
           </form>
         </Form>
       </CardContent>
