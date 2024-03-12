@@ -6,8 +6,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { useRouter } from 'next/navigation'
-import { Form } from '../ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
 import { createMedia, saveActivityLogsNotification } from '@/lib/queries'
+import { Input } from '../ui/input'
+import FileUpload from '../global/file-upload'
 
 type Props = {
   subaccountId:string
@@ -61,7 +63,39 @@ const UploadMediaForm = ({subaccountId}: Props) => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}></form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({field}) => (
+                <FormItem className='flex-1'>
+                  <FormLabel>File Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Your Agency Name' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='link'
+              render={({field}) => (
+                <FormItem className='flex-1'>
+                  <FormLabel>Media File</FormLabel>
+                  <FormControl>
+                    <FileUpload
+                      apiEndpoint='subaccountLogo'
+                      value={field.value}
+                      onChange={field.onChange}
+                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
         </Form>
       </CardContent>
     </Card>
