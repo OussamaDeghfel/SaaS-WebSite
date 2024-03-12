@@ -4,8 +4,9 @@ import { z } from 'zod'
 import { useToast } from '../ui/use-toast'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { useRouter } from 'next/navigation'
+import { Form } from '../ui/form'
 
 type Props = {
   subaccountId:string
@@ -35,6 +36,11 @@ const UploadMediaForm = ({subaccountId}: Props) => {
           Please Enter the Details
         </CardDescription>
       </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}></form>
+        </Form>
+      </CardContent>
     </Card>
   )
 }
