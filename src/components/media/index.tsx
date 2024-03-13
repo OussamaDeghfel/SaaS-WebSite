@@ -1,7 +1,7 @@
 import { GetMediaFiles } from '@/lib/types'
 import React from 'react'
 import MediaUploadbutton from './upload-button'
-import { Command, CommandEmpty, CommandInput, CommandList } from '../ui/command'
+import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../ui/command'
 
 type Props = {
     data: GetMediaFiles
@@ -18,7 +18,17 @@ const MediaComponent = ({data, subaccountId}: Props) => {
         <Command className='bg-transparent'>
           <CommandInput placeholder='Search For File Name' />
           <CommandList className='pd-40 max-h-full' >
-          <CommandEmpty >NO Media File</CommandEmpty>
+            <CommandEmpty>No Media File</CommandEmpty>
+            <div className='flex flex-wrap gap-4 pt-4'>
+              {data?.Media.map((file) => 
+                <CommandItem 
+                  key={file.id}
+                  className='p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white'  
+                  >
+                  
+                </CommandItem>
+              )}
+            </div>
           </CommandList>
         </Command>
     </div>
