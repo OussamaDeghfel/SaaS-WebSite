@@ -2,6 +2,7 @@ import { GetMediaFiles } from '@/lib/types'
 import React from 'react'
 import MediaUploadbutton from './upload-button'
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '../ui/command'
+import MediaCard from './media-card'
 
 type Props = {
     data: GetMediaFiles
@@ -25,7 +26,7 @@ const MediaComponent = ({data, subaccountId}: Props) => {
                   key={file.id}
                   className='p-0 max-w-[300px] w-full rounded-lg !bg-transparent !font-medium !text-white'  
                   >
-                  
+                  <MediaCard file={file}/>
                 </CommandItem>
               )}
             </div>
