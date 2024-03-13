@@ -1,9 +1,10 @@
-import { Tabs } from '@/components/ui/tabs';
+import { Tabs, TabsList } from '@/components/ui/tabs';
 import { db } from '@/lib/db';
 import { getLanesWithTicketAndTags, getPipelineDetails } from '@/lib/queries';
 import { LaneDetail } from '@/lib/types';
 import { redirect } from 'next/navigation';
 import React from 'react'
+import PipelineInfobar from '../_components/pipeline-infobat';
 
 type Props = {
     params: {subaccountId: string; pipelineId: string }
@@ -15,7 +16,7 @@ const PipelinePage = async({params}: Props) => {
     if(!pipelineDetails)
         return redirect(`/subaccount/${params.subaccountId}/pipelines`)
 
-    const pipelins = await db.pipeline.findMany({
+    const pipelines = await db.pipeline.findMany({
         where: {subAccountId: params.subaccountId}
     })    
 
@@ -25,7 +26,15 @@ const PipelinePage = async({params}: Props) => {
     <Tabs 
         defaultValue='view'
         className='w-full'
-    ></Tabs>
+    >
+        <TabsList className='bg-transparent border-b-2 h-16 w-full justify-between mb-4'>
+            <PipelineInfobar
+                subaccountId={params.subaccountId}
+                pipelineId={params.pipelineId}
+                pipelines={pipelines}
+             />
+        </TabsList>
+    </Tabs>
   )
 }
 
