@@ -12,11 +12,24 @@ const PipeLines = async ({params}: Props) => {
   })
 
   if(pipelineExists){
-    return redirect(`/subaccount/${params.subaccountId}/piplines/${pipelineExists.id}`)
+    return redirect(`/subaccount/${params.subaccountId}/pipelines/${pipelineExists.id}`)
   }
+
+  try {
+    const response = await db.pipeline.create({
+      data: {name : "First PipeLine", subAccountId: params.subaccountId},
+    })
+    return redirect(
+      `/subaccount/${params.subaccountId}/pipelines/${response.id}`
+    )
+  } catch (error) {
+    console.log(error)
+  }
+
   return (
     <div>PipeLines</div>
   )
+
 }
 
 export default PipeLines
