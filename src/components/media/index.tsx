@@ -1,6 +1,7 @@
 import { GetMediaFiles } from '@/lib/types'
 import React from 'react'
 import MediaUploadbutton from './upload-button'
+import { Command, CommandEmpty, CommandInput } from '../ui/command'
 
 type Props = {
     data: GetMediaFiles
@@ -14,6 +15,10 @@ const MediaComponent = ({data, subaccountId}: Props) => {
             <h1 className='text-4xl'>Media Bucket</h1>
             <MediaUploadbutton subaccountId={subaccountId} />
         </div>
+        <Command>
+          <CommandInput placeholder='Search For File Name' />
+          <CommandEmpty>NO Media File</CommandEmpty>
+        </Command>
     </div>
   )
 }
