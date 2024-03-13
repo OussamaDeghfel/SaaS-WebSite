@@ -2,10 +2,10 @@ import React from 'react'
 
 type Props = {}
 
-const Pipelines = (props: Props) => {
+const PipeLines = (props: Props) => {
   return (
-    <div>Pipelines</div>
+    <div>PipeLines</div>
   )
 }
 
-export default Pipelines
+export default PipeLines
