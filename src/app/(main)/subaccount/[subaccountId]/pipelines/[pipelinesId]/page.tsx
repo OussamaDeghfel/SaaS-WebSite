@@ -13,14 +13,17 @@ type Props = {
 const PipelinePage = async({params}: Props) => {
     const pipelineDetails = await getPipelineDetails(params.pipelineId)
 
-    if(!pipelineDetails)
-        return redirect(`/subaccount/${params.subaccountId}/pipelines`)
+  if (!pipelineDetails)
+    return redirect(`/subaccount/${params.subaccountId}/pipelines`)
 
-    const pipelines = await db.pipeline.findMany({
-        where: {subAccountId: params.subaccountId}
-    })    
+  const pipelines = await db.pipeline.findMany({
+    where: { subAccountId: params.subaccountId },
+  })
 
-    const lanes = (await getLanesWithTicketAndTags(params.pipelineId)) as LaneDetail[]
+  const lanes = (await getLanesWithTicketAndTags(
+    params.pipelineId
+  )) as LaneDetail[]
+
 
   return (
     <Tabs 
@@ -29,8 +32,8 @@ const PipelinePage = async({params}: Props) => {
     >
         <TabsList className='bg-transparent border-b-2 h-16 w-full justify-between mb-4'>
             <PipelineInfobar
-                subAccountId={params.subaccountId}
                 pipelineId={params.pipelineId}
+                subAccountId={params.subaccountId}
                 pipelines={pipelines}
              />
         </TabsList>
