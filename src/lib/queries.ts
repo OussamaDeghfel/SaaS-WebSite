@@ -531,13 +531,13 @@ export const deleteMedia = async (mediaId: string) => {
 };
 
 export const getPipelineDetails = async (pipelineId: string) => {
-  const response = await db.pipeline.findUnique({
+  const response = await db.pipeline.findFirst({
     where: {
       id: pipelineId,
     },
-  });
-  return response;
-};
+  })
+  return response
+}
 
 export const getLanesWithTicketAndTags = async (pipelineId: string) => {
   const response = await db.lane.findMany({
