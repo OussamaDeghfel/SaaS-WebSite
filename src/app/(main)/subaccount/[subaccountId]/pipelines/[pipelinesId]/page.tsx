@@ -29,7 +29,7 @@ const PipelinePage = async({params}: Props) => {
     >
         <TabsList className='bg-transparent border-b-2 h-16 w-full justify-between mb-4'>
             <PipelineInfobar
-                subaccountId={params.subaccountId}
+                subAccountId={params.subaccountId}
                 pipelineId={params.pipelineId}
                 pipelines={pipelines}
              />
