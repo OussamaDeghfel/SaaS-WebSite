@@ -1,4 +1,5 @@
 "use client"
+import CreatePipelineForm from '@/components/forms/create-pipeline-form'
 import CustomModal from '@/components/global/custom-modal'
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandItem } from '@/components/ui/command'
@@ -27,7 +28,7 @@ const PipelineInfobar = ({subAccountId, pipelineId ,pipelines}: Props) => {
                 title= 'Create a new pipeline'
                 subheading="Pipelines allows you to group tickets into lanes and track your business processes all in one place."
             >
-                
+                <CreatePipelineForm subAccountId={subAccountId} />
             </CustomModal>)
     }
 
