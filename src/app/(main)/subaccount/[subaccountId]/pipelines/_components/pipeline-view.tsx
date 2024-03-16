@@ -60,6 +60,27 @@ const PipelineView = ({
                     Create Lane
                 </Button>
             </div>
+            <Droppable
+                droppableId='lanes'
+                type='lanes'
+                direction='horizontal'
+                key='lanes'
+            >
+                {(provided) => (
+                    <div
+                    className='flex items-center gap-x-2 overflow-scroll'
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    >
+                        <div className='flex mt-4'>
+                            {allLanes.map((lane, index) => (
+                                <PipeLineLane />
+                            ))}
+                            {provided.placeholder}
+                        </div>
+                    </div>
+                ) }
+            </Droppable>
         </div>
     </DragDropContext>
   )
