@@ -23,7 +23,7 @@ import { Input } from '../ui/input'
 
 import { Button } from '../ui/button'
 import Loading from '../global/loading'
-import { LaneFormSchema } from '@/lib/types'
+import { CreateLaneFormSchema } from '@/lib/types'
 import {
   getPipelineDetails,
   saveActivityLogsNotification,
@@ -48,9 +48,9 @@ const CreateLaneForm: React.FC<CreateLaneFormProps> = ({
 }) => {
   const { setClose } = useModal()
   const router = useRouter()
-  const form = useForm<z.infer<typeof LaneFormSchema>>({
+  const form = useForm<z.infer<typeof CreateLaneFormSchema>>({
     mode: 'onChange',
-    resolver: zodResolver(LaneFormSchema),
+    resolver: zodResolver(CreateLaneFormSchema),
     defaultValues: {
       name: defaultData?.name || '',
     },
@@ -66,7 +66,7 @@ const CreateLaneForm: React.FC<CreateLaneFormProps> = ({
 
   const isLoading = form.formState.isLoading
 
-  const onSubmit = async (values: z.infer<typeof LaneFormSchema>) => {
+  const onSubmit = async (values: z.infer<typeof CreateLaneFormSchema>) => {
     if (!pipelineId) return
     try {
       const response = await upsertLane({
