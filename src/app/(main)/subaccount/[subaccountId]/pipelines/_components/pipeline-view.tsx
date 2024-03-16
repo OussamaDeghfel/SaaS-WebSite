@@ -1,10 +1,12 @@
 'use client'
+import CustomModal from '@/components/global/custom-modal'
 import { Button } from '@/components/ui/button'
 import { LaneDetail, PipelineDetailsWithLanesCardsTagsTickets } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { Lane, Ticket } from '@prisma/client'
 import { Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { title } from 'process'
 import React, { useEffect, useState } from 'react'
 import {DragDropContext , DropResult, Droppable} from "react-beautiful-dnd"
 
@@ -32,6 +34,17 @@ const PipelineView = ({
     useEffect(() => {
         setAllLanes(lanes)
     }, [lanes])
+
+    const handleAddlane = () => {
+        setOpen(
+        <CustomModal
+            title= 'Create a lane'
+            subheading="Lanes allow you to group tickets"
+            >
+                <CreateLaneform />
+            </CustomModal>
+        )
+    }
 
   return (
     <DragDropContext onDragEnd={() => {}}>
