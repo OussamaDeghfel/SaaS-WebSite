@@ -27,7 +27,7 @@ const PipelineView = ({
     const [allLanes, setAllLanes] = useState<LaneDetail[]>([])
 
     useEffect(() => {
-
+        setAllLanes(lanes)
     }, [lanes])
 
   return (
