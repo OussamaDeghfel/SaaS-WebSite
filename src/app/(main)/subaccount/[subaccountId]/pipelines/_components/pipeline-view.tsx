@@ -1,7 +1,9 @@
 'use client'
 import { LaneDetail, PipelineDetailsWithLanesCardsTagsTickets } from '@/lib/types'
+import { useModal } from '@/providers/modal-provider'
 import { Lane, Ticket } from '@prisma/client'
-import React from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 
 type Props = {
     lanes: LaneDetail[]
@@ -12,7 +14,18 @@ type Props = {
     updateTicketsOrder: (tickets: Ticket[]) => Promise<void>
 }
 
-const PipelineView = (props: Props) => {
+const PipelineView = ({
+    lanes,
+    pipelineDetails,
+    subaccountId,
+    pipelineId,
+    updateLanesOrder,
+    updateTicketsOrder 
+}: Props ) => {
+    const {setOpen} = useModal()
+    const router = useRouter
+    const [allLanes, setAllLanes] = useState<LaneDetail[]>([])
+
   return (
     <div>PipelineView</div>
   )
