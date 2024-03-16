@@ -3,7 +3,7 @@ import { LaneDetail, PipelineDetailsWithLanesCardsTagsTickets } from '@/lib/type
 import { useModal } from '@/providers/modal-provider'
 import { Lane, Ticket } from '@prisma/client'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 type Props = {
     lanes: LaneDetail[]
@@ -25,6 +25,10 @@ const PipelineView = ({
     const {setOpen} = useModal()
     const router = useRouter
     const [allLanes, setAllLanes] = useState<LaneDetail[]>([])
+
+    useEffect(() => {
+
+    }, [lanes])
 
   return (
     <div>PipelineView</div>
