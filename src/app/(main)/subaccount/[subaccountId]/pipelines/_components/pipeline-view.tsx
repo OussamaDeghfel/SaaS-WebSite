@@ -1,4 +1,5 @@
 'use client'
+import CreateLaneForm from '@/components/forms/create-lane-form'
 import CustomModal from '@/components/global/custom-modal'
 import { Button } from '@/components/ui/button'
 import { LaneDetail, PipelineDetailsWithLanesCardsTagsTickets } from '@/lib/types'
@@ -41,7 +42,7 @@ const PipelineView = ({
             title= 'Create a lane'
             subheading="Lanes allow you to group tickets"
             >
-                <CreateLaneform />
+                <CreateLaneForm pipelineId={pipelineId} />
             </CustomModal>
         )
     }
