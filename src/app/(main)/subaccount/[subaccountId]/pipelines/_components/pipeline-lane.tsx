@@ -1,5 +1,5 @@
 'use client'
-import CreateLaneForm from '@/components/forms/lane-form'
+import CreateLaneForm from '@/components/forms/create-lane-form'
 
 import {
   AlertDialog,
@@ -32,7 +32,7 @@ import React, { Dispatch, SetStateAction, useMemo } from 'react'
 // import PipelineTicket from './pipeline-ticket'
 import CustomModal from '@/components/global/custom-modal'
 import TicketForm from '@/components/forms/ticket-form'
-import PipelineTicket from './pipeline-ticket'
+//import PipelineTicket from './pipeline-ticket'
 
 interface PipelaneLaneProps {
   setAllTickets: Dispatch<SetStateAction<TicketWithTags>>
