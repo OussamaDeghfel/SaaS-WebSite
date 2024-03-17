@@ -9,7 +9,7 @@ import {
 } from "@/lib/types";
 import { useModal } from "@/providers/modal-provider";
 import { Lane, Ticket } from "@prisma/client";
-import { Plus } from "lucide-react";
+import { Flag, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { title } from "process";
 import React, { useEffect, useState } from "react";
@@ -79,7 +79,7 @@ const PipelineView = ({
         >
           {(provided) => (
             <div
-              className="flex items-center gap-x-2 overflow-scroll"
+              className="flex items-center gap-x-2"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -101,6 +101,13 @@ const PipelineView = ({
             </div>
           )}
         </Droppable>
+        {allLanes.length == 0 && 
+        <div className="flex items-center justify-center flex-col w-full">
+            <div className="opacity-100">
+                <Flag width='100%' height='100%' className="text-muted-foreground" />
+            </div>
+        </div>
+        }
       </div>
     </DragDropContext>
   );
