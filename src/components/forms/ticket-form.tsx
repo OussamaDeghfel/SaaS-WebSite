@@ -1,8 +1,9 @@
 'use client'
+import { getSubAccountTeamMembers } from '@/lib/queries'
 import { TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
-import { Contact, Tag } from '@prisma/client'
-import React, { useRef, useState } from 'react'
+import { Contact, Tag, User } from '@prisma/client'
+import React, { useEffect, useRef, useState } from 'react'
 import { setTimeout } from 'timers'
 
 type Props = {
@@ -17,10 +18,22 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
   const [contact, setContact] = useState("")
   const [search, setSearch] = useState("")
   const [contactList, setContactList] = useState<Contact[]>([])
+  const saveTimeRef = useRef<ReturnType<typeof setTimeout>>()
+  const [allTeamMembers, setAllTeamMembers] = useState<User[]>([])
   const [assignedTo, setAssignedTo] = useState(
     defaultData.ticket?.Assigned?.id || ''
   )
-  const saveTimeRef = useRef<ReturnType<typeof setTimeout>>()
+
+    useEffect(()=> {
+      if(subaccountId){
+        const fetchData = async () => {
+          const response = await getSubAccountTeamMembers(subaccountId)
+          console.log(response)
+          if(response) setAllTeamMembers(response)
+        }
+      fetchData()
+      }
+    },[subaccountId])
 
   return (
     <div>TicketForm</div>
