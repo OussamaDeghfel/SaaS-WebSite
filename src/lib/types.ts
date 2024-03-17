@@ -95,7 +95,7 @@ export type PipelineDetailsWithLanesCardsTagsTickets = Prisma.PromiseReturnType<
   typeof getPipelineDetails
 >;
 
-export const CreateLaneFormSchema = z.object({
+export const LaneFormSchema = z.object({
   name: z.string().min(1),
 });
 

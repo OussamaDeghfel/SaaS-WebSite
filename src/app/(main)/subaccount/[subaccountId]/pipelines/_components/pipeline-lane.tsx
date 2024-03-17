@@ -1,5 +1,5 @@
 'use client'
-import CreateLaneForm from '@/components/forms/create-lane-form'
+import CreateLaneForm from '@/components/forms/lane-form'
 
 import {
   AlertDialog,
