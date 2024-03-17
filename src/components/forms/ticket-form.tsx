@@ -2,7 +2,8 @@
 import { TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { Contact, Tag } from '@prisma/client'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
+import { setTimeout } from 'timers'
 
 type Props = {
   laneId: string
@@ -19,6 +20,7 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
   const [assignedTo, setAssignedTo] = useState(
     defaultData.ticket?.Assigned?.id || ''
   )
+  const saveTimeRef = useRef<ReturnType<typeof setTimeout>>()
 
   return (
     <div>TicketForm</div>
