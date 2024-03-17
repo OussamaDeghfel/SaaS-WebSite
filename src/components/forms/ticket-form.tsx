@@ -1,5 +1,5 @@
 'use client'
-import { getSubAccountTeamMembers, searchContacts } from '@/lib/queries'
+import { getSubAccountTeamMembers, saveActivityLogsNotification, searchContacts, upsertTicket } from '@/lib/queries'
 import { TicketFormSchema, TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { setTimeout } from 'timers'
 import { z } from 'zod'
+import { toast } from '../ui/use-toast'
 
 type Props = {
   laneId: string
@@ -70,6 +71,42 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
       fetchData()
     }
   },[defaultData])
+
+  const onSubmit = async (values: z.infer<typeof TicketFormSchema>) => {
+    if (!laneId) return
+    try {
+      const response = await upsertTicket(
+        {
+          ...values,
+          laneId,
+          id: defaultData.ticket?.id,
+          assignedUserId: assignedTo,
+          ...(contact ? { customerId: contact } : {}),
+        },
+        tags
+      )
+
+      await saveActivityLogsNotification({
+        agencyId: undefined,
+        description: `Updated a ticket | ${response?.name}`,
+        subaccountId,
+      })
+
+      toast({
+        title: 'Success',
+        description: 'Saved  details',
+      })
+      if (response) getNewTicket(response)
+      router.refresh()
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Oppse!',
+        description: 'Could not save pipeline details',
+      })
+    }
+    setClose()
+  }
 
   return (
     <div>TicketForm</div>
