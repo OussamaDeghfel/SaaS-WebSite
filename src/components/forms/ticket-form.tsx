@@ -1,10 +1,13 @@
 'use client'
 import { getSubAccountTeamMembers } from '@/lib/queries'
-import { TicketWithTags } from '@/lib/types'
+import { TicketFormSchema, TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { Contact, Tag, User } from '@prisma/client'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { setTimeout } from 'timers'
+import { z } from 'zod'
 
 type Props = {
   laneId: string
@@ -13,7 +16,9 @@ type Props = {
 }
 
 const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
-  const {data: defaultData} = useModal()
+  const {data: defaultData, setClose} = useModal()
+  const router = useRouter()
+  const form = useForm<z.infer<typeof TicketFormSchema>>()
   const [tags, setTags] = useState<Tag[]>()
   const [contact, setContact] = useState("")
   const [search, setSearch] = useState("")
