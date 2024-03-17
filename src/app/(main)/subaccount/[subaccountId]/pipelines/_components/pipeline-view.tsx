@@ -1,89 +1,109 @@
-'use client'
-import CreateLaneForm from '@/components/forms/create-lane-form'
-import CustomModal from '@/components/global/custom-modal'
-import { Button } from '@/components/ui/button'
-import { LaneDetail, PipelineDetailsWithLanesCardsTagsTickets } from '@/lib/types'
-import { useModal } from '@/providers/modal-provider'
-import { Lane, Ticket } from '@prisma/client'
-import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { title } from 'process'
-import React, { useEffect, useState } from 'react'
-import {DragDropContext , DropResult, Droppable} from "react-beautiful-dnd"
+"use client";
+import CreateLaneForm from "@/components/forms/create-lane-form";
+import CustomModal from "@/components/global/custom-modal";
+import { Button } from "@/components/ui/button";
+import {
+  LaneDetail,
+  PipelineDetailsWithLanesCardsTagsTickets,
+  TicketAndTags,
+} from "@/lib/types";
+import { useModal } from "@/providers/modal-provider";
+import { Lane, Ticket } from "@prisma/client";
+import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { title } from "process";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import PipelineLane from "./pipeline-lane";
 
 type Props = {
-    lanes: LaneDetail[]
-    pipelineId: string
-    subaccountId: string
-    pipelineDetails: PipelineDetailsWithLanesCardsTagsTickets
-    updateLanesOrder: (lanes: Lane[]) => Promise<void>
-    updateTicketsOrder: (tickets: Ticket[]) => Promise<void>
-}
+  lanes: LaneDetail[];
+  pipelineId: string;
+  subaccountId: string;
+  pipelineDetails: PipelineDetailsWithLanesCardsTagsTickets;
+  updateLanesOrder: (lanes: Lane[]) => Promise<void>;
+  updateTicketsOrder: (tickets: Ticket[]) => Promise<void>;
+};
 
 const PipelineView = ({
-    lanes,
-    pipelineDetails,
-    subaccountId,
-    pipelineId,
-    updateLanesOrder,
-    updateTicketsOrder 
-}: Props ) => {
-    const {setOpen} = useModal()
-    const router = useRouter
-    const [allLanes, setAllLanes] = useState<LaneDetail[]>([])
+  lanes,
+  pipelineDetails,
+  subaccountId,
+  pipelineId,
+  updateLanesOrder,
+  updateTicketsOrder,
+}: Props) => {
+  const { setOpen } = useModal();
+  const router = useRouter;
+  const [allLanes, setAllLanes] = useState<LaneDetail[]>([]);
 
-    useEffect(() => {
-        setAllLanes(lanes)
-    }, [lanes])
+  useEffect(() => {
+    setAllLanes(lanes);
+  }, [lanes]);
 
-    const handleAddlane = () => {
-        setOpen(
-        <CustomModal
-            title= 'Create a lane'
-            subheading="Lanes allow you to group tickets"
-            >
-                <CreateLaneForm pipelineId={pipelineId} />
-            </CustomModal>
-        )
-    }
+  const ticketsFromAllLanes: TicketAndTags[] = []
+  lanes.forEach((item) => {
+    item.Tickets.forEach((i)=>{
+        ticketsFromAllLanes.push(i)
+    })
+  })
+  const [allTickets, setAllTickets] = useState(ticketsFromAllLanes)
+
+
+  const handleAddlane = () => {
+    setOpen(
+      <CustomModal
+        title="Create a lane"
+        subheading="Lanes allow you to group tickets"
+      >
+        <CreateLaneForm pipelineId={pipelineId} />
+      </CustomModal>
+    );
+  };
 
   return (
     <DragDropContext onDragEnd={() => {}}>
-        <div className='bg-white/60 dark:bg-background/60 rounded-xl p-4 use-automation-zoom-in'>
-            <div className='flex items-center justify-between'>
-                <h1 className='text-2xl'>{pipelineDetails?.name}</h1>
-                <Button
-                    className='flex items-center gap-4'
-                    onClick={handleAddlane}
-                >
-                    <Plus size={15} />
-                    Create Lane
-                </Button>
-            </div>
-            <Droppable
-                droppableId='lanes'
-                type='lanes'
-                direction='horizontal'
-                key='lanes'
-            >
-                {(provided) => (
-                    <div
-                    className='flex items-center gap-x-2 overflow-scroll'
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
-                    >
-                        <div className='flex mt-4'>
-                            {allLanes.map((lane, index) => (
-                                <PipeLineLane />
-                            ))}
-                            {provided.placeholder}
-                        </div>
-                    </div>
-                ) }
-            </Droppable>
+      <div className="bg-white/60 dark:bg-background/60 rounded-xl p-4 use-automation-zoom-in">
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl">{pipelineDetails?.name}</h1>
+          <Button className="flex items-center gap-4" onClick={handleAddlane}>
+            <Plus size={15} />
+            Create Lane
+          </Button>
         </div>
+        <Droppable
+          droppableId="lanes"
+          type="lanes"
+          direction="horizontal"
+          key="lanes"
+        >
+          {(provided) => (
+            <div
+              className="flex items-center gap-x-2 overflow-scroll"
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+            >
+              <div className="flex mt-4">
+                {allLanes.map((lane, index) => (
+                  <PipelineLane
+                    allTickets={allTickets}
+                    setAllTickets={setAllTickets}
+                    subaccountId={subaccountId}
+                    pipelineId={pipelineId}
+                    tickets={lane.Tickets}
+                    laneDetails={lane}
+                    index={index}
+                    key={lane.id}
+                  />
+                ))}
+                {provided.placeholder}
+              </div>
+            </div>
+          )}
+        </Droppable>
+      </div>
     </DragDropContext>
-  )
-}
+  );
+};
 
-export default PipelineView
+export default PipelineView;
