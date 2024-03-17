@@ -1,5 +1,5 @@
 'use client'
-import { getSubAccountTeamMembers } from '@/lib/queries'
+import { getSubAccountTeamMembers, searchContacts } from '@/lib/queries'
 import { TicketFormSchema, TicketWithTags } from '@/lib/types'
 import { useModal } from '@/providers/modal-provider'
 import { Contact, Tag, User } from '@prisma/client'
@@ -29,16 +29,37 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
     defaultData.ticket?.Assigned?.id || ''
   )
 
-    useEffect(()=> {
-      if(subaccountId){
-        const fetchData = async () => {
-          const response = await getSubAccountTeamMembers(subaccountId)
-          console.log(response)
-          if(response) setAllTeamMembers(response)
-        }
-      fetchData()
+  useEffect(()=> {
+    if(subaccountId){
+      const fetchData = async () => {
+        const response = await getSubAccountTeamMembers(subaccountId)
+        console.log(response)
+        if(response) setAllTeamMembers(response)
       }
-    },[subaccountId])
+    fetchData()
+    }
+  },[subaccountId])
+
+  useEffect(()=> {
+    if(defaultData.ticket){
+      form.reset({
+        name: defaultData.ticket.name || '',
+        description: defaultData.ticket?.description || '',
+        value: String(defaultData.ticket?.value || 0)
+      })
+      if(defaultData.ticket.customerId)
+        setContact(defaultData.ticket.customerId)
+    
+      const fetchData = async () => {
+        const response = await searchContacts(
+          //@ts-ignore
+          defaultData.ticket?.Customer?.name
+        )
+        setContactList(response)
+      }  
+      fetchData()
+    }
+  },[defaultData])
 
   return (
     <div>TicketForm</div>
