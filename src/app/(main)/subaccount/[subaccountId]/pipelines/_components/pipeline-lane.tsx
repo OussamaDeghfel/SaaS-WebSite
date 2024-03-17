@@ -187,14 +187,15 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                           className="mt-2"
                         >
                           {tickets.map((ticket, index) => (
-                            <PipelineTicket
-                              allTickets={allTickets}
-                              setAllTickets={setAllTickets}
-                              subaccountId={subaccountId}
-                              ticket={ticket}
-                              key={ticket.id.toString()}
-                              index={index}
-                            />
+                            <div key={ticket.id}></div>
+                            // <PipelineTicket
+                            //   allTickets={allTickets}
+                            //   setAllTickets={setAllTickets}
+                            //   subaccountId={subaccountId}
+                            //   ticket={ticket}
+                            //   key={ticket.id.toString()}
+                            //   index={index}
+                            // />
                           ))}
                           {provided.placeholder}
                         </div>
