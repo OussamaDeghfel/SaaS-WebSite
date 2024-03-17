@@ -1,6 +1,8 @@
 'use client'
 import { TicketWithTags } from '@/lib/types'
-import React from 'react'
+import { useModal } from '@/providers/modal-provider'
+import { Contact, Tag } from '@prisma/client'
+import React, { useState } from 'react'
 
 type Props = {
   laneId: string
@@ -8,7 +10,16 @@ type Props = {
   getNewTicket: (ticket: TicketWithTags[0]) => void
 }
 
-const TicketForm = (props: Props) => {
+const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
+  const {data: defaultData} = useModal()
+  const [tags, setTags] = useState<Tag[]>()
+  const [contact, setContact] = useState("")
+  const [search, setSearch] = useState("")
+  const [contactList, setContactList] = useState<Contact[]>([])
+  const [assignedTo, setAssignedTo] = useState(
+    defaultData.ticket?.Assigned?.id || ''
+  )
+
   return (
     <div>TicketForm</div>
   )
