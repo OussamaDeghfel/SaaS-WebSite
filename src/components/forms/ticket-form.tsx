@@ -10,6 +10,11 @@ import { useForm } from 'react-hook-form'
 import { setTimeout } from 'timers'
 import { z } from 'zod'
 import { toast } from '../ui/use-toast'
+import { Card } from '@tremor/react'
+import { CardContent, CardHeader, CardTitle } from '../ui/card'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import { Input } from '../ui/input'
+import { Textarea } from '../ui/textarea'
 
 type Props = {
   laneId: string
@@ -83,6 +88,7 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
           assignedUserId: assignedTo,
           ...(contact ? { customerId: contact } : {}),
         },
+        //@ts-ignore
         tags
       )
 
@@ -109,7 +115,72 @@ const TicketForm = ({getNewTicket, subaccountId, laneId}: Props) => {
   }
 
   return (
-    <div>TicketForm</div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Ticket Form</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='flex flex-col gap-4'
+          >
+            <FormField 
+              disabled={isLoading}
+              control={form.control}
+              name='name'
+              render={({field}) => (
+                <FormItem>
+                  <FormLabel>Ticket Name</FormLabel>
+                  <FormControl>
+                    <Input 
+                      placeholder='Name'
+                      {...field}
+                      />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              disabled={isLoading}
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Description"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              disabled={isLoading}
+              control={form.control}
+              name="value"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ticket Value</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Value"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <h3>Add Tag</h3>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   )
 }
 
