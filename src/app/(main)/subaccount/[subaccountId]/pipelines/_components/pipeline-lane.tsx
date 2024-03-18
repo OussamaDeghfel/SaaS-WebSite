@@ -28,11 +28,11 @@ import { useModal } from '@/providers/modal-provider'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import { Edit, MoreVertical, PlusCircleIcon, Trash } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import React, { Dispatch, SetStateAction, useMemo } from 'react' 
+import React, { Dispatch, SetStateAction, useMemo } from 'react'
 // import PipelineTicket from './pipeline-ticket'
 import CustomModal from '@/components/global/custom-modal'
 import TicketForm from '@/components/forms/ticket-form'
-
+//import PipelineTicket from './pipeline-ticket'
 
 //WIP Wire up tickets
 interface PipelaneLaneProps {
@@ -127,6 +127,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
     >
       {(provided, snapshot) => {
         if (snapshot.isDragging) {
+          console.log("Dragged")
           //@ts-ignore
           const offset = { x: 300, y: 0 }
           //@ts-ignore
@@ -189,14 +190,6 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                         >
                           {tickets.map((ticket, index) => (
                             <div key={ticket.id}></div>
-                            // <PipelineTicket
-                            //   allTickets={allTickets}
-                            //   setAllTickets={setAllTickets}
-                            //   subaccountId={subaccountId}
-                            //   ticket={ticket}
-                            //   key={ticket.id.toString()}
-                            //   index={index}
-                            // />
                           ))}
                           {provided.placeholder}
                         </div>
