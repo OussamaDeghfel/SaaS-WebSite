@@ -15,6 +15,7 @@ import { title } from "process";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
 import PipelineLane from "./pipeline-lane";
+import LaneForm from "@/components/forms/lane-form";
 
 type Props = {
   lanes: LaneDetail[];
@@ -43,20 +44,20 @@ const PipelineView = ({
 
   const ticketsFromAllLanes: TicketAndTags[] = []
   lanes.forEach((item) => {
-    item.Tickets.forEach((i)=>{
-        ticketsFromAllLanes.push(i)
+    item.Tickets.forEach((i) => {
+      ticketsFromAllLanes.push(i)
     })
   })
   const [allTickets, setAllTickets] = useState(ticketsFromAllLanes)
 
 
-  const handleAddlane = () => {
+  const handleAddLane = () => {
     setOpen(
       <CustomModal
         title="Create a lane"
         subheading="Lanes allow you to group tickets"
       >
-        <CreateLaneForm pipelineId={pipelineId} />
+        <LaneForm pipelineId={pipelineId} />
       </CustomModal>
     );
   };
@@ -66,7 +67,7 @@ const PipelineView = ({
       <div className="bg-white/60 dark:bg-background/60 rounded-xl p-4 use-automation-zoom-in">
         <div className="flex items-center justify-between">
           <h1 className="text-2xl">{pipelineDetails?.name}</h1>
-          <Button className="flex items-center gap-4" onClick={handleAddlane}>
+          <Button className="flex items-center gap-4" onClick={handleAddLane}>
             <Plus size={15} />
             Create Lane
           </Button>
@@ -102,11 +103,11 @@ const PipelineView = ({
           )}
         </Droppable>
         {allLanes.length == 0 && 
-        <div className="flex items-center justify-center flex-col w-full">
+        (<div className="flex items-center justify-center flex-col w-full">
             <div className="opacity-100">
                 <Flag width='100%' height='100%' className="text-muted-foreground" />
             </div>
-        </div>
+        </div>)
         }
       </div>
     </DragDropContext>
