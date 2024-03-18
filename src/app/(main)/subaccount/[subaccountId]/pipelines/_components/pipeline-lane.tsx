@@ -32,8 +32,9 @@ import React, { Dispatch, SetStateAction, useMemo } from 'react'
 // import PipelineTicket from './pipeline-ticket'
 import CustomModal from '@/components/global/custom-modal'
 import TicketForm from '@/components/forms/ticket-form'
-//import PipelineTicket from './pipeline-ticket'
 
+
+//WIP Wire up tickets
 interface PipelaneLaneProps {
   setAllTickets: Dispatch<SetStateAction<TicketWithTags>>
   allTickets: TicketWithTags
@@ -180,7 +181,7 @@ const PipelineLane: React.FC<PipelaneLaneProps> = ({
                     type="ticket"
                   >
                     {(provided) => (
-                      <div className=" max-h-[700px] overflow-scroll pt-12 ">
+                      <div className=" max-h-[700px] pt-12 ">
                         <div
                           {...provided.droppableProps}
                           ref={provided.innerRef}
