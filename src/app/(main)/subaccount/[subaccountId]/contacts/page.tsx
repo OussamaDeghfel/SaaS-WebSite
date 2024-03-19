@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { db } from '@/lib/db'
 import { Contact, SubAccount, Ticket } from '@prisma/client'
-import { format } from 'date-fns'
+import format  from 'date-fns/format'
 import React from 'react'
 
 type Props = {
