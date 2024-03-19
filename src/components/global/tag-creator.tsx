@@ -2,13 +2,13 @@
 import { Tag } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { AlertDialog } from "../ui/alert-dialog";
-import { Command, CommandInput } from "../ui/command";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../ui/alert-dialog";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from "../ui/command";
 import TagComponent from "./tag";
-import { PlusCircleIcon, X } from "lucide-react";
+import { PlusCircleIcon, TrashIcon, X } from "lucide-react";
 import { toast } from "../ui/use-toast";
 import { v4 } from "uuid";
-import { saveActivityLogsNotification, upsertTag } from "@/lib/queries";
+import { deleteTag, getTagsForSubaccount, saveActivityLogsNotification, upsertTag } from "@/lib/queries";
 
 type Props = {
   subAccountId: string;
@@ -29,6 +29,16 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
   useEffect(() => {
     getSelectedTags(selectedTags);
   }, [selectedTags]);
+
+  useEffect(() => {
+    if (subAccountId) {
+      const fetchData = async () => {
+        const response = await getTagsForSubaccount(subAccountId)
+        if (response) setTags(response.Tags)
+      }
+      fetchData()
+    }
+  }, [subAccountId])
 
   const handleDeleteSelection = (tagId: string) => {
     setSelectedTags(selectedTags.filter((tag)=> tag.id !== tagId))
@@ -79,6 +89,34 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
       })
     }
   }
+  const handleAddSelections = (tag: Tag) => {
+    if (selectedTags.every((t) => t.id !== tag.id)) {
+      setSelectedTags([...selectedTags, tag])
+    }
+  }
+  const handleDeleteTag = async (tagId: string) => {
+    setTags(tags.filter((tag) => tag.id !== tagId))
+    try {
+      const response = await deleteTag(tagId)
+      toast({
+        title: 'Deleted tag',
+        description: 'The tag is deleted from your subaccount.',
+      })
+
+      await saveActivityLogsNotification({
+        agencyId: undefined,
+        description: `Deleted a tag | ${response?.name}`,
+        subaccountId: subAccountId,
+      })
+
+      router.refresh()
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Could not delete tag',
+      })
+    }
+  }
 
   return(
   <AlertDialog>
@@ -125,6 +163,52 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
                 className="absolute top-1/2 transform -translate-y-1/2 right-2 hover:text-primary transition-all cursor-pointer text-muted-foreground"
             />
         </div>
+        <CommandList>
+          <CommandSeparator />
+          <CommandGroup heading="Tags">
+            {tags.map((tag) => (
+              <CommandItem
+                key={tag.id}
+                className="hover:!bg-secondary !bg-transparent flex items-center justify-between !font-light cursor-pointer"
+              >
+                <div onClick={() => handleAddSelections(tag)}>
+                  <TagComponent
+                    title={tag.name}
+                    colorName={tag.color}
+                  />
+                </div>
+
+                <AlertDialogTrigger>
+                  <TrashIcon
+                    size={16}
+                    className="cursor-pointer text-muted-foreground hover:text-rose-400  transition-all"
+                  />
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-left">
+                      Are you absolutely sure?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-left">
+                      This action cannot be undone. This will permanently delete
+                      your the tag and remove it from our servers.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="items-center">
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-destructive"
+                      onClick={() => handleDeleteTag(tag.id)}
+                    >
+                      Delete Tag
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </CommandItem>
+            ))}
+          </CommandGroup>
+          <CommandEmpty>No results found.</CommandEmpty>
+        </CommandList>
     </Command>
   </AlertDialog>
   )
