@@ -34,9 +34,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ChevronsUpDownIcon, User2 } from "lucide-react";
-import { Popover, PopoverTrigger } from "../ui/popover";
+import { CheckIcon, ChevronsUpDownIcon, User2 } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
+import { cn } from "@/lib/utils";
 
 type Props = {
   laneId: string;
@@ -51,7 +53,7 @@ const TicketForm = ({ getNewTicket, subaccountId, laneId }: Props) => {
   const [contact, setContact] = useState("");
   const [search, setSearch] = useState("");
   const [contactList, setContactList] = useState<Contact[]>([]);
-  const saveTimeRef = useRef<ReturnType<typeof setTimeout>>();
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const [allTeamMembers, setAllTeamMembers] = useState<User[]>([]);
   const [assignedTo, setAssignedTo] = useState(
     defaultData.ticket?.Assigned?.id || ""
@@ -243,6 +245,51 @@ const TicketForm = ({ getNewTicket, subaccountId, laneId }: Props) => {
                   <ChevronsUpDownIcon className="ml-2 h-2 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
+              <PopoverContent className="w-[400px] p-0">
+                <Command>
+                  <CommandInput
+                    placeholder="Search..."
+                    className="h-9"
+                    value={search}
+                    onChangeCapture={async (value) => {
+                      //@ts-ignore
+                      setSearch(value.target.value)
+                      if (saveTimerRef.current)
+                        clearTimeout(saveTimerRef.current)
+                      saveTimerRef.current = setTimeout(async () => {
+                        const response = await searchContacts(
+                          //@ts-ignore
+                          value.target.value
+                        )
+                        setContactList(response)
+                        setSearch('')
+                      }, 1000)
+                    }}
+                  />
+                  <CommandEmpty>No Customer found.</CommandEmpty>
+                  <CommandGroup>
+                    {contactList.map((c) => (
+                      <CommandItem
+                        key={c.id}
+                        value={c.id}
+                        onSelect={(currentValue) => {
+                          setContact(
+                            currentValue === contact ? '' : currentValue
+                          )
+                        }}
+                      >
+                        {c.name}
+                        <CheckIcon
+                          className={cn(
+                            'ml-auto h-4 w-4',
+                            contact === c.id ? 'opacity-100' : 'opacity-0'
+                          )}
+                        />
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
             </Popover>
           </form>
         </Form>
