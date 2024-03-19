@@ -39,6 +39,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button } from "../ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
 import { cn } from "@/lib/utils";
+import Loading from "../global/loading";
 
 type Props = {
   laneId: string;
@@ -291,6 +292,13 @@ const TicketForm = ({ getNewTicket, subaccountId, laneId }: Props) => {
                 </Command>
               </PopoverContent>
             </Popover>
+            <Button 
+              className="w-20 mt-4"
+              disabled={isLoading}
+              type="submit"
+            >
+              {form.formState.isSubmitting ? <Loading /> : "Save"} 
+            </Button>
           </form>
         </Form>
       </CardContent>
