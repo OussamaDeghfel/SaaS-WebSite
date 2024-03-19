@@ -1,11 +1,17 @@
+import { currentUser } from '@clerk/nextjs'
 import React from 'react'
 
-type Props = {}
+type Props = {
+  params: {subaccountId: string}
+}
 
-const SettingsPage = (props: Props) => {
+const SubaccountSettingpage = async ({params}: Props) => {
+  const authUser = await currentUser()
+  if(!authUser) return 
+  
   return (
-    <div>SettingsPage</div>
+    <div>SubaccountSettingpage</div>
   )
 }
 
-export default SettingsPage
+export default SubaccountSettingpage
