@@ -9,7 +9,7 @@ type Props = {
   subaccountId: string
 }
 
-const CraeteContactButton = ({ subaccountId }: Props) => {
+const CreateContactButton = ({ subaccountId }: Props) => {
   const { setOpen } = useModal()
 
   const handleCreateContact = async () => {
@@ -26,4 +26,4 @@ const CraeteContactButton = ({ subaccountId }: Props) => {
   return <Button onClick={handleCreateContact}>Create Contact</Button>
 }
 
-export default CraeteContactButton
+export default CreateContactButton
