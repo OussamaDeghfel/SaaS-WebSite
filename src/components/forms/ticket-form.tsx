@@ -40,6 +40,7 @@ import { Button } from "../ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../ui/command";
 import { cn } from "@/lib/utils";
 import Loading from "../global/loading";
+import TagCreator from "../global/tag-creator";
 
 type Props = {
   laneId: string;
@@ -193,6 +194,11 @@ const TicketForm = ({ getNewTicket, subaccountId, laneId }: Props) => {
               )}
             />
             <h3>Add Tag</h3>
+            <TagCreator 
+              subAccountId={subaccountId}
+              getSelectedTags={setTags}
+              defaultTags={defaultData.ticket?.Tags || []}
+             />
             <FormLabel>Assigned To Team Member</FormLabel>
             <Select onValueChange={setAssignedTo} defaultValue={assignedTo}>
               <SelectTrigger>
