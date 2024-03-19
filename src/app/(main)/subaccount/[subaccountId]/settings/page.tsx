@@ -23,7 +23,13 @@ const SubaccountSettingpage = async ({ params }: Props) => {
   })
   if(!subAccount) return 
 
-  
+  const agencyDetails = await db.agency.findUnique({
+    where: {id: subAccount.agencyId},
+    include: {SubAccount: true}
+  })
+  if(!agencyDetails) return 
+
+
 
   return <div>SubaccountSettingpage</div>;
 };
