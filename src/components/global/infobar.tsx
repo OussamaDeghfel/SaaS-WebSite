@@ -51,7 +51,7 @@ function InfoBar({notifications, role, className, subAccountId}: Props) {
                             <Bell size={16} />
                         </div>
                     </SheetTrigger>
-                    <SheetContent className='mt-4 mr-4 pr-4 flex flex-col'>
+                    <SheetContent className='mt-4 mr-4 pr-4'>
                     <SheetHeader className="text-left">
                         <SheetTitle>Notifications</SheetTitle>
                         <SheetDescription>
