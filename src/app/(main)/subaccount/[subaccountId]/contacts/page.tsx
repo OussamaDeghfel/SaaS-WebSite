@@ -1,3 +1,4 @@
+import BlurPage from '@/components/global/blur-page'
 import { db } from '@/lib/db'
 import { Contact, SubAccount, Ticket } from '@prisma/client'
 import React from 'react'
@@ -47,9 +48,11 @@ const ContactPage = async ({params}: Props) => {
 
     return amt.format(laneAmt)
   }
-  
+
   return (
-    <div>ContactPage</div>
+    <BlurPage>
+      <h1 className="text-4xl p-4">Contacts</h1>
+    </BlurPage>
   )
 }
 
