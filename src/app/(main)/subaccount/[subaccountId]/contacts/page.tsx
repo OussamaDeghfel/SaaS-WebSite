@@ -30,6 +30,24 @@ const ContactPage = async ({params}: Props) => {
       },
     },
   })) as SubAccountWithContacts
+
+  const allContacts = contacts.Contact
+
+  const formatTotal = (tickets: Ticket[]) => {
+    if (!tickets || !tickets.length) return '$0.00'
+    const amt = new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency: 'USD',
+    })
+
+    const laneAmt = tickets.reduce(
+      (sum, ticket) => sum + (Number(ticket?.value) || 0),
+      0
+    )
+
+    return amt.format(laneAmt)
+  }
+  
   return (
     <div>ContactPage</div>
   )
