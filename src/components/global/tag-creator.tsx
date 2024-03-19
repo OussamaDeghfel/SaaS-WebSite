@@ -3,9 +3,12 @@ import { Tag } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AlertDialog } from "../ui/alert-dialog";
-import { Command } from "../ui/command";
+import { Command, CommandInput } from "../ui/command";
 import TagComponent from "./tag";
-import { X } from "lucide-react";
+import { PlusCircleIcon, X } from "lucide-react";
+import { toast } from "../ui/use-toast";
+import { v4 } from "uuid";
+import { saveActivityLogsNotification, upsertTag } from "@/lib/queries";
 
 type Props = {
   subAccountId: string;
@@ -29,6 +32,52 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
 
   const handleDeleteSelection = (tagId: string) => {
     setSelectedTags(selectedTags.filter((tag)=> tag.id !== tagId))
+  }
+
+  const handleAddTag = async () => {
+    if (!value) {
+      toast({
+        variant: 'destructive',
+        title: 'Tags need to have a name',
+      })
+      return
+    }
+    if (!selectedColor) {
+      toast({
+        variant: 'destructive',
+        title: 'Please Select a color',
+      })
+      return
+    }
+    const tagData: Tag = {
+      color: selectedColor,
+      createdAt: new Date(),
+      id: v4(),
+      name: value,
+      subAccountId,
+      updatedAt: new Date(),
+    }
+
+    setTags([...tags, tagData])
+    setValue('')
+    setSelectedColor('')
+    try {
+      const response = await upsertTag(subAccountId, tagData)
+      toast({
+        title: 'Created the tag',
+      })
+
+      await saveActivityLogsNotification({
+        agencyId: undefined,
+        description: `Updated a tag | ${response?.name}`,
+        subaccountId: subAccountId,
+      })
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title: 'Could not create tag',
+      })
+    }
   }
 
   return(
@@ -63,6 +112,18 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
               colorName={colorName}
             />
           ))}
+        </div>
+        <div className="relative">
+            <CommandInput 
+                placeholder="Search for tag ..."
+                value={value}
+                onValueChange={setValue}
+            />
+            <PlusCircleIcon 
+                onClick={handleAddTag}
+                size={20}
+                className="absolute top-1/2 transform -translate-y-1/2 right-2 hover:text-primary transition-all cursor-pointer text-muted-foreground"
+            />
         </div>
     </Command>
   </AlertDialog>
