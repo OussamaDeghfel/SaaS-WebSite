@@ -14,6 +14,16 @@ const SubaccountSettingpage = async ({ params }: Props) => {
       email: authUser.emailAddresses[0].emailAddress,
     },
   });
+  if(!useDetails) return 
+
+  const subAccount = await db.subAccount.findUnique({
+    where : {
+      id: params.subaccountId
+    }
+  })
+  if(!subAccount) return 
+
+  
 
   return <div>SubaccountSettingpage</div>;
 };
