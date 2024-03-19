@@ -28,6 +28,7 @@ const SubaccountSettingpage = async ({ params }: Props) => {
     include: {SubAccount: true}
   })
   if(!agencyDetails) return 
+  const subAccounts = agencyDetails.SubAccount
 
 
 
