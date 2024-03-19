@@ -54,6 +54,16 @@ const TagCreator = ({ subAccountId, getSelectedTags, defaultTags }: Props) => {
             ))}
           </div>
         )}
+        <div className="flex items-center gap-2 my-2">
+            {TagColors.map((colorName) => (
+                <TagComponent
+                    key={colorName}
+                    selectedColor={setSelectedColor}
+                    title=''
+                    colorName="colorName"
+                />
+            ))}
+        </div>
     </Command>
   </AlertDialog>
   )
