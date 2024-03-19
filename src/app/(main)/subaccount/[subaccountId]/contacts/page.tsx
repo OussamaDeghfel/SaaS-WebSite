@@ -57,7 +57,7 @@ const ContactPage = async ({params}: Props) => {
   return (
     <BlurPage>
       <h1 className="text-4xl p-4">Contacts</h1>
-      <CreateContactButton />
+      <CreateContactButton subaccountId={params.subaccountId} />
       <Table>
       <TableHeader>
           <TableRow>
