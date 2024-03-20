@@ -1,4 +1,5 @@
 "use client";
+import CustomModal from "@/components/global/custom-modal";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -44,6 +45,17 @@ const PricingCard = ({
   const searchParams = useSearchParams();
   const plan = searchParams.get("plan");
 
+  const handleManagePlan = () => {
+    setOpen(
+        <CustomModal 
+            title={"Manage Your plan"}
+            subheading="You can change your plan at any time from the billings settings"
+        >
+
+        </CustomModal>
+    )
+  }
+
   return (
     <Card className="flex flex-col justify-between lg:w-1/2">
       <div>
@@ -83,7 +95,7 @@ const PricingCard = ({
 
             <Button
               className="md:w-fit w-full"
-              //onClick={handleManagePlan}
+              onClick={handleManagePlan}
             >
               {buttonCta}
             </Button>
