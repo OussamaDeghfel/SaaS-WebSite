@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
 import { Elements } from '@stripe/react-stripe-js'
 import { getStripe } from "@/lib/stripe/stripe-client";
+import Loading from "@/components/global/loading";
 
 type Props = {
   customerId: string;
@@ -111,6 +112,12 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
               <SubscriptionForm selectedPriceId={selectedPriceId} />
             </Elements>
           </>
+        )}
+
+        {!options.clientSecret && selectedPriceId && (
+          <div className="flex items-center justify-center w-full h-40">
+            <Loading />
+          </div>
         )}
       </div>
     </div>
