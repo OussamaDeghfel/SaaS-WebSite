@@ -112,8 +112,9 @@ const AgencyDetails = ({ data }: Props) => {
       }
 
       newUserData = await initUser({ role: 'AGENCY_OWNER' })
-      if (!data?.customerId && !custId) {
-      await upsertAgency({
+      if (!data?.customerId && !custId) return 
+      
+      const response = await upsertAgency({
         id: data?.id ? data.id : v4(),
         customerId: data?.customerId || custId || '',
         address: values.address,
@@ -134,10 +135,13 @@ const AgencyDetails = ({ data }: Props) => {
       toast({
         title: 'Created Agency',
       })
-      
+      if(!data?.id) return router.refresh()
+      if(response) {
+        return router.refresh()
+      }
       return router.refresh()
         
-    }
+    
       console.log("after router refresh");
     } catch (error) {
       console.log(error)
