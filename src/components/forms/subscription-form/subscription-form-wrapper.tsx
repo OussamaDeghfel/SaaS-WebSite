@@ -9,6 +9,8 @@ import clsx from "clsx";
 import { headers } from "next/headers";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
+import { Elements } from '@stripe/react-stripe-js'
+import { getStripe } from "@/lib/stripe/stripe-client";
 
 type Props = {
   customerId: string;
@@ -83,17 +85,33 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
               <CardTitle>
                 ${price.unit_amount ? price.unit_amount / 100 : "0"}
                 <p className="text-sm text-muted-foreground">
-                    {price.nickname}
+                  {price.nickname}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                    {
-                        pricingCards.find((p)=> p.priceId === price.id)?.description
-                    }
+                  {
+                    pricingCards.find((p) => p.priceId === price.id)
+                      ?.description
+                  }
                 </p>
               </CardTitle>
             </CardHeader>
+            {selectedPriceId === price.id && (
+              <div className="w-2 h-2 bg-emerald-500 rounded-full absolute top-4 right-4" />
+            )}
           </Card>
         ))}
+
+        {options.clientSecret && !planExists && (
+          <>
+            <h1 className="text-xl">Payment Method</h1>
+            <Elements 
+                stripe={getStripe()}
+                options={options}
+            >
+              <SubscriptionForm selectedPriceId={selectedPriceId} />
+            </Elements>
+          </>
+        )}
       </div>
     </div>
   );
