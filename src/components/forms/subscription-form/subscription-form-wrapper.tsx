@@ -1,6 +1,7 @@
 "use client";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
+import { pricingCards } from "@/lib/constants";
 import { useModal } from "@/providers/modal-provider";
 import { Plan } from "@prisma/client";
 import { StripeElementsOptions } from "@stripe/stripe-js";
@@ -11,7 +12,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 type Props = {
   customerId: string;
-  planExists: string;
+  planExists: boolean;
 };
 
 const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
@@ -72,14 +73,26 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
     <div className="border-none transition-all">
       <div className="flex flex-col gap-4">
         {data.plans?.plans.map((price) => (
-            <Card 
-                key={price.id}
-                className={clsx('relative cursor-pointer transition-all', {
-                    'border-primary': selectedPriceId === price.id,
-                  })}    
-                >
-                    
-            </Card>
+          <Card
+            key={price.id}
+            className={clsx("relative cursor-pointer transition-all", {
+              "border-primary": selectedPriceId === price.id,
+            })}
+          >
+            <CardHeader>
+              <CardTitle>
+                ${price.unit_amount ? price.unit_amount / 100 : "0"}
+                <p className="text-sm text-muted-foreground">
+                    {price.nickname}
+                </p>
+                <p className="text-sm text-muted-foreground">
+                    {
+                        pricingCards.find((p)=> p.priceId === price.id)?.description
+                    }
+                </p>
+              </CardTitle>
+            </CardHeader>
+          </Card>
         ))}
       </div>
     </div>
