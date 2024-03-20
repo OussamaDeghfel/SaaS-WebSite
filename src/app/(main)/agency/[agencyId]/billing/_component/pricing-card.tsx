@@ -1,5 +1,11 @@
 "use client";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { PricesList } from "@/lib/types";
 import { useModal } from "@/providers/modal-provider";
 import { useSearchParams } from "next/navigation";
@@ -32,20 +38,38 @@ const PricingCard = ({
   prices,
   title,
 }: Props) => {
-    const {setOpen} = useModal()
-    const searchParams = useSearchParams()
-    const plan = searchParams.get('plan')
+  const { setOpen } = useModal();
+  const searchParams = useSearchParams();
+  const plan = searchParams.get("plan");
 
   return (
     <Card className="flex flex-col justify-between lg:w-1/2">
-        <div>
-            <CardHeader className="flex flex-col md:!flex-row justify-between">
-                <div>
-                    <CardTitle>{title}</CardTitle>
-                    <CardDescription>{description}</CardDescription>
-                </div>
-            </CardHeader>
-        </div>
+      <div>
+        <CardHeader className="flex flex-col md:!flex-row justify-between">
+          <div>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+          <p className="text-5xl font-bold">
+            {amt}
+            <small className="text-xs font-light text-muted-foreground">
+              {duration}
+            </small>
+          </p>
+        </CardHeader>
+        <CardContent>
+          <ul>
+            {features.map((feature) => (
+              <li
+                key={feature}
+                className="list-disc ml-4 text-muted-foreground"
+              >
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </div>
     </Card>
   );
 };
