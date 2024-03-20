@@ -52,7 +52,10 @@ const PricingCard = ({
             title={"Manage Your plan"}
             subheading="You can change your plan at any time from the billings settings"
         >
-            <SubscriptionFormWrapper />
+            <SubscriptionFormWrapper 
+                customerId={customerId}
+                planExists={planExists}
+            />
         </CustomModal>
     )
   }
