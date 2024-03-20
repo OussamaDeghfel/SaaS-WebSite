@@ -32,6 +32,23 @@ const Billing = async ({params}: Props) => {
     (c) => c.priceId === agencySubscription?.Subscription?.priceId
   )
 
+  const charges = await stripe.charges.list({
+    limit: 50,
+    customer: agencySubscription?.customerId,
+  })
+
+  const allCharges = [
+    ...charges.data.map((charge) => ({
+      description: charge.description,
+      id: charge.id,
+      date: `${new Date(charge.created * 1000).toLocaleTimeString()} ${new Date(
+        charge.created * 1000
+      ).toLocaleDateString()}`,
+      status: 'Paid',
+      amount: `$${charge.amount / 100}`,
+    })),
+  ]
+
   return (
     <div>Billing</div>
   )
