@@ -1,4 +1,4 @@
-import { addOnProducts } from '@/lib/constants'
+import { addOnProducts, pricingCards } from '@/lib/constants'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
 import React from 'react'
@@ -27,6 +27,10 @@ const Billing = async ({params}: Props) => {
     product: process.env.NEXT_PLURA_PRODUCT_ID,
     active: true
   })
+
+  const currentPlanDetails = pricingCards.find(
+    (c) => c.priceId === agencySubscription?.Subscription?.priceId
+  )
 
   return (
     <div>Billing</div>
