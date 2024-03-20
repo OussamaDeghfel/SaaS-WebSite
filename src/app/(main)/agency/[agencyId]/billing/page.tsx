@@ -55,6 +55,7 @@ const Billing = async ({ params }: Props) => {
       <h1 className="text-4xl p-4">Billing</h1>
       <Separator className="mb-6" />
       <h2 className="text-2xl p-2">Current Plan</h2>
+      <div className="flex flex-col lg:!flex-row justify-between gap-8"></div>
     </>
   );
 };
