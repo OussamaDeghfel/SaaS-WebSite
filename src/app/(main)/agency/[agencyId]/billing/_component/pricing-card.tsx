@@ -1,4 +1,5 @@
 "use client";
+import SubscriptionFormWrapper from "@/components/forms/subscription-form/subscription-form-wrapper";
 import CustomModal from "@/components/global/custom-modal";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,7 +52,7 @@ const PricingCard = ({
             title={"Manage Your plan"}
             subheading="You can change your plan at any time from the billings settings"
         >
-
+            <SubscriptionFormWrapper />
         </CustomModal>
     )
   }
