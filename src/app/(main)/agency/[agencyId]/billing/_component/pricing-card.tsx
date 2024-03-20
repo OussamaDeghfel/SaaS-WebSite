@@ -1,8 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -69,6 +71,25 @@ const PricingCard = ({
             ))}
           </ul>
         </CardContent>
+        <CardFooter>
+        <Card className="w-full">
+          <div className="flex flex-col md:!flex-row items-center justify-between rounded-lg border gap-4 p-4">
+            <div>
+              <p>{highlightTitle}</p>
+              <p className="text-sm text-muted-foreground">
+                {highlightDescription}
+              </p>
+            </div>
+
+            <Button
+              className="md:w-fit w-full"
+              //onClick={handleManagePlan}
+            >
+              {buttonCta}
+            </Button>
+          </div>
+        </Card>
+      </CardFooter>
       </div>
     </Card>
   );
