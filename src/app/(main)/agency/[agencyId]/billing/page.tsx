@@ -23,7 +23,10 @@ const Billing = async ({params}: Props) => {
     }
   })
 
-  
+  const prices = await stripe.prices.list({
+    product: process.env.NEXT_PLURA_PRODUCT_ID,
+    active: true
+  })
 
   return (
     <div>Billing</div>
