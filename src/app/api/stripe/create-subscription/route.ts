@@ -8,5 +8,22 @@ export async function POST(req: Request){
      return new NextResponse('CustomerId or priceID is missing ', {
         status: 400,
     })
+    const subscriptionExists = await db.agency.findFirst({
+        where : {customerId},
+        include : {Subscription: true}
+    })
+
+    try {
+        if(
+            subscriptionExists?.Subscription?.subscritiptionId &&
+            subscriptionExists.Subscription.active
+        ) {
+            if(!subscriptionExists.Subscription.subscritiptionId){
+                throw new Error("Could not find the subscription Id to update the subscription")
+            }
+        }
+    } catch (error) {
+        
+    }
 }
 
