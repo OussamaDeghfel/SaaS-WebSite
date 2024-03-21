@@ -12,11 +12,31 @@ type Props = {
 
 const SubscriptionForm = ({selectedPriceId}: Props) => {
   const toast = useToast()
-  const element = useElements()
+  const elements = useElements()
   const stripeHook = useStripe()
   const [priceError, setPriceError] = useState('')
 
-  
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    if(!selectedPriceId){
+      setPriceError("You Need to select a plan to subscribe")
+      return
+    }
+
+    setPriceError('')
+    event.preventDefault()
+    if(!stripeHook || !elements) return
+
+    try {
+      const { error } = await stripeHook.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${process.env.NEXT_PUBLIC_URL}/agency`
+        }
+      })
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit}>
