@@ -1,8 +1,13 @@
+"use client"
+
+import { Plan } from '@prisma/client'
 import React from 'react'
 
-type Props = {}
+type Props = {
+  selectedPriceId: string | Plan 
+}
 
-const SubscriptionForm = (props: Props) => {
+const SubscriptionForm = ({selectedPriceId}: Props) => {
   return (
     <div>SubscriptionForm</div>
   )
