@@ -69,7 +69,7 @@ const PricingCard = ({
   return (
     <Card className="flex flex-col justify-between lg:w-1/2">
       <div>
-        <CardHeader className="flex flex-col md:!flex-row justify-between">
+        <CardHeader className="flex flex-col md:!flex-wrap justify-between">
           <div>
             <CardTitle>{title}</CardTitle>
             <CardDescription>{description}</CardDescription>
