@@ -78,6 +78,7 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
       <div className="flex flex-col gap-4">
         {data.plans?.plans.map((price) => (
           <Card
+            onClick={() => setSelectedPriceId(price.id as Plan)}
             key={price.id}
             className={clsx("relative cursor-pointer transition-all", {
               "border-primary": selectedPriceId === price.id,
