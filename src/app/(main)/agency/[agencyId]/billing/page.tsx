@@ -94,7 +94,30 @@ const Billing = async ({ params }: Props) => {
               : 'Starter'
           }
         />
+        {addOns.data.map((addOn) => (
+          <PricingCard
+            planExists={agencySubscription?.Subscription?.active === true}
+            prices={prices.data}
+            customerId={agencySubscription?.customerId || ''}
+            key={addOn.id}
+            amt={
+              //@ts-ignore
+              addOn.default_price?.unit_amount
+                ? //@ts-ignore
+                  `$${addOn.default_price.unit_amount / 100}`
+                : '$0'
+            }
+            buttonCta="Subscribe"
+            description="Dedicated support line & teams channel for support"
+            duration="/ month"
+            features={[]}
+            title={'24/7 priority support'}
+            highlightTitle="Get support now!"
+            highlightDescription="Get priority support and skip the long long with the click of a button."
+          />
+        ))}
       </div>
+
     </>
   );
 };
