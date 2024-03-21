@@ -11,7 +11,7 @@ type Props = {
 }
 
 const SubscriptionForm = ({selectedPriceId}: Props) => {
-  const toast = useToast()
+  const {toast} = useToast()
   const elements = useElements()
   const stripeHook = useStripe()
   const [priceError, setPriceError] = useState('')
@@ -33,8 +33,21 @@ const SubscriptionForm = ({selectedPriceId}: Props) => {
           return_url: `${process.env.NEXT_PUBLIC_URL}/agency`
         }
       })
+      if(error){
+        throw new Error()
+      }
+      toast({
+        title: 'Payment successfull',
+        description: 'Your payment has been successfully processed. ',
+      })
     } catch (error) {
-      
+      console.log(error)
+      toast({
+        variant: 'destructive',
+        title: 'Payment failed',
+        description:
+          'We couldnt process your payment. Please try a different card',
+      })
     }
   }
 
