@@ -9,7 +9,7 @@ import clsx from "clsx";
 import { headers } from "next/headers";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useMemo, useState } from "react";
-import { Elements } from '@stripe/react-stripe-js'
+import { Elements } from "@stripe/react-stripe-js";
 import { getStripe } from "@/lib/stripe/stripe-client";
 import Loading from "@/components/global/loading";
 import SubscriptionForm from ".";
@@ -106,10 +106,7 @@ const SubscriptionFormWrapper = ({ customerId, planExists }: Props) => {
         {options.clientSecret && !planExists && (
           <>
             <h1 className="text-xl">Payment Method</h1>
-            <Elements 
-                stripe={getStripe()}
-                options={options}
-            >
+            <Elements stripe={getStripe()} options={options}>
               <SubscriptionForm selectedPriceId={selectedPriceId} />
             </Elements>
           </>
