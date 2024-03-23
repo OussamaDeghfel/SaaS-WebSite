@@ -10,7 +10,7 @@ import {
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { getStripeOAuthLink } from "@/lib/utils";
-import { CheckCircleIcon } from "lucide-react";
+import { CheckCircle, CheckCircleIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -106,6 +106,18 @@ const LaunchPadSubaccountPage = async ({ searchParams, params }: Props) => {
                     used to run payouts.
                   </p>
                 </div>
+                {subaccountDetails.connectAccountId || 
+                connectedStripeAccount ? (
+                  <CheckCircleIcon
+                    size={50}
+                    className="text-primary flex-shrink-0" />
+                ) : (
+                  <Link
+                    href={stripeOAuthLink}
+                    className="bg-primary py-2 px-4 rounded-md text-white">
+                    start
+                  </Link>
+                )}
               </div>
               <div className="flex justify-between items-center w-full h-20 border p-4 rounded-lg">
                 <div className="flex items-center gap-4">
