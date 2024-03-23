@@ -44,7 +44,7 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
 
   const stripeOAuthLink = getStripeOAuthLink(
     "agency",
-    `lunchpad___${agencyDetails.id}`
+    `launchpad___${agencyDetails.id}`
   );
 
   let connectedStripeAccount = false;
