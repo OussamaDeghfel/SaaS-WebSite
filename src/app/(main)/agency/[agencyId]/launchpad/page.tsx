@@ -106,7 +106,9 @@ const LaunchPadPage = async ({ params, searchParams }: Props) => {
                 </p>
               </div>
               {agencyDetails.connectAccountId || connectedStripeAccount ? (
-                <CheckCircle size={50} className="text-primary flex-shrink-0" />
+                <CheckCircle
+                  size={50}
+                  className="text-primary flex-shrink-0" />
               ) : (
                 <Link
                   href={stripeOAuthLink}
