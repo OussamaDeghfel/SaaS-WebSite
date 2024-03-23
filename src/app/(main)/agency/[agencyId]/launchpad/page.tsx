@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
+import { stripe } from '@/lib/stripe'
 import { getStripeOAuthLink } from '@/lib/utils'
 import { CheckCircle } from 'lucide-react'
 import Image from 'next/image'
@@ -40,6 +41,26 @@ const LaunchPadPage = async ({params, searchParams}: Props) => {
     "agency",
     `lunchpad___${agencyDetails.id}`
   )
+
+  let ConnectedStripeAccount = false 
+
+  if(searchParams.code){
+    if(!agencyDetails.connectAccountId){
+      try {
+        const response = await stripe.oauth.token({
+          grant_type: 'authorization_code',
+          code: searchParams.code,
+        })
+        await db.agency.update({
+          where: { id: params.agencyId },
+          data: { connectAccountId: response.stripe_user_id },
+        })
+        ConnectedStripeAccount = true
+      } catch (error) {
+        console.log("🔴Error connecting Stripe account")
+      }
+    }
+  }
 
   return (
     <div className='flex flex-col items-center justify-center'>
