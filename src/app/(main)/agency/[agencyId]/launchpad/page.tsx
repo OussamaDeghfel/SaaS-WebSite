@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
+import { getStripeOAuthLink } from '@/lib/utils'
 import { CheckCircle } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -33,6 +34,12 @@ const LaunchPadPage = async ({params, searchParams}: Props) => {
     agencyDetails.name &&
     agencyDetails.state &&
     agencyDetails.zipCode
+
+
+  const stripeOAuthLink = getStripeOAuthLink(
+    "agency",
+    `lunchpad___${agencyDetails.id}`
+  )
 
   return (
     <div className='flex flex-col items-center justify-center'>
