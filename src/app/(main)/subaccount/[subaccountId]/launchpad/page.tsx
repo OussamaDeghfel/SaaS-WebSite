@@ -1,28 +1,36 @@
-import BlurPage from '@/components/global/blur-page'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { db } from '@/lib/db'
-import { CheckCircleIcon } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
+import BlurPage from "@/components/global/blur-page";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { db } from "@/lib/db";
+import { stripe } from "@/lib/stripe";
+import { getStripeOAuthLink } from "@/lib/utils";
+import { CheckCircleIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 type Props = {
   searchParams: {
-    state : string
-    code : string
-  }
-  params: {subaccountId : string}
-}
+    state: string;
+    code: string;
+  };
+  params: { subaccountId: string };
+};
 
-const LaunchPadSubaccountPage = async ({searchParams, params}: Props) => {
+const LaunchPadSubaccountPage = async ({ searchParams, params }: Props) => {
   const subaccountDetails = await db.subAccount.findUnique({
     where: {
       id: params.subaccountId,
     },
-  })
+  });
 
-  if(!subaccountDetails) return
+  if (!subaccountDetails) return;
 
   const allDetailsExist =
     subaccountDetails.address &&
@@ -32,9 +40,32 @@ const LaunchPadSubaccountPage = async ({searchParams, params}: Props) => {
     subaccountDetails.companyPhone &&
     subaccountDetails.country &&
     subaccountDetails.name &&
-    subaccountDetails.state
+    subaccountDetails.state;
 
-  
+  const stripeOAuthLink = getStripeOAuthLink(
+    "subaccount",
+    `launchpad___${subaccountDetails.id}`
+  );
+
+  let connectedStripeAccount = false;
+
+  if (searchParams.code) {
+    if (!subaccountDetails.connectAccountId) {
+      try {
+        const response = await stripe.oauth.token({
+          grant_type: "authorization_code",
+          code: searchParams.code,
+        });
+        await db.subAccount.update({
+          where: { id: params.subaccountId },
+          data: { connectAccountId: response.stripe_user_id },
+        });
+        connectedStripeAccount = true;
+      } catch (error) {
+        console.log("Error with Stripe Oauth Code");
+      }
+    }
+  }
 
   return (
     <BlurPage>
@@ -106,7 +137,7 @@ const LaunchPadSubaccountPage = async ({searchParams, params}: Props) => {
         </div>
       </div>
     </BlurPage>
-  )
-}
+  );
+};
 
-export default LaunchPadSubaccountPage
+export default LaunchPadSubaccountPage;
