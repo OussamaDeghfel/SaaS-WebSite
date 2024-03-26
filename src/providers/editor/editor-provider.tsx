@@ -46,18 +46,23 @@ const InitialEditorState: EditorState["editor"] = {
     styles: {},
     type: null,
   },
-  device: 'Desktop',
+  device: "Desktop",
   previewMode: false,
   liveMode: false,
-  funnelPageId: ""
+  funnelPageId: "",
 };
 
-const InitialHistoryState : HistoryState ={
-    history: [InitialEditorState],
-    currentIndex: 0,
-}
+const InitialHistoryState: HistoryState = {
+  history: [InitialEditorState],
+  currentIndex: 0,
+};
 
 const InitialState: EditorState = {
-    editor: InitialEditorState,
-    history: InitialHistoryState,
-}
+  editor: InitialEditorState,
+  history: InitialHistoryState,
+};
+
+const editorReducer = (
+  state: EditorState = InitialState,
+  action: EditorAction
+) => {};
