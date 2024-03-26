@@ -1,4 +1,6 @@
 import { EditorBtns } from "@/lib/constants";
+import { EditorAction } from "./editor-actions";
+import { Item } from "@radix-ui/react-dropdown-menu";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "tablet";
 
@@ -62,7 +64,50 @@ const InitialState: EditorState = {
   history: InitialHistoryState,
 };
 
+const addAnElement = (
+  editorArray: EditorElement[],
+  action: EditorAction
+): EditorElement[] => {
+    if(action.type !== "ADD_ELEMENT")
+        throw Error ( 'You sent the wrong action type to the Add Element editor State')
+
+    return editorArray.map((item)=>{
+        if(item.id === action.payload.containerId && Array.isArray(item.content)){
+            return {
+                ...item,
+                content: [...item.content, action.payload.elementDetails]
+            } 
+        } else if (item.content && Array.isArray(item.content)) {
+            return {
+                ...item,
+                content: addAnElement(item.content, action)
+            }
+        }
+        return item
+    })
+};
+
 const editorReducer = (
   state: EditorState = InitialState,
   action: EditorAction
-) => {};
+): EditorState => {
+  switch (action.type) {
+    case "ADD_ELEMENT":
+        const updatedEditorState = {
+            ...state.editor,
+            elements: addAnElement(state.editor.elements, action),
+          }
+    case "UPDATE_ELEMENT":
+    case "DELETE_ELEMENT":
+    case "CHANGE_CLICKED_ELEMENT":
+    case "CHANGE_DEVICE":
+    case "TOGGLE_PREVIEW_MODE":
+    case "TOGGLE_LIVE_MODE":
+    case "REDO":
+    case "UNDO":
+    case "LOAD_DATA":
+    case "SET_FUNNELPAGE_ID":
+    default:
+      return state;
+  }
+};
