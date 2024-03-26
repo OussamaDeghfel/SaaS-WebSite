@@ -21,7 +21,7 @@ export type Editor = {
 
 export type HistoryState = {
   history: Editor[];
-  currentIndex: string;
+  currentIndex: number;
 };
 
 export type EditorState = {
@@ -51,3 +51,8 @@ const InitialEditorState: EditorState["editor"] = {
   liveMode: false,
   funnelPageId: ""
 };
+
+const InitialHistoryState : HistoryState ={
+    history: [InitialEditorState],
+    currentIndex: 0,
+}
