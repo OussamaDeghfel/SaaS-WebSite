@@ -56,3 +56,8 @@ const InitialHistoryState : HistoryState ={
     history: [InitialEditorState],
     currentIndex: 0,
 }
+
+const InitialState: EditorState = {
+    editor: InitialEditorState,
+    history: InitialHistoryState,
+}
