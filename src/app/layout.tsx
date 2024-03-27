@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { dark } from "@clerk/themes";
 import ModalProvider from "@/providers/modal-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as SonnerToaster } from '@/components/ui/sonner'
 
 const font = DM_Sans({ subsets: ["latin"] });
 
@@ -30,7 +31,8 @@ export default function RootLayout({
         >
           <ModalProvider>
             {children}
-            <Toaster />      
+            <Toaster />  
+            <SonnerToaster position='bottom-right' />    
           </ModalProvider>
         </ThemeProvider>
       </body>
