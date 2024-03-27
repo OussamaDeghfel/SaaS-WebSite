@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import EditorProvider from '@/providers/editor/editor-provider'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import FunnelEditorNavigation from './_components/funnel-editor-navigation'
 
 type Props = {
     params: {
@@ -24,7 +25,13 @@ const page = async ({params}: Props) => {
             subaccountId={params.subaccountId}
             funnelId={params.funnelId}
             pageDetails={funnelPageDetails}
-        ></EditorProvider>
+        >
+            <FunnelEditorNavigation 
+                funnelId={params.funnelId}
+                funnelPageDetails={funnelPageDetails}
+                subaccountId={params.subaccountId}            
+            />
+        </EditorProvider>
     </div>
   )
 }
