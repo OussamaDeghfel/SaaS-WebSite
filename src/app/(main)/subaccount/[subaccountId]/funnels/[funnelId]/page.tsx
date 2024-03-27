@@ -1,20 +1,20 @@
-import BlurPage from "@/components/global/blur-page";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getFunnel } from "@/lib/queries";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import React from "react";
-import FunnelSettings from "./_components/funnel-settings";
-import FunnelSteps from "./_components/funnel-steps";
+import BlurPage from '@/components/global/blur-page'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { getFunnel } from '@/lib/queries'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import React from 'react'
+import FunnelSettings from './_components/funnel-settings'
+import FunnelSteps from './_components/funnel-steps'
 
 type Props = {
-  params: { funnelId: string; subaccountId: string };
-};
+  params: { funnelId: string; subaccountId: string }
+}
 
 const FunnelPage = async ({ params }: Props) => {
-  const funnelPages = await getFunnel(params.funnelId);
+  const funnelPages = await getFunnel(params.funnelId)
   if (!funnelPages)
-    return redirect(`/subaccount/${params.subaccountId}/funnels`);
+    return redirect(`/subaccount/${params.subaccountId}/funnels`)
 
   return (
     <BlurPage>
@@ -22,7 +22,7 @@ const FunnelPage = async ({ params }: Props) => {
         href={`/subaccount/${params.subaccountId}/funnels`}
         className="flex justify-between gap-4 mb-4 text-muted-foreground"
       >
-        ◀️{" "}Back
+        Back
       </Link>
       <h1 className="text-3xl mb-8">{funnelPages.name}</h1>
       <Tabs
@@ -49,7 +49,7 @@ const FunnelPage = async ({ params }: Props) => {
         </TabsContent>
       </Tabs>
     </BlurPage>
-  );
-};
+  )
+}
 
-export default FunnelPage;
+export default FunnelPage
