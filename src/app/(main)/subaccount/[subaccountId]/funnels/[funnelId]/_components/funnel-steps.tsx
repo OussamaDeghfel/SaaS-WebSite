@@ -174,6 +174,7 @@ const FunnelSteps = ({ funnel, funnelId, pages, subaccountId }: Props) => {
                   <div className="border-2 rounded-lg sm:w-80 w-full  overflow-clip">
                     <Link
                       href={`/subaccount/${subaccountId}/funnels/${funnelId}/editor/${clickedPage?.id}`}
+                      //href={`/subaccount/${subaccountId}/funnels/${funnelId}/editor`}
                       className="relative group"
                     >
                       <div className="cursor-pointer group-hover:opacity-30 w-full">
