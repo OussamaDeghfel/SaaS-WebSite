@@ -1,4 +1,5 @@
 import { db } from '@/lib/db'
+import EditorProvider from '@/providers/editor/editor-provider'
 import { redirect } from 'next/navigation'
 import React from 'react'
 
@@ -18,7 +19,13 @@ const page = async ({params}: Props) => {
         return redirect(`/subaccount/${params.subaccountId}/funnel/${params.funnelPageId}`)
     } 
   return (
-    <div>page</div>
+    <div className='fixed top-0 bottom-0 left-0 right-0 z-[20] bg-background overflow-hidden'>
+        <EditorProvider 
+            subaccountId={params.subaccountId}
+            funnelId={params.funnelId}
+            pageDetails={funnelPageDetails}
+        ></EditorProvider>
+    </div>
   )
 }
 

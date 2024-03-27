@@ -399,4 +399,4 @@ export const useEditor = () => {
     return context
   }
   
-  export default EditorProvider
+export default EditorProvider
