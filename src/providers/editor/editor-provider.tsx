@@ -342,3 +342,11 @@ const editorReducer = (
       return state;
   }
 };
+
+export type EditorContextData = {
+    device: DeviceTypes
+  previewMode: boolean
+  setPreviewMode: (previewMode: boolean) => void
+  setDevice: (device: DeviceTypes) => void
+}
+
