@@ -277,39 +277,67 @@ const editorReducer = (
       };
       return toggleLiveMode;
     case "REDO":
-        if (state.history.currentIndex < state.history.history.length - 1) {
-            const nextIndex = state.history.currentIndex + 1
-            const nextEditorState = { ...state.history.history[nextIndex] }
-            const redoState = {
-              ...state,
-              editor: nextEditorState,
-              history: {
-                ...state.history,
-                currentIndex: nextIndex,
-              },
-            }
-            return redoState
-          }
-          return state
-          
+      if (state.history.currentIndex < state.history.history.length - 1) {
+        const nextIndex = state.history.currentIndex + 1;
+        const nextEditorState = { ...state.history.history[nextIndex] };
+        const redoState = {
+          ...state,
+          editor: nextEditorState,
+          history: {
+            ...state.history,
+            currentIndex: nextIndex,
+          },
+        };
+        return redoState;
+      }
+      return state;
+
     case "UNDO":
-        if (state.history.currentIndex > 0) {
-            const prevIndex = state.history.currentIndex - 1
-            const prevEditorState = { ...state.history.history[prevIndex] }
-            const undoState = {
-              ...state,
-              editor: prevEditorState,
-              history: {
-                ...state.history,
-                currentIndex: prevIndex,
-              },
-            }
-            return undoState
-          }
-          return state
+      if (state.history.currentIndex > 0) {
+        const prevIndex = state.history.currentIndex - 1;
+        const prevEditorState = { ...state.history.history[prevIndex] };
+        const undoState = {
+          ...state,
+          editor: prevEditorState,
+          history: {
+            ...state.history,
+            currentIndex: prevIndex,
+          },
+        };
+        return undoState;
+      }
+      return state;
 
     case "LOAD_DATA":
+      return {
+        ...InitialState,
+        editor: {
+          ...InitialState.editor,
+          elements: action.payload.elements || InitialEditorState.elements,
+          liveMode: !!action.payload.withLive,
+        },
+      };
     case "SET_FUNNELPAGE_ID":
+      const { funnelPageId } = action.payload;
+      const updatedEditorStateWithFunnelPageId = {
+        ...state.editor,
+        funnelPageId,
+      };
+      const updatedHistoryWithFunnelPageId = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateWithFunnelPageId }, // Save a copy of the updated state
+      ];
+
+      const funnelPageIdState = {
+        ...state,
+        editor: updatedEditorStateWithFunnelPageId,
+        history: {
+          ...state.history,
+          history: updatedHistoryWithFunnelPageId,
+          currentIndex: updatedHistoryWithFunnelPageId.length - 1,
+        },
+      };
+      return funnelPageIdState;
     default:
       return state;
   }
