@@ -122,16 +122,17 @@ const deleteAnElement = (
     throw Error(
       "You sent the wrong action type to the Add Element editor State"
     );
-
-  return editorArray.filter((item) => {
-    if (item.id === action.payload.elementDetails.id) {
-      return false;
-    } else if (item.content && Array.isArray(item.content)) {
-      item.content = deleteAnElement(item.content, action);
-    }
-    return item;
-  });
+    
+    return editorArray.filter((item) => {
+        if(item.id === action.payload.elementDetails.id){
+            return false
+        } else if(item.content && Array.isArray(item.content)){
+            item.content = deleteAnElement(item.content, action)
+        }
+        return true
+    })
 };
+
 
 const editorReducer = (
   state: EditorState = InitialState,
@@ -202,7 +203,50 @@ const editorReducer = (
         state.editor.elements,
         action
       );
+
+      const updatedEditorStateAfterDelete = {
+        ...state.editor,
+        elements: updatedElementsAfterDelete,
+      }
+      const updatedHistoryAfterDelete = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateAfterDelete }, // Save a copy of the updated state
+      ]
+
+      const deletedState = {
+        ...state,
+        editor: updatedEditorStateAfterDelete,
+        history: {
+          ...state.history,
+          history: updatedHistoryAfterDelete,
+          currentIndex: updatedHistoryAfterDelete.length - 1,
+        },
+      }
+      return deletedState
+
     case "CHANGE_CLICKED_ELEMENT":
+        const clickedState = {
+            ...state,
+            editor: {
+              ...state.editor,
+              selectedElement: action.payload.elementDetails || {
+                id: '',
+                content: [],
+                name: '',
+                styles: {},
+                type: null,
+              },
+            },
+            history: {
+              ...state.history,
+              history: [
+                ...state.history.history.slice(0, state.history.currentIndex + 1),
+                { ...state.editor }, // Save a copy of the current editor state
+              ],
+              currentIndex: state.history.currentIndex + 1,
+            },
+          }
+          return clickedState
     case "CHANGE_DEVICE":
     case "TOGGLE_PREVIEW_MODE":
     case "TOGGLE_LIVE_MODE":
