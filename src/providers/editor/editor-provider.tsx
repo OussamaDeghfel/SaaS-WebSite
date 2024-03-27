@@ -65,27 +65,54 @@ const InitialState: EditorState = {
 };
 
 const addAnElement = (
-    editorArray: EditorElement[],
-    action: EditorAction
-    ):EditorElement[] => {
-        if(action.type !== 'ADD_ELEMENT')
-            throw Error('You sent the wrong action type to the Add Element editor State')
+  editorArray: EditorElement[],
+  action: EditorAction
+): EditorElement[] => {
+  if (action.type !== "ADD_ELEMENT")
+    throw Error(
+      "You sent the wrong action type to the Add Element editor State"
+    );
 
-        return editorArray.map((item) => {
-            if(item.id === action.payload.containerId && Array.isArray(item.content)) {
-                return {
-                    ...item,
-                    content: [...item.content, action.payload.elementDetails]
-                }
-            } else if (item.content && Array.isArray(item.content)){
-                return {
-                    ...item,
-                    content: addAnElement(item.content, action)
-                }
-            }
-            return item
-        })
+  return editorArray.map((item) => {
+    if (item.id === action.payload.containerId && Array.isArray(item.content)) {
+      return {
+        ...item,
+        content: [...item.content, action.payload.elementDetails],
+      };
+    } else if (item.content && Array.isArray(item.content)) {
+      return {
+        ...item,
+        content: addAnElement(item.content, action),
+      };
     }
+    return item;
+  });
+};
+
+const updateAnElement = (
+  editorArray: EditorElement[],
+  action: EditorAction
+): EditorElement[] => {
+  if (action.type !== "UPDATE_ELEMENT")
+    throw Error(
+      "You sent the wrong action type to the Add Element editor State"
+    );
+
+  return editorArray.map((item) => {
+    if (item.id === action.payload.elementDetails.id) {
+      return {
+        ...item,
+        ...action.payload.elementDetails,
+      };
+    } else if(item.content && Array.isArray(item.content)){
+        return {
+            ...item,
+            content: updateAnElement(item.content, action)
+        }
+    }
+    return item
+  });
+};
 
 const editorReducer = (
   state: EditorState = InitialState,
@@ -93,11 +120,31 @@ const editorReducer = (
 ): EditorState => {
   switch (action.type) {
     case "ADD_ELEMENT":
-        const updatedEditorState = {
-            ...state.editor,
-            elements: addAnElement(state.editor.elements, action),
-          }
+      const updatedEditorState = {
+        ...state.editor,
+        elements: addAnElement(state.editor.elements, action),
+      };
+
+      const updatedHistory = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorState }, // Save a copy of the updated state
+      ];
+
+      const newEditorState = {
+        ...state,
+        editor: updatedEditorState,
+        history: {
+          ...state.history,
+          history: updatedHistory,
+          currentIndex: updatedHistory.length - 1,
+        },
+      };
+
+      return newEditorState;
     case "UPDATE_ELEMENT":
+      // Perform your logic to update the element in the state
+      const updatedElements = updateAnElement(state.editor.elements, action);
+
     case "DELETE_ELEMENT":
     case "CHANGE_CLICKED_ELEMENT":
     case "CHANGE_DEVICE":
