@@ -1,7 +1,7 @@
 import { EditorBtns } from "@/lib/constants";
 import { EditorAction } from "./editor-actions";
 import { Item } from "@radix-ui/react-dropdown-menu";
-import { Dispatch, createContext, useReducer } from "react";
+import { Dispatch, createContext, useContext, useReducer } from "react";
 import { FunnelPage } from "@prisma/client";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "tablet";
@@ -390,3 +390,13 @@ const EditorProvider = (props: EditorProps) => {
     </EditorContext.Provider>
   );
 };
+
+export const useEditor = () => {
+    const context = useContext(EditorContext)
+    if (!context) {
+      throw new Error('useEditor Hook must be used within the editor Provider')
+    }
+    return context
+  }
+  
+  export default EditorProvider
