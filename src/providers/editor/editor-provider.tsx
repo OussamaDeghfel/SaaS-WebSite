@@ -65,27 +65,27 @@ const InitialState: EditorState = {
 };
 
 const addAnElement = (
-  editorArray: EditorElement[],
-  action: EditorAction
-): EditorElement[] => {
-    if(action.type !== "ADD_ELEMENT")
-        throw Error ( 'You sent the wrong action type to the Add Element editor State')
+    editorArray: EditorElement[],
+    action: EditorAction
+    ):EditorElement[] => {
+        if(action.type !== 'ADD_ELEMENT')
+            throw Error('You sent the wrong action type to the Add Element editor State')
 
-    return editorArray.map((item)=>{
-        if(item.id === action.payload.containerId && Array.isArray(item.content)){
-            return {
-                ...item,
-                content: [...item.content, action.payload.elementDetails]
-            } 
-        } else if (item.content && Array.isArray(item.content)) {
-            return {
-                ...item,
-                content: addAnElement(item.content, action)
+        return editorArray.map((item) => {
+            if(item.id === action.payload.containerId && Array.isArray(item.content)) {
+                return {
+                    ...item,
+                    content: [...item.content, action.payload.elementDetails]
+                }
+            } else if (item.content && Array.isArray(item.content)){
+                return {
+                    ...item,
+                    content: addAnElement(item.content, action)
+                }
             }
-        }
-        return item
-    })
-};
+            return item
+        })
+    }
 
 const editorReducer = (
   state: EditorState = InitialState,
