@@ -365,3 +365,11 @@ export const EditorContext = createContext<{
   funnelId: "",
   pageDetails: null,
 });
+
+type EditorProps = {
+    children: React.ReactNode
+    subaccountId: string
+    funnelId: string
+    pageDetails: FunnelPage
+  }
+  
