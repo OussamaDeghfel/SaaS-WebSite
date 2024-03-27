@@ -1,3 +1,5 @@
+"use client"
+
 import { EditorBtns } from "@/lib/constants";
 import { EditorAction } from "./editor-actions";
 import { Item } from "@radix-ui/react-dropdown-menu";
