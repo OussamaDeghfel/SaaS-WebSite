@@ -1,6 +1,8 @@
 import { EditorBtns } from "@/lib/constants";
 import { EditorAction } from "./editor-actions";
 import { Item } from "@radix-ui/react-dropdown-menu";
+import { Dispatch, createContext } from "react";
+import { FunnelPage } from "@prisma/client";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "tablet";
 
@@ -344,9 +346,22 @@ const editorReducer = (
 };
 
 export type EditorContextData = {
-    device: DeviceTypes
-  previewMode: boolean
-  setPreviewMode: (previewMode: boolean) => void
-  setDevice: (device: DeviceTypes) => void
-}
+  device: DeviceTypes;
+  previewMode: boolean;
+  setPreviewMode: (previewMode: boolean) => void;
+  setDevice: (device: DeviceTypes) => void;
+};
 
+export const EditorContext = createContext<{
+  state: EditorState;
+  dispatch: Dispatch<EditorAction>;
+  subaccountId: string;
+  funnelId: string;
+  pageDetails: FunnelPage | null;
+}>({
+  state: InitialState,
+  dispatch: () => undefined,
+  subaccountId: "",
+  funnelId: "",
+  pageDetails: null,
+});
