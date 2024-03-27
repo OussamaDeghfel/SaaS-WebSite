@@ -1,7 +1,7 @@
 import { EditorBtns } from "@/lib/constants";
 import { EditorAction } from "./editor-actions";
 import { Item } from "@radix-ui/react-dropdown-menu";
-import { Dispatch, createContext } from "react";
+import { Dispatch, createContext, useReducer } from "react";
 import { FunnelPage } from "@prisma/client";
 
 export type DeviceTypes = "Desktop" | "Mobile" | "tablet";
@@ -367,9 +367,26 @@ export const EditorContext = createContext<{
 });
 
 type EditorProps = {
-    children: React.ReactNode
-    subaccountId: string
-    funnelId: string
-    pageDetails: FunnelPage
-  }
-  
+  children: React.ReactNode;
+  subaccountId: string;
+  funnelId: string;
+  pageDetails: FunnelPage;
+};
+
+const EditorProvider = (props: EditorProps) => {
+  const [state, dispatch] = useReducer(editorReducer, InitialState);
+
+  return (
+    <EditorContext.Provider
+      value={{
+        state,
+        dispatch,
+        subaccountId: props.subaccountId,
+        funnelId: props.funnelId,
+        pageDetails: props.pageDetails,
+      }}
+    >
+      {props.children}
+    </EditorContext.Provider>
+  );
+};
