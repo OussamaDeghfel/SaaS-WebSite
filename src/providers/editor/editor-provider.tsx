@@ -104,13 +104,32 @@ const updateAnElement = (
         ...item,
         ...action.payload.elementDetails,
       };
-    } else if(item.content && Array.isArray(item.content)){
-        return {
-            ...item,
-            content: updateAnElement(item.content, action)
-        }
+    } else if (item.content && Array.isArray(item.content)) {
+      return {
+        ...item,
+        content: updateAnElement(item.content, action),
+      };
     }
-    return item
+    return item;
+  });
+};
+
+const deleteAnElement = (
+  editorArray: EditorElement[],
+  action: EditorAction
+): EditorElement[] => {
+  if (action.type !== "DELETE_ELEMENT")
+    throw Error(
+      "You sent the wrong action type to the Add Element editor State"
+    );
+
+  return editorArray.filter((item) => {
+    if (item.id === action.payload.elementDetails.id) {
+      return false;
+    } else if (item.content && Array.isArray(item.content)) {
+      item.content = deleteAnElement(item.content, action);
+    }
+    return item;
   });
 };
 
@@ -145,7 +164,44 @@ const editorReducer = (
       // Perform your logic to update the element in the state
       const updatedElements = updateAnElement(state.editor.elements, action);
 
+      const UpdatedElementIsSelected =
+        state.editor.selectedElement.id === action.payload.elementDetails.id;
+
+      const updatedEditorStateWithUpdate = {
+        ...state.editor,
+        elements: updatedElements,
+        selectedElement: UpdatedElementIsSelected
+          ? action.payload.elementDetails
+          : {
+              id: "",
+              content: [],
+              name: "",
+              styles: {},
+              type: null,
+            },
+      };
+
+      const updatedHistoryWithUpdate = [
+        ...state.history.history.slice(0, state.history.currentIndex + 1),
+        { ...updatedEditorStateWithUpdate }, // Save a copy of the updated state
+      ];
+      const updatedEditor = {
+        ...state,
+        editor: updatedEditorStateWithUpdate,
+        history: {
+          ...state.history,
+          history: updatedHistoryWithUpdate,
+          currentIndex: updatedHistoryWithUpdate.length - 1,
+        },
+      };
+      return updatedEditor;
+
     case "DELETE_ELEMENT":
+      // Perform your logic to delete the element from the state
+      const updatedElementsAfterDelete = deleteAnElement(
+        state.editor.elements,
+        action
+      );
     case "CHANGE_CLICKED_ELEMENT":
     case "CHANGE_DEVICE":
     case "TOGGLE_PREVIEW_MODE":
