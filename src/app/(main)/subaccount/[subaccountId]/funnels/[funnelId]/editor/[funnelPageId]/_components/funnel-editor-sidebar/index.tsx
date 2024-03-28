@@ -12,6 +12,7 @@ import clsx from "clsx";
 import React from "react";
 import TabList from "./tabs";
 import { TabsContent } from "@radix-ui/react-tabs";
+import SettingsTab from "./tabs/settings-tab";
 
 type Props = {
   subaccountId: string;
