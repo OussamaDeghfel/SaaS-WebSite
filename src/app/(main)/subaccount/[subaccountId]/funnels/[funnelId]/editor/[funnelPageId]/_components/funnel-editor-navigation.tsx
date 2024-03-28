@@ -9,7 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { upsertFunnelPage } from "@/lib/queries";
+import { saveActivityLogsNotification, upsertFunnelPage } from "@/lib/queries";
 import { DeviceTypes, useEditor } from "@/providers/editor/editor-provider";
 import { FunnelPage } from "@prisma/client";
 import { TabsTrigger } from "@radix-ui/react-tabs";
@@ -88,6 +88,28 @@ const FunnelEditorNavigation = ({
   const handleRedo = () => {
     dispatch({ type: "REDO" });
   };
+
+  const handleOnSave = async() => {
+    const content = JSON.stringify(state.editor.elements)
+    try {
+        const response = await upsertFunnelPage(
+            subaccountId,
+            {
+                ...funnelPageDetails,
+                content
+            },
+            funnelId
+        )
+        await saveActivityLogsNotification({
+            agencyId: undefined,
+            description: `Updated a funnel Page | ${response?.name}`,
+            subaccountId: subaccountId
+        })
+        toast('Success', {description: 'Saved Editor'})
+    } catch (error) {
+        toast('Oppse!', {description: 'Could Not Save Details'})
+    }
+  }
 
   return (
     <TooltipProvider>
@@ -203,9 +225,10 @@ const FunnelEditorNavigation = ({
               Publish
             </div>
             <span className="text-sm text-muted-foreground">
-                Last Upadated {funnelPageDetails.updatedAt.toLocaleDateString()}
+                Last Updated {funnelPageDetails.updatedAt.toLocaleDateString()}
             </span>
           </div>
+          <Button onClick={handleOnSave}>Save</Button>
         </aside>
       </nav>
     </TooltipProvider>
