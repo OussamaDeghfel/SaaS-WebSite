@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -7,7 +8,7 @@ import { DeviceTypes, useEditor } from "@/providers/editor/editor-provider";
 import { FunnelPage } from "@prisma/client";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import clsx from "clsx";
-import { ArrowLeftCircle, Laptop, Smartphone, Tablet } from "lucide-react";
+import { ArrowLeftCircle, EyeIcon, Laptop, Smartphone, Tablet } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FocusEventHandler, useEffect } from "react";
@@ -57,6 +58,11 @@ const FunnelEditorNavigation = ({
 
             event.target.value === funnelPageDetails.name
         }
+    }
+
+    const handlePreviewClick = () => {
+        dispatch({type: 'TOGGLE_PREVIEW_MODE'})
+        dispatch({type: 'TOGGLE_LIVE_MODE'})
     }
 
   return (
@@ -136,6 +142,16 @@ const FunnelEditorNavigation = ({
                         </Tooltip>
                     </TabsList>
                 </Tabs>
+            </aside>
+            <aside className="flex items-center gap-2">
+                <Button
+                    variant={'ghost'}
+                    size={'icon'}
+                    className="hover:bg-slate-800"
+                    onClick={handlePreviewClick}
+                    >
+                    <EyeIcon />
+                </Button>
             </aside>
         </nav>
     </TooltipProvider>
