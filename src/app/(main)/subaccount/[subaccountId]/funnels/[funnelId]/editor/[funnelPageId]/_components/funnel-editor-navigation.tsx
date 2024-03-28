@@ -1,11 +1,13 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { Tabs, TabsList } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { upsertFunnelPage } from "@/lib/queries";
-import { useEditor } from "@/providers/editor/editor-provider";
+import { DeviceTypes, useEditor } from "@/providers/editor/editor-provider";
 import { FunnelPage } from "@prisma/client";
+import { TabsTrigger } from "@radix-ui/react-tabs";
 import clsx from "clsx";
-import { ArrowLeftCircle } from "lucide-react";
+import { ArrowLeftCircle, Laptop, Smartphone, Tablet } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FocusEventHandler, useEffect } from "react";
@@ -79,6 +81,61 @@ const FunnelEditorNavigation = ({
                         Path: /{funnelPageDetails.pathName}
                     </span>
                 </div>
+            </aside>
+            <aside>
+                <Tabs 
+                    defaultValue="Desktop"
+                    className="w-fit"
+                    value={state.editor.device}
+                    onValueChange={(value)=>{
+                        dispatch({
+                            type: 'CHANGE_DEVICE',
+                            payload: {device: value as DeviceTypes}
+                        })
+                    }}
+                >
+                    <TabsList className="grid w-full grid-cols-3 bg-transparent h-fit">
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <TabsTrigger
+                                    value="Dektop"
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                    >
+                                    <Laptop />
+                                </TabsTrigger>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Desktop</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger
+                                    value='tablet'
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                >
+                                    <Tablet />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>tablet</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </Tooltip>
+                        <Tooltip>
+                            <Tooltip>
+                                <TooltipTrigger
+                                    value='mobile'
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                >
+                                    <Smartphone />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Mobile</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        </Tooltip>
+                    </TabsList>
+                </Tabs>
             </aside>
         </nav>
     </TooltipProvider>
