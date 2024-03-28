@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsList } from "@/components/ui/tabs";
 import {
   Tooltip,
@@ -187,12 +188,18 @@ const FunnelEditorNavigation = ({
           <Button
             variant={"ghost"}
             size={"icon"}
-            disabled={!(state.history.currentIndex > 0)}
-            className="hover:bg-slate-800"
+            disabled={!(state.history.currentIndex < state.history.history.length - 1)}
+            className="hover:bg-slate-800 mr-4"
             onClick={handleRedo}
           >
             <Redo2 />
           </Button>
+          <div>
+            <div>
+                <Switch />
+                Publish
+            </div>
+          </div>
         </aside>
       </nav>
     </TooltipProvider>
