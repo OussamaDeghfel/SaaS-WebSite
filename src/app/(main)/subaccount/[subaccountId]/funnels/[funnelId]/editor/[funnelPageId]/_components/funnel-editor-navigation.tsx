@@ -127,8 +127,8 @@ const FunnelEditorNavigation = ({
               <Tooltip>
                 <TooltipTrigger>
                   <TabsTrigger
-                    value="Dektop"
-                    className="data-[state=active]:bg-muted w-10 h-10 p-2"
+                    value="Desktop"
+                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
                   >
                     <Laptop />
                   </TabsTrigger>
@@ -138,34 +138,30 @@ const FunnelEditorNavigation = ({
                 </TooltipContent>
               </Tooltip>
               <Tooltip>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <TabsTrigger
-                      value="Dektop"
-                      className="data-[state=active]:bg-muted w-10 h-10 p-2"
-                    >
-                      <Tablet />
-                    </TabsTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>tablet</p>
-                  </TooltipContent>
-                </Tooltip>
+                <TooltipTrigger>
+                  <TabsTrigger
+                    value="Tablet"
+                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                  >
+                    <Tablet />
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Tablet</p>
+                </TooltipContent>
               </Tooltip>
               <Tooltip>
-                <Tooltip>
                 <TooltipTrigger>
-                    <TabsTrigger
-                      value="Dektop"
-                      className="data-[state=active]:bg-muted w-10 h-10 p-2"
-                    >
-                      <Smartphone />
-                    </TabsTrigger>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Mobile</p>
-                  </TooltipContent>
-                </Tooltip>
+                  <TabsTrigger
+                    value="Mobile"
+                    className="w-10 h-10 p-0 data-[state=active]:bg-muted"
+                  >
+                    <Smartphone />
+                  </TabsTrigger>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Mobile</p>
+                </TooltipContent>
               </Tooltip>
             </TabsList>
           </Tabs>
