@@ -32,6 +32,28 @@ const SettingsTab = (props: Props) => {
         })
     }
 
+    const handleOnChange = (e:any) => {
+        const settingProperty = e.target.id
+        let value = e.target.value
+
+        const styleObject = {
+            [settingProperty] : value
+        }
+
+        dispatch({
+            type: 'UPDATE_ELEMENT',
+            payload: {
+                elementDetails: {
+                    ...state.editor.selectedElement,
+                    styles: {
+                        ...state.editor.selectedElement.styles,
+                        ...styleObject
+                    }
+                }
+            }
+        })
+    }
+
   return (
     <Accordion
       type="multiple"
@@ -58,6 +80,22 @@ const SettingsTab = (props: Props) => {
                     )
                 }
             </AccordionContent>
+        </AccordionItem>
+        <AccordionItem
+            value="Typography"
+            className="px-6 py-0 border-y-[1px]"
+            >
+                <AccordionTrigger className="!no-underline">Typography</AccordionTrigger>
+                <AccordionContent>
+                    <div className="flex flex-col gap-2">
+                        <p className="text-muted-foreground">Color</p>
+                        <Input 
+                            id="color"
+                            onChange={handleOnChange}
+                            value={state.editor.selectedElement.styles.color}
+                        />
+                    </div>
+                </AccordionContent>
         </AccordionItem>
     </Accordion>
   );
