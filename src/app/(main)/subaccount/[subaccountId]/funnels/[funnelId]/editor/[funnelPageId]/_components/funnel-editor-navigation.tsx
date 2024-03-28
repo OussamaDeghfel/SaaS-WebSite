@@ -188,17 +188,23 @@ const FunnelEditorNavigation = ({
           <Button
             variant={"ghost"}
             size={"icon"}
-            disabled={!(state.history.currentIndex < state.history.history.length - 1)}
+            disabled={
+              !(state.history.currentIndex < state.history.history.length - 1)
+            }
             className="hover:bg-slate-800 mr-4"
             onClick={handleRedo}
           >
             <Redo2 />
           </Button>
-          <div>
-            <div>
-                <Switch />
-                Publish
+          <div className="flex flex-col items-center mr-4">
+            <div className="flex flex-row items-center gap-4">
+              Draft
+              <Switch disabled defaultChecked={true} />
+              Publish
             </div>
+            <span className="text-sm text-muted-foreground">
+                Last Upadated {funnelPageDetails.updatedAt.toLocaleDateString()}
+            </span>
           </div>
         </aside>
       </nav>
