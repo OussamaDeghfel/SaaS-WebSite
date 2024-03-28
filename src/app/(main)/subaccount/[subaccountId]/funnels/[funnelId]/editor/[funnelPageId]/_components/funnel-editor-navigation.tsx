@@ -8,7 +8,7 @@ import { DeviceTypes, useEditor } from "@/providers/editor/editor-provider";
 import { FunnelPage } from "@prisma/client";
 import { TabsTrigger } from "@radix-ui/react-tabs";
 import clsx from "clsx";
-import { ArrowLeftCircle, EyeIcon, Laptop, Smartphone, Tablet } from "lucide-react";
+import { ArrowLeftCircle, EyeIcon, Laptop, Redo2, Smartphone, Tablet, Undo2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { FocusEventHandler, useEffect } from "react";
@@ -63,6 +63,14 @@ const FunnelEditorNavigation = ({
     const handlePreviewClick = () => {
         dispatch({type: 'TOGGLE_PREVIEW_MODE'})
         dispatch({type: 'TOGGLE_LIVE_MODE'})
+    }
+
+    const handleUndo = () => {
+        dispatch({type: 'UNDO'})
+    }
+    
+    const handleRedo = () => {
+        dispatch({type: 'REDO'})
     }
 
   return (
@@ -151,6 +159,24 @@ const FunnelEditorNavigation = ({
                     onClick={handlePreviewClick}
                     >
                     <EyeIcon />
+                </Button>
+                <Button
+                    variant={'ghost'}
+                    size={'icon'}
+                    disabled={!(state.history.currentIndex > 0)}
+                    className="hover:bg-slate-800"
+                    onClick={handleUndo}
+                    >
+                    <Undo2 />
+                </Button>
+                <Button
+                    variant={'ghost'}
+                    size={'icon'}
+                    disabled={!(state.history.currentIndex > 0)}
+                    className="hover:bg-slate-800"
+                    onClick={handleRedo}
+                    >
+                    <Redo2 />
                 </Button>
             </aside>
         </nav>
