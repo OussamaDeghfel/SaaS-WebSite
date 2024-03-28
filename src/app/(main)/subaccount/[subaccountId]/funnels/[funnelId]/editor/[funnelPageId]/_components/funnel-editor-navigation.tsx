@@ -99,7 +99,7 @@ const FunnelEditorNavigation = ({
                             <TooltipTrigger>
                                 <TabsTrigger
                                     value="Dektop"
-                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-2"
                                     >
                                     <Laptop />
                                 </TabsTrigger>
@@ -112,7 +112,7 @@ const FunnelEditorNavigation = ({
                             <Tooltip>
                                 <TooltipTrigger
                                     value='tablet'
-                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-2"
                                 >
                                     <Tablet />
                                 </TooltipTrigger>
@@ -125,7 +125,7 @@ const FunnelEditorNavigation = ({
                             <Tooltip>
                                 <TooltipTrigger
                                     value='mobile'
-                                    className="data-[state=active]:bg-muted w-10 h-10 p-0"
+                                    className="data-[state=active]:bg-muted w-10 h-10 p-2"
                                 >
                                     <Smartphone />
                                 </TooltipTrigger>
