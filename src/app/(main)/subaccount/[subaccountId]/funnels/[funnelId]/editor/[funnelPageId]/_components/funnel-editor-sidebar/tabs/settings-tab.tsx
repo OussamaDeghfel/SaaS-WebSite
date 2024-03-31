@@ -485,6 +485,7 @@ const SettingsTab = (props: Props) => {
       <AccordionItem value="Flexbox" className="px-2 py-0  ">
         <AccordionTrigger className="!no-underline">Flexbox</AccordionTrigger>
         <AccordionContent>
+          <div className="py-2">
           <Label className="text-muted-foreground">Justify Content</Label>
           <Tabs
             onValueChange={(e) =>
@@ -497,7 +498,7 @@ const SettingsTab = (props: Props) => {
             }
             value={state.editor.selectedElement.styles.justifyContent}
           >
-            <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4">
+            <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4 my-2">
               <TabsTrigger
                 value="space-between"
                 className="w-10 h-10 p-0 data-[state=active]:bg-muted"
@@ -530,6 +531,8 @@ const SettingsTab = (props: Props) => {
               </TabsTrigger>
             </TabsList>
           </Tabs>
+          </div>
+          <div className="py-2">
           <Label className="text-muted-foreground">Align Items</Label>
           <Tabs
             onValueChange={(e) =>
@@ -542,7 +545,7 @@ const SettingsTab = (props: Props) => {
             }
             value={state.editor.selectedElement.styles.alignItems}
           >
-            <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4">
+            <TabsList className="flex items-center flex-row justify-between border-[1px] rounded-md bg-transparent h-fit gap-4 my-2">
               <TabsTrigger
                 value="center"
                 className="w-10 h-10 p-0 data-[state=active]:bg-muted"
@@ -574,13 +577,15 @@ const SettingsTab = (props: Props) => {
             />
             <Label className="text-muted-foreground">Flex</Label>
           </div>
-          <div>
+          </div>
+          <div className="py-2">
             <Label className="text-muted-foreground"> Direction</Label>
             <Input
               placeholder="px"
               id="flexDirection"
               onChange={handleOnChanges}
               value={state.editor.selectedElement.styles.flexDirection}
+              className="my-2"
             />
           </div>
         </AccordionContent>
