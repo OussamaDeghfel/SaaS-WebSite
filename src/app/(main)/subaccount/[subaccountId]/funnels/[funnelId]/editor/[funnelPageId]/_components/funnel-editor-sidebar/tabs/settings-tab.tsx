@@ -108,25 +108,26 @@ const SettingsTab = (props: Props) => {
                             ).replace('%', '')
                         ) || '0'
                     }
+                    %
                 </small>
             </div>
-            <Slider 
+            <Slider
               onValueChange={(e) => {
                 handleOnChange({
-                  target : {
+                  target: {
                     id: 'opacity',
-                    value: `${e[0]}%`
-                  }
+                    value: `${e[0]}%`,
+                  },
                 })
               }}
               defaultValue={[
-                typeof state.editor.selectedElement.styles?.opacity === "number" 
-                  ? state.editor.selectedElement.styles?.opacity 
+                typeof state.editor.selectedElement.styles?.opacity === 'number'
+                  ? state.editor.selectedElement.styles?.opacity
                   : parseFloat(
-                    (
-                    state.editor.selectedElement.styles?.opacity || "0"
-                    ).replace("%", "")
-                  ) || 0,
+                      (
+                        state.editor.selectedElement.styles?.opacity || '0'
+                      ).replace('%', '')
+                    ) || 0,
               ]}
               max={100}
               step={1}
