@@ -128,6 +128,8 @@ const SettingsTab = (props: Props) => {
                     ).replace("%", "")
                   ) || 0,
               ]}
+              max={100}
+              step={1}
             />
           </div>
         </AccordionContent>
