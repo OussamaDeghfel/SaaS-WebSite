@@ -133,6 +133,24 @@ const SettingsTab = (props: Props) => {
               step={1}
             />
           </div>
+          <div className="flex flex-col gap-2 pt-2">
+            <Label className="text-muted-foreground">Background Image</Label>
+            <div className="flex border-[1px] rounded-md overflow-clip">
+              <div 
+                className="w-12"
+                style={{
+                  backgroundImage: state.editor.selectedElement.styles.backgroundImage
+                }}
+                />
+              <Input
+                className="!border-y-0 rounded-none !border-r-0 mr-2"
+                id="backgroundImage"
+                placeholder="url()"
+                onChange={handleOnChange}
+                value={state.editor.selectedElement.styles.backgroundImage}
+                />
+            </div>
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
