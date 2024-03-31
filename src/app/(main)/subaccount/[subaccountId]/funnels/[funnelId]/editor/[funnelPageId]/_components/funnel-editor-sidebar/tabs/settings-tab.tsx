@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import React from "react";
@@ -99,9 +100,35 @@ const SettingsTab = (props: Props) => {
             <Label className="text-muted-foreground">Opacity</Label>
             <div className="flex items-center justify-end">
                 <small className="p-2">
-                    
+                    {typeof state.editor.selectedElement.styles?.opacity === "number"
+                        ? state.editor.selectedElement.styles?.opacity 
+                        : parseFloat(
+                            (
+                                state.editor.selectedElement.styles?.opacity || '0'
+                            ).replace('%', '')
+                        ) || '0'
+                    }
                 </small>
             </div>
+            <Slider 
+              onValueChange={(e) => {
+                handleOnChange({
+                  target : {
+                    id: 'opacity',
+                    value: `${e[0]}%`
+                  }
+                })
+              }}
+              defaultValue={[
+                typeof state.editor.selectedElement.styles?.opacity === "number" 
+                  ? state.editor.selectedElement.styles?.opacity 
+                  : parseFloat(
+                    (
+                    state.editor.selectedElement.styles?.opacity || "0"
+                    ).replace("%", "")
+                  ) || 0,
+              ]}
+            />
           </div>
         </AccordionContent>
       </AccordionItem>
