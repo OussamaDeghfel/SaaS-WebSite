@@ -8,7 +8,7 @@ import { EyeOff } from 'lucide-react';
 import React, { useEffect } from 'react'
 
 type Props = {
-    funnelPageId: string; liveMode: boolean
+    funnelPageId: string; liveMode?: boolean
 }
 
 const FunnelEditor = ({funnelPageId, liveMode}: Props) => {
