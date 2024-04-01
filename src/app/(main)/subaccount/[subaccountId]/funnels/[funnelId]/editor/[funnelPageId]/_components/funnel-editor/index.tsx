@@ -1,8 +1,24 @@
-import React from 'react'
+'use client'
 
-type Props = {}
+import { useEditor } from '@/providers/editor/editor-provider'
+import React, { useEffect } from 'react'
 
-const FunnelEditor = (props: Props) => {
+type Props = {
+    funnelPageId: string; liveMode: boolean
+}
+
+const FunnelEditor = ({funnelPageId, liveMode}: Props) => {
+    const {state, dispatch} = useEditor()
+
+    useEffect(()=>{
+        if(liveMode){
+            dispatch({
+                type: 'TOGGLE_LIVE_MODE',
+                payload: {value: true}
+            })
+        }
+    },[liveMode])
+
   return (
     <div>FunnelEditor</div>
   )
