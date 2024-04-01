@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import clsx from "clsx";
+import { Trash } from "lucide-react";
 import React from "react";
 
 type Props = {
@@ -9,6 +10,15 @@ type Props = {
 
 const TextComponent = ({ element }: Props) => {
   const { state, dispatch } = useEditor();
+
+  const handleDeleteElement = () => {
+    dispatch({
+        type: 'DELETE_ELEMENT',
+        payload: {
+            elementDetails: element
+        }
+    })
+  }
   return (
     <div
       draggable
@@ -44,7 +54,20 @@ const TextComponent = ({ element }: Props) => {
                     }
                 })
             }}
-            ></span>
+            >
+                {!Array.isArray(element.content) && element.content.innerText}
+            </span>
+
+            {state.editor.selectedElement.id === props.element.id &&
+        !state.editor.liveMode && (
+          <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
+            <Trash
+              className="cursor-pointer"
+              size={16}
+              onClick={handleDeleteElement}
+            />
+          </div>
+        )}
     </div>
   );
 };
