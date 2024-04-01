@@ -1,13 +1,14 @@
 import { EditorElement } from '@/providers/editor/editor-provider'
 import React from 'react'
+import TextComponent from './text'
 
 type Props = {
-    elements : EditorElement
+    element: EditorElement
 }
 
-const Recursive = ({elements}: Props) => {
-    switch(elements.type) {
-        case 'text' : return <TextComponent />
+const Recursive = ({element}: Props) => {
+    switch(element.type) {
+        case 'text' : return <TextComponent element={element} />
         default : return null
     }
   
