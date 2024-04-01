@@ -11,6 +11,7 @@ type Props = {
 
 const TextComponent = ({ element }: Props) => {
   const { state, dispatch } = useEditor();
+  const styles = element.styles;
 
   const handleDeleteElement = () => {
     dispatch({
@@ -22,17 +23,18 @@ const TextComponent = ({ element }: Props) => {
   };
 
   const handleOnClickBody = (e: React.MouseEvent) => {
-    e.stopPropagation()
+    e.stopPropagation();
     dispatch({
-        type: 'CHANGE_CLICKED_ELEMENT',
-        payload: {
-            elementDetails: element
-        }
-    })
-  }
+      type: "CHANGE_CLICKED_ELEMENT",
+      payload: {
+        elementDetails: element,
+      },
+    });
+  };
+
   return (
     <div
-      draggable
+      style={styles}
       className={clsx(
         "p-[2px] w-full m-[5px] relative text-[16px] transition-all",
         {
