@@ -20,6 +20,16 @@ const TextComponent = ({ element }: Props) => {
       },
     });
   };
+
+  const handleOnClickBody = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    dispatch({
+        type: 'CHANGE_CLICKED_ELEMENT',
+        payload: {
+            elementDetails: element
+        }
+    })
+  }
   return (
     <div
       draggable
@@ -32,6 +42,7 @@ const TextComponent = ({ element }: Props) => {
           "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
         }
       )}
+      onClick={handleOnClickBody}
     >
       {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode && (
