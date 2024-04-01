@@ -1,5 +1,6 @@
 'use client'
 
+import { getFunnelPageDetails } from '@/lib/queries';
 import { useEditor } from '@/providers/editor/editor-provider'
 import React, { useEffect } from 'react'
 
@@ -18,6 +19,24 @@ const FunnelEditor = ({funnelPageId, liveMode}: Props) => {
             })
         }
     },[liveMode])
+
+    useEffect(()=> {
+        const fetchData = async()=>{
+            const response = await getFunnelPageDetails(funnelPageId)
+            if(!response) return 
+
+            console.log(response)
+
+            dispatch({
+                type: 'LOAD_DATA',
+                payload: {
+                    elements: response.content ? JSON.parse(response?.content) : '',
+                    withLive: !!liveMode
+                }
+            })
+        }
+        fetchData()
+    },[funnelPageId])
 
   return (
     <div>FunnelEditor</div>
