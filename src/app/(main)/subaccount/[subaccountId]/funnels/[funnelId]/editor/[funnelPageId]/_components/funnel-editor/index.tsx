@@ -2,6 +2,7 @@
 
 import { getFunnelPageDetails } from '@/lib/queries';
 import { useEditor } from '@/providers/editor/editor-provider'
+import clsx from 'clsx';
 import React, { useEffect } from 'react'
 
 type Props = {
@@ -39,7 +40,17 @@ const FunnelEditor = ({funnelPageId, liveMode}: Props) => {
     },[funnelPageId])
 
   return (
-    <div>FunnelEditor</div>
+    <div
+        className={clsx(
+            'use-automation-zoom-in h-full overflow-scroll mr-[385px] bg-background transition-all rounded-md',
+            {
+                '!pr-0 !mr-0' : state.editor.previewMode === true || state.editor.liveMode === true,
+                '!w-[850px]': state.editor.device === 'Tablet',
+                '!w-[420px]': state.editor.device === 'Mobile',
+                'w-full': state.editor.device === 'Desktop',
+            }
+        )}
+    ></div>
   )
 }
 
