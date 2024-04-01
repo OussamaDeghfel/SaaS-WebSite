@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { Badge } from "@/components/ui/badge";
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import clsx from "clsx";
@@ -14,12 +14,12 @@ const TextComponent = ({ element }: Props) => {
 
   const handleDeleteElement = () => {
     dispatch({
-        type: 'DELETE_ELEMENT',
-        payload: {
-            elementDetails: element
-        }
-    })
-  }
+      type: "DELETE_ELEMENT",
+      payload: {
+        elementDetails: element,
+      },
+    });
+  };
   return (
     <div
       draggable
@@ -39,27 +39,27 @@ const TextComponent = ({ element }: Props) => {
             {state.editor.selectedElement.name}
           </Badge>
         )}
-        <span 
-            contentEditable={!state.editor.liveMode}
-            onBlur={(e) => {
-                const spanElement = e.target as HTMLSpanElement
-                dispatch({
-                    type: 'UPDATE_ELEMENT',
-                    payload: {
-                        elementDetails: {
-                            ...element,
-                            content: {
-                                innerText: spanElement.innerText
-                            }
-                        }
-                    }
-                })
-            }}
-            >
-                {!Array.isArray(element.content) && element.content.innerText}
-            </span>
+      <span
+        contentEditable={!state.editor.liveMode}
+        onBlur={(e) => {
+          const spanElement = e.target as HTMLSpanElement;
+          dispatch({
+            type: "UPDATE_ELEMENT",
+            payload: {
+              elementDetails: {
+                ...element,
+                content: {
+                  innerText: spanElement.innerText,
+                },
+              },
+            },
+          });
+        }}
+      >
+        {!Array.isArray(element.content) && element.content.innerText}
+      </span>
 
-            {state.editor.selectedElement.id === props.element.id &&
+      {state.editor.selectedElement.id === element.id &&
         !state.editor.liveMode && (
           <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg !text-white">
             <Trash
