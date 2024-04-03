@@ -1,9 +1,11 @@
 "use client";
+import { Badge } from "@/components/ui/badge";
 import { EditorBtns, defaultStyles } from "@/lib/constants";
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import clsx from "clsx";
 import React from "react";
 import { v4 } from "uuid";
+import Recursive from "./recursive";
 
 type Props = {
   element: EditorElement;
@@ -101,7 +103,27 @@ const Container = ({ element }: Props) => {
       onDragStart={(e) => handleDragStart(e, 'container')}
       onClick={handleOnClickBody}
     >
-      Container
+      <Badge
+        className={clsx(
+          'absolute -top-[23px] -left-[1px] rounded-none rounded-t-lg hidden',
+          {
+            block:
+              state.editor.selectedElement.id === element.id &&
+              !state.editor.liveMode,
+          }
+        )}
+      >
+        {element.name}
+      </Badge>
+
+      {Array.isArray(content) && 
+        content.map((childElement) => (
+          <Recursive 
+            key={childElement.id}
+            element={childElement}
+          />
+        ))
+        }
     </div>
   );
 };
