@@ -9,12 +9,14 @@ type Props = {
   element: EditorElement;
 };
 
-const Container = ({ element: { id, name, styles, content, type } }: Props) => {
+const Container = ({ element }: Props) => {
+  const { id, name, styles, content, type } = element
   const { state, dispatch } = useEditor();
 
   const handleOnDrop = (e: React.DragEvent, type: string) => {
     e.stopPropagation()
     const componentType = e.dataTransfer.getData("componentType") as EditorBtns;
+
     switch (componentType) {
       case "text":
         dispatch({
@@ -53,6 +55,26 @@ const Container = ({ element: { id, name, styles, content, type } }: Props) => {
         break;
     }
   };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+  }
+
+  const handleDragStart = (e: React.DragEvent, type:string) => {
+    if(type === "__body") return 
+    e.dataTransfer.setData('componentType', type)
+  }
+
+  const handleOnClickBody = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    dispatch({
+      type: 'CHANGE_CLICKED_ELEMENT',
+      payload: {
+        elementDetails: element
+      }
+    })
+  }
+
   return (
     <div
       style={styles}
@@ -74,6 +96,10 @@ const Container = ({ element: { id, name, styles, content, type } }: Props) => {
         "border-dashed border-[1px] border-slate-300": !state.editor.liveMode,
       })}
       onDrop={(e) => handleOnDrop(e, id)}
+      onDragOver={handleDragOver}
+      draggable={type !== '__body'}
+      onDragStart={(e) => handleDragStart(e, 'container')}
+      onClick={handleOnClickBody}
     >
       Container
     </div>
