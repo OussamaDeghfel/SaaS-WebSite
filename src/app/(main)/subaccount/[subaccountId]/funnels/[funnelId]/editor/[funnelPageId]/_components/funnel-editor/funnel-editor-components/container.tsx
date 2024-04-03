@@ -78,7 +78,12 @@ const Container = ({ element }: Props) => {
     })
   }
 
-  const handleDeleteElement = () => {}
+  const handleDeleteElement = () => {
+    dispatch({
+      type: 'DELETE_ELEMENT',
+      payload: {elementDetails: element}
+    })
+  }
 
   return (
     <div
