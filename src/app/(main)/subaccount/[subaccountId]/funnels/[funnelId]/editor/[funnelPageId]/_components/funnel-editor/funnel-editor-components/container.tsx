@@ -6,6 +6,7 @@ import clsx from "clsx";
 import React from "react";
 import { v4 } from "uuid";
 import Recursive from "./recursive";
+import { Trash } from "lucide-react";
 
 type Props = {
   element: EditorElement;
@@ -77,6 +78,8 @@ const Container = ({ element }: Props) => {
     })
   }
 
+  const handleDeleteElement = () => {}
+
   return (
     <div
       style={styles}
@@ -124,6 +127,15 @@ const Container = ({ element }: Props) => {
           />
         ))
         }
+
+        {state.editor.selectedElement.id === id && 
+          !state.editor.liveMode && 
+          state.editor.selectedElement.type !== "__body" && (
+            <div className="absolute bg-primary px-2.5 py-1 text-xs font-bold -top-[25px] -right-[1px] rounded-none rounded-t-lg">
+              <Trash size={16} onClick={handleDeleteElement} />
+            </div>
+          )
+          }
     </div>
   );
 };
