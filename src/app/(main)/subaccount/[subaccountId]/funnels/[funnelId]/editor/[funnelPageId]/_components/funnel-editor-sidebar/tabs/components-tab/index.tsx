@@ -14,8 +14,15 @@ const ComponentsTab = (props: Props) => {
     Component: React.ReactNode;
     label: string;
     id: EditorBtns;
-    group: "layout" | "element";
-  }[] = [];
+    group: "layout" | "elements";
+  }[] = [
+    {
+        Component: <TextPlaceholder />,
+        id: 'text',
+        label : 'Text',
+        group: 'elements'
+    }
+  ];
   return (
     <Accordion
       type="multiple"
@@ -42,7 +49,7 @@ const ComponentsTab = (props: Props) => {
         <AccordionTrigger className="!no-underline">Elements</AccordionTrigger>
         <AccordionContent className="flex flex-wrap gap-2">
           {elements
-            .filter((element) => element.group === "element")
+            .filter((element) => element.group === "elements")
             .map((element) => (
               <div
                 key={element.id}
