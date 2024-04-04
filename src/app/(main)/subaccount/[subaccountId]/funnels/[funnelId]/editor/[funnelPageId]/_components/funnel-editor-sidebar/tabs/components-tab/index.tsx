@@ -38,6 +38,22 @@ const ComponentsTab = (props: Props) => {
             ))}
         </AccordionContent>
       </AccordionItem>
+      <AccordionItem value="Elements" className="px-6 py-0 border-y-[1px]">
+        <AccordionTrigger className="!no-underline">Elements</AccordionTrigger>
+        <AccordionContent className="flex flex-wrap gap-2">
+          {elements
+            .filter((element) => element.group === "element")
+            .map((element) => (
+              <div
+                key={element.id}
+                className="flex flex-col items-center justify-center"
+              >
+                {element.Component}
+                <span className="text-muted-foreground">{element.label}</span>
+              </div>
+            ))}
+        </AccordionContent>
+      </AccordionItem>
     </Accordion>
   );
 };
