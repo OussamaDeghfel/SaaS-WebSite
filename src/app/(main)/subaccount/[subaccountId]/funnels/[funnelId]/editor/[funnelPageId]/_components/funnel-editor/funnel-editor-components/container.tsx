@@ -38,6 +38,7 @@ const Container = ({ element }: Props) => {
             },
           },
         });
+        break;
       case "container":
         dispatch({
           type: "ADD_ELEMENT",
@@ -54,6 +55,7 @@ const Container = ({ element }: Props) => {
             },
           },
         });
+        break;
       default:
         break;
     }
