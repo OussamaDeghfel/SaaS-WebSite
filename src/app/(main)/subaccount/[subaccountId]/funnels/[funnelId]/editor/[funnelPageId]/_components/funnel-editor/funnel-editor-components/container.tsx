@@ -56,6 +56,23 @@ const Container = ({ element }: Props) => {
           },
         });
         break;
+      case "video":
+        dispatch({
+          type: 'ADD_ELEMENT',
+          payload: {
+            containerId: id,
+            elementDetails: {
+              content: {
+                src: 'https://www.youtube.com/embed/A3l6YYkXzzg?si=zbcCeWcpq7Cwf8W1',
+              },
+              id: v4(),
+              name: 'Video',
+              styles: {},
+              type: 'video',
+            },
+          },
+        })
+        break;
       default:
         break;
     }
