@@ -8,6 +8,7 @@ import { EditorBtns } from "@/lib/constants";
 import React from "react";
 import TextPlaceholder from "./text-placeholder";
 import ContainerPlaceholder from "./container-placeholder";
+import VideoPlaceholder from "./video-placeholder";
 
 type Props = {};
 
@@ -29,6 +30,12 @@ const ComponentsTab = (props: Props) => {
         id: 'container',
         label : 'Container',
         group: 'layout'
+    },
+    {
+        Component: <VideoPlaceholder />,
+        id: 'video',
+        label : 'Video',
+        group: 'elements'
     }
   ];
   return (
