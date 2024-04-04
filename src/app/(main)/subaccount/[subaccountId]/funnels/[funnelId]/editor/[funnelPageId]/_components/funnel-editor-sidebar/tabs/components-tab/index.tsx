@@ -9,6 +9,10 @@ import React from "react";
 import TextPlaceholder from "./text-placeholder";
 import ContainerPlaceholder from "./container-placeholder";
 import VideoPlaceholder from "./video-placeholder";
+import TwoColumnsPlaceholder from "./two-columns-placeholder";
+import ContactFormComponentPlaceholder from "./contact-form-placeholder";
+import CheckoutPlaceholder from "./checkout-placeholder";
+import LinkPlaceholder from "./link-placeholder";
 
 type Props = {};
 
@@ -20,23 +24,47 @@ const ComponentsTab = (props: Props) => {
     group: "layout" | "elements";
   }[] = [
     {
-        Component: <TextPlaceholder />,
-        id: 'text',
-        label : 'Text',
-        group: 'elements'
+      Component: <TextPlaceholder />,
+      id: "text",
+      label: "Text",
+      group: "elements",
     },
     {
-        Component: <ContainerPlaceholder />,
-        id: 'container',
-        label : 'Container',
-        group: 'layout'
+      Component: <ContainerPlaceholder />,
+      id: "container",
+      label: "Container",
+      group: "layout",
     },
     {
-        Component: <VideoPlaceholder />,
-        id: 'video',
-        label : 'Video',
-        group: 'elements'
-    }
+      Component: <VideoPlaceholder />,
+      id: "video",
+      label: "Video",
+      group: "elements",
+    },
+    {
+      Component: <TwoColumnsPlaceholder />,
+      label: "2 Columns",
+      id: "2Col",
+      group: "layout",
+    },
+    {
+      Component: <ContactFormComponentPlaceholder />,
+      label: "Contact",
+      id: "contactForm",
+      group: "elements",
+    },
+    {
+      Component: <CheckoutPlaceholder />,
+      label: "Checkout",
+      id: "paymentForm",
+      group: "elements",
+    },
+    {
+      Component: <LinkPlaceholder />,
+      label: "Link",
+      id: "link",
+      group: "elements",
+    },
   ];
   return (
     <Accordion
