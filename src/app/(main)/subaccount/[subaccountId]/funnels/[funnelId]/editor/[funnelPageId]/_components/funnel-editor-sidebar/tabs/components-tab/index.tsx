@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import { EditorBtns } from "@/lib/constants";
 import React from "react";
+import TextPlaceholder from "./text-placeholder";
 
 type Props = {};
 
