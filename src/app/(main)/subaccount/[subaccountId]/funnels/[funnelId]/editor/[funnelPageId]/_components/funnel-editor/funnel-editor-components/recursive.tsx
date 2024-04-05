@@ -23,7 +23,7 @@ const Recursive = ({ element }: Props) => {
     case 'link':
       return <LinkComponent element={element} />
     case '2Col':
-      return <TwoColumns element={element} />
+      return <Container element={element} />
     default:
       return null;
   }
