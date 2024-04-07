@@ -1,6 +1,6 @@
 'use client'
 import SubAccountDetails from '@/components/forms/subaccount-details'
-import { getSubaccountDetails } from '@/lib/queries'
+import { getFunnel, getSubaccountDetails } from '@/lib/queries'
 import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -30,6 +30,19 @@ const Checkout = (props: Props) => {
         fetchData()
 
     },[subaccountId])
+
+    useEffect(()=>{
+        if(!funnelId){
+        const fetchData = async ()=> {
+            const funnelData = await getFunnel(funnelId)
+            setLivePrices(JSON.parse(funnelData?.liveProducts || '[]'))
+        }
+        fetchData()
+    
+    }
+
+
+    },[funnelId])
 
   return (
     <div>Checkout</div>
