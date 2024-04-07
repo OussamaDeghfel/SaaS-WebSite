@@ -3,7 +3,7 @@ import SubAccountDetails from '@/components/forms/subaccount-details'
 import { getFunnel, getSubaccountDetails } from '@/lib/queries'
 import { EditorElement, useEditor } from '@/providers/editor/editor-provider'
 import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 
 type Props = {
     element: EditorElement
@@ -15,6 +15,7 @@ const Checkout = (props: Props) => {
     const [clientSecret, setClientSecret] = useState('')
     const [livePrices, setLivePrices] = useState([])
     const [subaccountConnectAccId, setSubaccountConnectAccId] = useState('')
+    const options = useMemo(() => {(clientSecret)},[clientSecret])
 
     useEffect(()=>{
         if(!subaccountId) return
