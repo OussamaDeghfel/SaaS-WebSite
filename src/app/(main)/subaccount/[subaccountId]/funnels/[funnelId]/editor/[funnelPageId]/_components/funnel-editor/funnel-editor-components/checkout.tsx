@@ -1,6 +1,7 @@
 "use client";
 import SubAccountDetails from "@/components/forms/subaccount-details";
 import { toast } from "@/components/ui/use-toast";
+import { EditorBtns } from "@/lib/constants";
 import { getFunnel, getSubaccountDetails } from "@/lib/queries";
 import { EditorElement, useEditor } from "@/providers/editor/editor-provider";
 import { useRouter } from "next/navigation";
@@ -16,6 +17,7 @@ const Checkout = (props: Props) => {
   const [clientSecret, setClientSecret] = useState("");
   const [livePrices, setLivePrices] = useState([]);
   const [subaccountConnectAccId, setSubaccountConnectAccId] = useState("");
+  const styles = props.element.styles
   const options = useMemo(() => {
     clientSecret;
   }, [clientSecret]);
@@ -84,6 +86,38 @@ const Checkout = (props: Props) => {
       getClientSecret()
     }
   }, [livePrices, subaccountId, subaccountConnectAccId]);
+
+  const handleDragStart = (e: React.DragEvent, type: EditorBtns) => {
+    if(type === null ) return
+    e.dataTransfer.setData('componentType', type)
+  }
+
+  const handleOnClickBody = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    dispatch({
+        type: 'CHANGE_CLICKED_ELEMENT',
+        payload: {
+            elementDetails: props.element
+        }
+    })
+  }
+
+  const goToNextPage = async() =>{
+    if(!state.editor.liveMode) return
+    const funnelPages = await getFunnel(funnelId)
+    if(!funnelPages || !pageDetails) return
+
+    if(funnelPages.FunnelPages.length > pageDetails.order + 1) {
+        console.log(funnelPages.FunnelPages.length, pageDetails.order + 1)
+        const nextPage = funnelPages.FunnelPages.find(
+            (page) => page.order === pageDetails.order + 1
+        )
+        if(!nextPage) return
+        router.replace(
+            `${process.env.NEXT_PUBLIC_SCHEME}${funnelPages.subDomainName}.${process.env.NEXT_PUBLIC_DOMAIN}/${nextPage.pathName}`
+          )
+    }
+  }
 
   return <div>Checkout</div>;
 };
