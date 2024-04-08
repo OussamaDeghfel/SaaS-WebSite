@@ -1,3 +1,4 @@
+import { db } from "@/lib/db";
 import React from "react";
 
 const Page = ({
@@ -17,6 +18,18 @@ const Page = ({
   const currentYear = new Date().getFullYear()
   const startDate = new Date(`${currentYear}-01-01T00:00:00Z`).getTime() / 1000
   const endDate = new Date(`${currentYear}-12-31T23:59:59Z`).getTime() / 1000
+
+  const agencyDetails = db.agency.findUnique({
+    where: {id: params.agencyId}
+  })
+
+  if(!agencyDetails) return 
+
+  const subaccounts = db.subAccount.findMany({
+    where: {
+      agencyId: params.agencyId
+    }
+  })
 
   return <div>{params.agencyId}</div>;
 };
