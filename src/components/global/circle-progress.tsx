@@ -1,3 +1,4 @@
+'use client'
 import { ProgressCircle } from '@tremor/react'
 import React from 'react'
 
