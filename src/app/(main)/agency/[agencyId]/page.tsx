@@ -1,4 +1,5 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { ClipboardIcon } from "lucide-react";
@@ -98,6 +99,23 @@ const Page = async ({
           </Card>
         </div>
       )}
+      <h1 className="text-4xl">Dashboard</h1>
+      <Separator className="my-6" />
+      <div className="flex flex-col gap-4 pb-6">
+        <div className="flex gap-4 flex-col xl:!flex-row">
+          <Card className="flex-1 relative">
+            <CardHeader>
+              <CardDescription>Income</CardDescription>
+              <CardTitle className="text-4xl">
+                {net ? `${currency} ${net.toFixed(2)}` : `$0.00`}
+              </CardTitle>
+              <small className="text-xs text-muted-foreground">
+                For The Year {currentYear}
+              </small>
+            </CardHeader>
+          </Card>
+        </div>
+      </div>
   </div>;
 };
 
