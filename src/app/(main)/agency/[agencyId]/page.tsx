@@ -1,8 +1,9 @@
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { ClipboardIcon } from "lucide-react";
+import { ClipboardIcon, Contact2, DollarSign, Goal } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -113,6 +114,64 @@ const Page = async ({
                 For The Year {currentYear}
               </small>
             </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+            Total revenue generated as reflected in your stripe dashboard.
+            </CardContent>
+            <DollarSign className="absolute right-4 top-4 text-muted-foreground" />
+          </Card>
+          <Card className="flex-1 relative">
+            <CardHeader>
+              <CardDescription>Potential Income</CardDescription>
+              <CardTitle className="text-4xl">
+                {potentialIncome
+                  ? `${currency} ${potentialIncome.toFixed(2)}`
+                  : `$0.00`}
+              </CardTitle>
+              <small className="text-xs text-muted-foreground">
+                For the year {currentYear}
+              </small>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              This is how much you can close.
+            </CardContent>
+            <DollarSign className="absolute right-4 top-4 text-muted-foreground" />
+          </Card>
+          <Card className="flex-1 relative">
+            <CardHeader>
+              <CardDescription>Active Clients</CardDescription>
+              <CardTitle className="text-4xl">{subaccounts.length}</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+              Reflects the number of sub accounts you own and manage.
+            </CardContent>
+            <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
+          </Card>
+          <Card className="flex-1 relative">
+            <CardHeader>
+              <CardTitle>Agency Goal</CardTitle>
+              <CardDescription>
+                <p className="mt-2">
+                  Reflects the number of sub accounts you want to own and
+                  manage.
+                </p>
+              </CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <div className="flex flex-col w-full">
+                <div className="flex justify-between items-center">
+                  <span className="text-muted-foreground text-sm">
+                    Current: {subaccounts.length}
+                  </span>
+                  <span className="text-muted-foreground text-sm">
+                    Goal: {agencyDetails.goal}
+                  </span>
+                </div>
+                <Progress
+                  value={(subaccounts.length / agencyDetails.goal) * 100}
+                />
+              </div>
+            </CardFooter>
+            <Goal className="absolute right-4 top-4 text-muted-foreground" />
           </Card>
         </div>
       </div>
