@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
+import { AreaChart } from "@tremor/react";
 import {
   ClipboardIcon,
   Contact2,
@@ -93,16 +94,16 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
       (totalClosedSessions.length / checkoutSessions.data.length) *
       100
     ).toFixed(2);
-    }
-    const funnels = await db.funnel.findMany({
-      where: {
-        subAccountId: params.subaccountId,
-      },
-      include: {
-        FunnelPages: true,
-      },
-    });
-  
+  }
+
+  const funnels = await db.funnel.findMany({
+    where: {
+      subAccountId: params.subaccountId,
+    },
+    include: {
+      FunnelPages: true,
+    },
+  });
 
   const funnelPerformanceMetrics = funnels.map((funnel) => ({
     ...funnel,
@@ -110,7 +111,7 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
       (total, page) => total + page.visits,
       0
     ),
-  }))
+  }));
   return (
     <BlurPage>
       <div className="relative h-full">
@@ -213,6 +214,20 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
                 </div>
               </CardContent>
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Checkout Activity</CardTitle>
+              </CardHeader>
+              <AreaChart
+                className="text-sm stroke-primary"
+                data={sessions || []}
+                index="created"
+                categories={['amount_total']}
+                colors={['primary']}
+                yAxisWidth={30}
+                showAnimation={true}
+              />
             </Card>
           </div>
         </div>
