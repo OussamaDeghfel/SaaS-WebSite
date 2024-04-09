@@ -1,6 +1,7 @@
 import BlurPage from "@/components/global/blur-page";
 import CircleProgress from "@/components/global/circle-progress";
 import PipelineValue from "@/components/global/pipeline-value";
+import SubaccountFunnelChart from "@/components/global/subaccount-funnel-chart";
 import {
   Card,
   CardContent,
@@ -92,7 +93,7 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
       (totalClosedSessions.length / checkoutSessions.data.length) *
       100
     ).toFixed(2);
-
+    }
     const funnels = await db.funnel.findMany({
       where: {
         subAccountId: params.subaccountId,
@@ -101,15 +102,15 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
         FunnelPages: true,
       },
     });
+  
 
-    const FunnelPerformanceMetrics = funnels.map((funnel) => ({
-      ...funnel,
-      totalFunnelVisits: funnel.FunnelPages.reduce(
-        (total, page) => total + page.visits,
-        0
-      ),
-    }));
-  }
+  const funnelPerformanceMetrics = funnels.map((funnel) => ({
+    ...funnel,
+    totalFunnelVisits: funnel.FunnelPages.reduce(
+      (total, page) => total + page.visits,
+      0
+    ),
+  }))
   return (
     <BlurPage>
       <div className="relative h-full">
