@@ -2,6 +2,7 @@ import BlurPage from "@/components/global/blur-page";
 import CircleProgress from "@/components/global/circle-progress";
 import PipelineValue from "@/components/global/pipeline-value";
 import SubaccountFunnelChart from "@/components/global/subaccount-funnel-chart";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -9,9 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
-import { AreaChart } from "@tremor/react";
+import { AreaChart, BadgeDelta } from "@tremor/react";
 import {
   ClipboardIcon,
   Contact2,
@@ -228,6 +230,59 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
                 yAxisWidth={30}
                 showAnimation={true}
               />
+            </Card>
+          </div>
+          <div className="flex gap-4 xl:!flex-row flex-col">
+            <Card className="p-4 flex-1 h-[450px] overflow-scroll relative">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  Transition History
+                  <BadgeDelta
+                    className="rounded-xl bg-transparent"
+                    deltaType="moderateIncrease"
+                    isIncreasePositive={true}
+                    size="xs"
+                  >
+                    +12.3%
+                  </BadgeDelta>
+                </CardTitle>
+                <Table>
+                  <TableHeader className="!sticky !top-0">
+                    <TableRow>
+                      <TableHead className="w-[300px]">Email</TableHead>
+                      <TableHead className="w-[200px]">Status</TableHead>
+                      <TableHead>Created Date</TableHead>
+                      <TableHead className="text-right">Value</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody className="font-medium truncate">
+                    {totalClosedSessions
+                      ? totalClosedSessions.map((session) => (
+                          <TableRow key={session.id}>
+                            <TableCell>
+                              {session.customer_details?.email || '-'}
+                            </TableCell>
+                            <TableCell>
+                              <Badge className="bg-emerald-500 dark:text-black">
+                                Paid
+                              </Badge>
+                            </TableCell>
+                            <TableCell>
+                              {new Date(session.created).toUTCString()}
+                            </TableCell>
+
+                            <TableCell className="text-right">
+                              <small>{currency}</small>{' '}
+                              <span className="text-emerald-500">
+                                {session.amount_total}
+                              </span>
+                            </TableCell>
+                          </TableRow>
+                        ))
+                      : 'No Data'}
+                  </TableBody>
+                </Table>
+              </CardHeader>
             </Card>
           </div>
         </div>
