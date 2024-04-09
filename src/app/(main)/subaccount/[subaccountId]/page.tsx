@@ -1,105 +1,120 @@
-import BlurPage from '@/components/global/blur-page'
-import PipelineValue from '@/components/global/pipeline-value'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { db } from '@/lib/db'
-import { stripe } from '@/lib/stripe'
-import { ClipboardIcon, Contact2, DollarSign } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+import BlurPage from "@/components/global/blur-page";
+import CircleProgress from "@/components/global/circle-progress";
+import PipelineValue from "@/components/global/pipeline-value";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { db } from "@/lib/db";
+import { stripe } from "@/lib/stripe";
+import {
+  ClipboardIcon,
+  Contact2,
+  DollarSign,
+  ShoppingCart,
+} from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
 type Props = {
-  params: {subaccountId: string}
+  params: { subaccountId: string };
   searchParams: {
-    code: string
-  }
-}
+    code: string;
+  };
+};
 
-const SubAccountMainPage = async ({params, searchParams}: Props) => {
-  let currency = 'USD'
-  let sessions
-  let totalClosedSessions
-  let totalPendingSessions
-  let net = 0
-  let potentialIncome = 0
-  let closingRate = 0
-  const currentYear = new Date().getFullYear()
-  const startDate = new Date(`${currentYear}-01-01T00:00:00Z`).getTime() / 1000
-  const endDate = new Date(`${currentYear}-12-31T23:59:59Z`).getTime() / 1000
-
+const SubAccountMainPage = async ({ params, searchParams }: Props) => {
+  let currency = "USD";
+  let sessions;
+  let totalClosedSessions;
+  let totalPendingSessions;
+  let net = 0;
+  let potentialIncome = 0;
+  let closingRate = 0;
+  const currentYear = new Date().getFullYear();
+  const startDate = new Date(`${currentYear}-01-01T00:00:00Z`).getTime() / 1000;
+  const endDate = new Date(`${currentYear}-12-31T23:59:59Z`).getTime() / 1000;
 
   const subaccountDetails = await db.subAccount.findUnique({
     where: {
-      id: params.subaccountId
-    }
-  })
+      id: params.subaccountId,
+    },
+  });
 
-  if(!subaccountDetails) return
+  if (!subaccountDetails) return;
 
-  if(subaccountDetails.connectAccountId) {
+  if (subaccountDetails.connectAccountId) {
     const response = await stripe.accounts.retrieve({
-      stripeAccount: subaccountDetails.connectAccountId
-    })
-    currency = response.default_currency?.toUpperCase() || 'USD'
+      stripeAccount: subaccountDetails.connectAccountId,
+    });
+    currency = response.default_currency?.toUpperCase() || "USD";
 
     const checkoutSessions = await stripe.checkout.sessions.list(
-      {created: {gte: startDate, lte: endDate}, limit: 100},
+      { created: { gte: startDate, lte: endDate }, limit: 100 },
       {
-        stripeAccount: subaccountDetails.connectAccountId
+        stripeAccount: subaccountDetails.connectAccountId,
       }
-    )
+    );
     sessions = checkoutSessions.data.map((session) => ({
       ...session,
       created: new Date(session.created).toLocaleDateString(),
-      amount_total: session.amount_total ? session.amount_total / 100 : 0
-    }))
+      amount_total: session.amount_total ? session.amount_total / 100 : 0,
+    }));
 
     totalClosedSessions = checkoutSessions.data
-    .filter((session) => session.status === "complete")
-    .map((session) => ({
-      ...session,
-      created: new Date(session.created).toLocaleDateString(),
-      amount_total: session.amount_total ? session.amount_total / 100 : 0
-    }))
+      .filter((session) => session.status === "complete")
+      .map((session) => ({
+        ...session,
+        created: new Date(session.created).toLocaleDateString(),
+        amount_total: session.amount_total ? session.amount_total / 100 : 0,
+      }));
     totalPendingSessions = checkoutSessions.data
-    .filter((session) => session.status === "open" || session.status === "expired")
-    .map((session) => ({
-      ...session,
-      created: new Date(session.created).toLocaleDateString(),
-      amount_total: session.amount_total ? session.amount_total / 100 : 0
-    }))
+      .filter(
+        (session) => session.status === "open" || session.status === "expired"
+      )
+      .map((session) => ({
+        ...session,
+        created: new Date(session.created).toLocaleDateString(),
+        amount_total: session.amount_total ? session.amount_total / 100 : 0,
+      }));
 
     net = +totalClosedSessions
-    .reduce((total, session) => total + (session.amount_total || 0), 0)
-    .toFixed(2)
+      .reduce((total, session) => total + (session.amount_total || 0), 0)
+      .toFixed(2);
     potentialIncome = +totalPendingSessions
       .reduce((total, session) => total + (session.amount_total || 0), 0)
-      .toFixed(2)
+      .toFixed(2);
 
     closingRate = +(
       (totalClosedSessions.length / checkoutSessions.data.length) *
       100
-    ).toFixed(2)
+    ).toFixed(2);
 
     const funnels = await db.funnel.findMany({
       where: {
-        subAccountId: params.subaccountId
+        subAccountId: params.subaccountId,
       },
       include: {
-        FunnelPages:true
-      }
-    })
+        FunnelPages: true,
+      },
+    });
 
     const FunnelPerformanceMetrics = funnels.map((funnel) => ({
       ...funnel,
       totalFunnelVisits: funnel.FunnelPages.reduce(
-        (total, page) => total + page.visits, 0
-      )
-    }))
+        (total, page) => total + page.visits,
+        0
+      ),
+    }));
   }
   return (
     <BlurPage>
-      <div className='relative h-full'>
-        {!subaccountDetails.connectAccountId && <div className="absolute -top-10 -left-10 right-0 bottom-0 z-30 flex items-center justify-center backdrop-blur-md bg-background/50">
+      <div className="relative h-full">
+        {!subaccountDetails.connectAccountId && (
+          <div className="absolute -top-10 -left-10 right-0 bottom-0 z-30 flex items-center justify-center backdrop-blur-md bg-background/50">
             <Card>
               <CardHeader>
                 <CardTitle>Connect Your Stripe</CardTitle>
@@ -115,9 +130,10 @@ const SubAccountMainPage = async ({params, searchParams}: Props) => {
                 </Link>
               </CardHeader>
             </Card>
-          </div> }
-          <div className="flex flex-col gap-4 pb-6">
-            <div className="flex gap-4 flex-col xl:!flex-row">
+          </div>
+        )}
+        <div className="flex flex-col gap-4 pb-6">
+          <div className="flex gap-4 flex-col xl:!flex-row">
             <Card className="flex-1 relative">
               <CardHeader>
                 <CardDescription>Income</CardDescription>
@@ -151,11 +167,57 @@ const SubAccountMainPage = async ({params, searchParams}: Props) => {
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
             </Card>
             <PipelineValue subaccountId={params.subaccountId} />
-            </div>
+            <Card className="xl:w-fit">
+              <CardHeader>
+                <CardDescription>Conversions</CardDescription>
+                <CircleProgress
+                  value={closingRate}
+                  description={
+                    <>
+                      {sessions && (
+                        <div className="flex flex-col">
+                          Total Carts Opened
+                          <div className="flex gap-2">
+                            <ShoppingCart className="text-rose-700" />
+                            {sessions.length}
+                          </div>
+                        </div>
+                      )}
+                      {totalClosedSessions && (
+                        <div className="flex flex-col">
+                          Won Carts
+                          <div className="flex gap-2">
+                            <ShoppingCart className="text-emerald-700" />
+                            {totalClosedSessions.length}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  }
+                />
+              </CardHeader>
+            </Card>
           </div>
+
+          <div className="flex gap-4 flex-col xl:!flex-row">
+            <Card className="relative">
+              <CardHeader>
+                <CardDescription>Funnel Performance</CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground flex flex-col gap-12 justify-between">
+                <SubaccountFunnelChart data={funnelPerformanceMetrics} />
+                <div className="lg:w-[150px]">
+                  Total page visits across all funnels. Hover over to get more
+                  details on funnel page performance.
+                </div>
+              </CardContent>
+              <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
+            </Card>
+          </div>
+        </div>
       </div>
     </BlurPage>
-  )
-}
+  );
+};
 
-export default SubAccountMainPage
+export default SubAccountMainPage;
