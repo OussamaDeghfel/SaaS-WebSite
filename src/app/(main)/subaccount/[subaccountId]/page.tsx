@@ -1,8 +1,8 @@
 import BlurPage from '@/components/global/blur-page'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
-import { ClipboardIcon } from 'lucide-react'
+import { ClipboardIcon, Contact2, DollarSign } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -115,6 +115,42 @@ const SubAccountMainPage = async ({params, searchParams}: Props) => {
               </CardHeader>
             </Card>
           </div> }
+          <div className="flex flex-col gap-4 pb-6">
+            <div className="flex gap-4 flex-col xl:!flex-row">
+            <Card className="flex-1 relative">
+              <CardHeader>
+                <CardDescription>Income</CardDescription>
+                <CardTitle className="text-4xl">
+                  {net ? `${currency} ${net.toFixed(2)}` : `$0.00`}
+                </CardTitle>
+                <small className="text-xs text-muted-foreground">
+                  For the year {currentYear}
+                </small>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                Total revenue generated as reflected in your stripe dashboard.
+              </CardContent>
+              <DollarSign className="absolute right-4 top-4 text-muted-foreground" />
+            </Card>
+            <Card className="flex-1 relative">
+              <CardHeader>
+                <CardDescription>Potential Income</CardDescription>
+                <CardTitle className="text-4xl">
+                  {potentialIncome
+                    ? `${currency} ${potentialIncome.toFixed(2)}`
+                    : `$0.00`}
+                </CardTitle>
+                <small className="text-xs text-muted-foreground">
+                  For the year {currentYear}
+                </small>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                This is how much you can close.
+              </CardContent>
+              <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
+            </Card>
+            </div>
+          </div>
       </div>
     </BlurPage>
   )
