@@ -34,10 +34,15 @@ const PipelineValue = ({subaccountId}: Props) => {
                         return totalLanes
                     }
                     return totalLanes + laneTicketsTotal
-                },0)
+                },0) || 0
             )
         }
+        return 0
     },[selectedPipelineId, pipelines])
+
+    const pipelineRate = useMemo(() => {
+        (pipelineClosedValue / (totalPipelineValue + pipelineClosedValue)) * 100
+    },[totalPipelineValue, pipelineClosedValue])
 
   return (
     <div>PipelineValue</div>
