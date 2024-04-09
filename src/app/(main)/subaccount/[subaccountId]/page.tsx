@@ -1,6 +1,9 @@
 import BlurPage from '@/components/global/blur-page'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
+import { ClipboardIcon } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 type Props = {
@@ -84,9 +87,36 @@ const SubAccountMainPage = async ({params, searchParams}: Props) => {
         FunnelPages:true
       }
     })
+
+    const FunnelPerformanceMetrics = funnels.map((funnel) => ({
+      ...funnel,
+      totalFunnelVisits: funnel.FunnelPages.reduce(
+        (total, page) => total + page.visits, 0
+      )
+    }))
   }
   return (
-    <BlurPage>hello</BlurPage>
+    <BlurPage>
+      <div className='relative h-full'>
+        {!subaccountDetails.connectAccountId && <div className="absolute -top-10 -left-10 right-0 bottom-0 z-30 flex items-center justify-center backdrop-blur-md bg-background/50">
+            <Card>
+              <CardHeader>
+                <CardTitle>Connect Your Stripe</CardTitle>
+                <CardDescription>
+                  You need to connect your stripe account to see metrics
+                </CardDescription>
+                <Link
+                  href={`/subaccount/${subaccountDetails.id}/launchpad`}
+                  className="p-2 w-fit bg-secondary text-white rounded-md flex items-center gap-2"
+                >
+                  <ClipboardIcon />
+                  Launch Pad
+                </Link>
+              </CardHeader>
+            </Card>
+          </div> }
+      </div>
+    </BlurPage>
   )
 }
 
