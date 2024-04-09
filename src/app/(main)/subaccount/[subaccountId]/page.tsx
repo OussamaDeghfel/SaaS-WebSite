@@ -1,4 +1,5 @@
 import BlurPage from '@/components/global/blur-page'
+import PipelineValue from '@/components/global/pipeline-value'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { db } from '@/lib/db'
 import { stripe } from '@/lib/stripe'
@@ -149,6 +150,7 @@ const SubAccountMainPage = async ({params, searchParams}: Props) => {
               </CardContent>
               <Contact2 className="absolute right-4 top-4 text-muted-foreground" />
             </Card>
+            <PipelineValue subaccountId={params.subaccountId} />
             </div>
           </div>
       </div>
