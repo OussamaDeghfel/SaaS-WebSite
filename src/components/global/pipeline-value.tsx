@@ -3,6 +3,7 @@ import { getPipelines } from "@/lib/queries";
 import { Prisma } from "@prisma/client";
 import React, { useEffect, useMemo, useState } from "react";
 import { Card, CardDescription, CardHeader } from "../ui/card";
+import { Progress } from "../ui/progress";
 
 type Props = {
   subaccountId: string;
@@ -45,9 +46,9 @@ const PipelineValue = ({ subaccountId }: Props) => {
     return 0;
   }, [selectedPipelineId, pipelines]);
 
-  const pipelineRate = useMemo(() => {
-    (pipelineClosedValue / (totalPipelineValue + pipelineClosedValue)) * 100;
-  }, [totalPipelineValue, pipelineClosedValue]);
+  const pipelineRate = useMemo(() => (
+    (pipelineClosedValue / (totalPipelineValue + pipelineClosedValue)) * 100
+  ), [totalPipelineValue, pipelineClosedValue]);
 
   return (
     <Card className="relative w-full xl:w-[350px]">
@@ -68,6 +69,11 @@ const PipelineValue = ({ subaccountId }: Props) => {
             </p>
           </div>
         </div>
+        <Progress 
+            color="Green"
+            value={pipelineRate}
+            className="h-2"
+        />
       </CardHeader>
     </Card>
   );
