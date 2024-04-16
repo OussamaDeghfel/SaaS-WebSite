@@ -64,8 +64,12 @@ export default async function Home() {
                 <CardDescription>{pricingCards.find((c) => c.title === card.nickname)?.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <span className="text-4xl font-bold">{card.price}</span>
-                <span className="text-muted-foreground">/m</span>
+                <span className="text-4xl font-bold">
+                  {card.unit_amount && card.unit_amount / 100}
+                </span>
+                <span className="text-muted-foreground">
+                  {card.recurring?.interval}
+                </span>
               </CardContent>
               <CardFooter className="flex flex-col items-start gap-4">
                 <div>
