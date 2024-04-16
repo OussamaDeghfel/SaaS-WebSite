@@ -6,6 +6,7 @@ import React from "react";
 import PricingCard from "./_component/pricing-card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import clsx from "clsx";
+import SubscriptionHelper from "./_component/subscription-helper";
 
 type Props = {
   params: { agencyId: string };
@@ -55,7 +56,7 @@ const Billing = async ({ params }: Props) => {
 
   return (
     <>
-      <SubscriptionHelper 
+      <SubscriptionHelper
         prices={prices.data}
         customerId={agencySubscription?.customerId || ''}
         planExists={agencySubscription?.Subscription?.active === true}
