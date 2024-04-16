@@ -15,7 +15,7 @@ import Link from "next/link";
 
 export default async function Home() {
  const prices = await stripe.prices.list({
-  product: 'prod_Plv7b4af8T1VLq',
+  product: process.env.NEXT_PLURA_PRODUCT_ID,
   active: true
  })
   return (
