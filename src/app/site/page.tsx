@@ -48,19 +48,19 @@ export default async function Home() {
           <br /> not ready to commit you can get started for free.
         </p>
         <div className="flex justify-center gap-4 flex-wrap mt-6 mb-6">
-          {pricingCards.map((card) => (
+          {prices.data.map((card) => (
             <Card
-              key={card.title}
+              key={card.nickname}
               className={clsx("w-[300px] flex flex-col justify-between", {
-                "border-2 border-primary": card.title === "Unlimited Saas",
+                "border-2 border-primary": card.nickname === "Unlimited Saas",
               })}
             >
               <CardHeader
                 className={clsx("", {
-                  "text-muted-foreground": card.title !== "Unlimited Saas",
+                  "text-muted-foreground": card.nickname !== "Unlimited Saas",
                 })}
               >
-                <CardTitle> {card.title} </CardTitle>
+                <CardTitle> {card.nickname} </CardTitle>
                 <CardDescription>{card.description}</CardDescription>
               </CardHeader>
               <CardContent>
