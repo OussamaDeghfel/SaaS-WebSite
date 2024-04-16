@@ -85,10 +85,10 @@ export default async function Home() {
                   ))}
                 </div>
                 <Link
-                  href={`/agency?plan=${card.priceId}`}
+                  href={`/agency?plan=${card.id}`}
                   className={clsx(
                     "w-full text-center bg-primary p-2 rounded-md cursor-pointer",
-                    { "!bg-muted-foreground": card.title !== "Unlimited Saas" }
+                    { "!bg-muted-foreground": card.nickname !== "Unlimited Saas" }
                   )}
                 >
                   Get Started
