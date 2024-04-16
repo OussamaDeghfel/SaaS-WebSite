@@ -73,9 +73,13 @@ export default async function Home() {
               </CardContent>
               <CardFooter className="flex flex-col items-start gap-4">
                 <div>
-                  {card.features.map((feature) => (
-                    <div key={feature} className="flex gap-2 items-center">
-                      <Check className="text-muted-foreground" />
+                  {pricingCards.find((c) => c.title === card.nickname)
+                  ?.features.map((feature) => (
+                    <div
+                      key={feature}
+                      className="flex gap-2"
+                      >
+                      <Check />
                       <p>{feature}</p>
                     </div>
                   ))}
