@@ -61,7 +61,7 @@ export default async function Home() {
                 })}
               >
                 <CardTitle> {card.nickname} </CardTitle>
-                <CardDescription>{card.description}</CardDescription>
+                <CardDescription>{pricingCards.find((c) => c.title === card.nickname)?.description}</CardDescription>
               </CardHeader>
               <CardContent>
                 <span className="text-4xl font-bold">{card.price}</span>
