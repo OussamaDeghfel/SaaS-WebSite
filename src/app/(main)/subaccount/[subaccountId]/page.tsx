@@ -136,7 +136,7 @@ const SubAccountMainPage = async ({ params, searchParams }: Props) => {
             </Card>
           </div>
         )}
-        <div className="flex flex-col gap-4 pb-6">
+        <div className="flex flex-col gap-8 pb-6">
           <div className="flex gap-4 flex-col xl:!flex-row">
             <Card className="flex-1 relative">
               <CardHeader>
